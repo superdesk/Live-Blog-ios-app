@@ -1,0 +1,55 @@
+body{
+    overflow-x:hidden;
+}
+
+.icon-bar{
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #333;
+    margin-top: 5px;
+
+
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+
+}
+
+.b_image{
+    width:24px;
+    height:20px;
+    padding-top:4px;
+}
+
+.icon_image{
+    width:32px;
+    height:32px;
+}
+
+#content .list li {
+    padding-right:20px;
+}
+
+.rightandmarginbottom10{
+    display: block;
+    margin-bottom:10px;
+    float:right;
+}
+
+.clear{
+    display: block;
+    height:1px;
+    width:10px;
+    clear:both;
+}
+
+.snap-drawer .list li {
+border-bottom: 1px solid #777676;
+color:#777676;
+}
+
+.snap-drawer .list li .active {
+
+color:#fff;
+}
