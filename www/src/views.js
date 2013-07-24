@@ -20,23 +20,45 @@ $(function() {
 		events: {
 			"submit": "search_twitter"
 		}
-    });
+	});
 
 	window.TweetView = Backbone.View.extend({
 		render: function() {
 			var tweet = _.template( $("#tweet_template").html(), this.model.toJSON());
 			$("#tweets").append(tweet);
-			$("#t_" + this.model.get("id")).fadeIn();
+			$("#t_" + this.model.get("id")).css("display", "block");
 		}
 	});
 
 
 
 	window.LoginView = Backbone.View.extend({
+
+		el: '#loginView',
+
 		render: function() {
-			var tweet = _.template( $("#tweet_template").html(), this.model.toJSON());
-			$("#tweets").append(tweet);
-			$("#t_" + this.model.get("id")).fadeIn();
+			$("#loading").css("display", "none");
+			$(".page").fadeOut();
+			this.$el.css("display", "block");
+		},
+
+		events: {
+			"submit form":    "loginHandler"
+		},
+
+		loginHandler: function(e){
+			e.preventDefault();
+			this.$el.fadeOut();
+			$("#loading").css("display", "block");
+			var formData = this.$el.find("form").serializeObject();
+			gap.addUser(formData.login, formData.pass, formData.host);
+
+			auth.login();
+
+
+
+
+
 		}
 	});
 
