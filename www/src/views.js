@@ -22,7 +22,7 @@ $(function() {
 		}
 	});
 
-	window.TweetView = Backbone.View.extend({
+	window.blogsListView = Backbone.View.extend({
 		render: function() {
 			var tweet = _.template( $("#tweet_template").html(), this.model.toJSON());
 			$("#tweets").append(tweet);
@@ -37,18 +37,24 @@ $(function() {
 		el: '#loginView',
 
 		render: function() {
+
 			$("#loading").css("display", "none");
-			$(".page").fadeOut();
+
+			console.log(this.el);
+			console.log("loginView render");
+
 			this.$el.css("display", "block");
-		},
+
+			},
 
 		events: {
-			"submit form":    "loginHandler"
+			"submit":    "loginHandler"
 		},
 
 		loginHandler: function(e){
 			e.preventDefault();
-			this.$el.fadeOut();
+			$(".page").css("display", "none");
+			console.log("loginView loginHandler");
 			$("#loading").css("display", "block");
 			var formData = this.$el.find("form").serializeObject();
 			gap.addUser(formData.login, formData.pass, formData.host);
@@ -56,12 +62,14 @@ $(function() {
 			auth.login();
 
 
-
+			return false;
 
 
 		}
 	});
 
-
+	window.loginView = new window.LoginView;
+	window.listView = new window.ListView;
+	window.blogsListView = new window.blogsListView;
 
 });
