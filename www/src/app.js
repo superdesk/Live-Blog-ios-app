@@ -90,7 +90,10 @@ $(function() {
 
      this.db.transaction(
        function(tx) {
-         var sql = 'INSERT INTO user(login, pass, host) VALUES("'+login+'", "'+new jsSHA(pass, "ASCII")+'", "'+host+'")';
+        var hash = new jsSHA(pass, "ASCII");
+        var hashedPass = hash.getHash("SHA-512", "HEX");
+
+         var sql = 'INSERT INTO user(login, pass, host) VALUES("'+login+'", "'+hashedPass+'", "'+host+'")';
 
          tx.executeSql(sql);
        },
@@ -138,6 +141,7 @@ $(function() {
      gap.getUser(function(user){
 
       if(_.isEmpty(user)){
+        router.navigate("someDeadRoute");
         router.navigate("login", {trigger: true});
         return false;
       }
@@ -147,76 +151,82 @@ $(function() {
       var req = { userName: user.login  };
 
       try{
-      $.ajax({
-        url: user.host+'/resources/Security/Authentication.json',
-        type: 'POST',
-        data: req,
-        dataType: "json",
-        done: function(data) {
+        $.ajax({
+          url: user.host+'/resources/Security/Authentication.json',
+          type: 'POST',
+          data: req,
+          dataType: "json",
+          success: function(data) {
 
-          console.log(data.Token);
-          window.SessionModel.set("token", data.Token);
-          window.SessionModel.set("host", user.host);
-          auth.authorize(user, function(){
-            console.log("brawo rondio");
-          });
+            console.log(data.Token);
+            session.set("token", data.Token);
+            session.set("host", user.host);
+            auth.authorize(user, function(){
+              console.log("brawo rondio");
+            });
 
 
 
-        },
-        fail: function(data) {
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log("login fail");
+            router.navigate("someDeadRoute");
+            router.navigate("login", {trigger: true});
 
-          router.navigate("login", {trigger: true});
 
-        }
-      });
-    }
-    catch(err){
-      router.navigate("login", {trigger: true});
-    }
+          }
+        });
+      }
+      catch(err){
+
+        router.navigate("someDeadRoute");
+        router.navigate("login", {trigger: true});
+      }
 
     });
 
-   },
+},
 
-   authorize: function(user, callback){
+authorize: function(user, callback){
 
-    var token = window.SessionModel.get("token");
+  var token = session.get("token");
 
-    shaPassword = user.pass;
-    shaStep1 = new jsSHA(shaPassword.getHash("SHA-512", "HEX"), "ASCII");
-    shaStep2 = new jsSHA(token, "ASCII");
-    hash = shaStep1.getHMAC(user.login, "ASCII", "SHA-512", "HEX");
-    hash = shaStep2.getHMAC(hash, "ASCII", "SHA-512", "HEX");
+  shaPassword = user.pass;
+  shaStep1 = new jsSHA(shaPassword, "ASCII");
+  shaStep2 = new jsSHA(token, "ASCII");
+  hash = shaStep1.getHMAC(user.login, "ASCII", "SHA-512", "HEX");
+  hash = shaStep2.getHMAC(hash, "ASCII", "SHA-512", "HEX");
 
-    var req = { Token: token, HashedToken: hash , UserName: user.login };
+  var req = { Token: token, HashedToken: hash , UserName: user.login };
 
 
 
-    try{
+  try{
     $.ajax({
       url: user.host+'/resources/Security/Authentication/Login.json',
       type: 'POST',
       data: req,
       dataType: "json",
-      done: function(data) {
+      success: function(data) {
         console.log(JSON.stringify(data));
-        window.SessionModel.set("session", data.Session);
+        session.set("session", data.Session);
         callback();
 
       },
-      fail: function(data) {
+      error: function(jqXHR, textStatus, errorThrown) {
 
+        router.navigate("someDeadRoute");
         router.navigate("login", {trigger: true});
 
       }
     });
   }
   catch(err){
+    router.navigate("someDeadRoute");
     router.navigate("login", {trigger: true});
   }
 
-  }
+}
 
 };
 
