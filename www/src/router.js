@@ -1,3 +1,5 @@
+
+
 $(function() {
 
 	var Router = Backbone.Router.extend({
@@ -7,16 +9,17 @@ $(function() {
 		    "blogsList": "blogsList"
 		},
 		showList: function() {
-			var listView = new window.ListView;
+
 		},
 
 		login: function(){
-			var loginView = new window.LoginView;
+			console.log("login router");
+
 			loginView.render();
 		},
 
 		blogsList: function(){
-			var blogsListView = new window.blogsListView;
+
 		}
 
 	});
