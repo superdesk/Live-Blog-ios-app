@@ -1,148 +1,160 @@
   <!DOCTYPE html>
   <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <title>Mobile Live Blog</title>
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <title>Mobile Live Blog</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 
-      <link href="assets/css/ratchet.css" rel="stylesheet" type="text/css">
-      <link href="assets/css/snap.css" rel="stylesheet" type="text/css">
-     <link href="assets/css/style.css" rel="stylesheet" type="text/css">
-
-
-
-
-
-    </head>
-    <body>
-
-
-        <div class="snap-drawers">
-          <div class="snap-drawer snap-drawer-left" id="left-drawer">
-            <ul class="list">
-
-
-
-              <li><a href="#" data-ignore="push"><img src="assets/images/logout.png" alt="logout"  class="b_image" /> Logout</a></li>
-              <li><a href="#" data-ignore="push" class="active">Active Link</a></li>
-             <li><a href="#" data-ignore="push">Something</a></li>
-             <li><a href="#" data-ignore="push">Something</a></li>
-            </ul>
-          </div>
-
-        </div>
-
-        <div id="content" class="snap-content">
-
-
-          <header class="bar-title">
-
-            <button class="button" id="toggle-left">
-              <img src="assets/images/button_menu.png" alt="open menu"  class="b_image" />
-            </button>
-
-
-            <a href="#newPost" class="button">
-              <img src="assets/images/button_plus.png" alt="new post" class="b_image" />
-            </a>
+    <link href="assets/css/ratchet.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/snap.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 
 
 
 
-          </header>
+
+  </head>
+  <body>
+
+
+    <div class="snap-drawers">
+      <div class="snap-drawer snap-drawer-left" id="left-drawer">
+        <ul class="list">
 
 
 
-          <div class="content">
+          <li><a href="#" data-ignore="push"><img src="assets/images/logout.png" alt="logout"  class="b_image" /> Logout</a></li>
+          <li><a href="#" data-ignore="push" class="active">Active Link</a></li>
+          <li><a href="#" data-ignore="push">Something</a></li>
+          <li><a href="#" data-ignore="push">Something</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div id="content" class="snap-content">
 
 
 
-              <ul class="list">
-                <li>Live Blog is a new open source live-blogging tool for newsrooms and journalists. Sign up now to receive a private invite and be one of the first to test it!</li>
-                <li>In conclusion, this was one of the closest races we've seen in years, but ultimately the candidate with the most votes won.
-
-                </li>
-
-                <li class="list-divider">We're taking a break from our coverage now. Check back later for more breaking election news.
-
-                </li>
-                <li>I find live blogs to be an extremely effective way to communicate breaking news efficiently and quickly.</li>
-                <li>Live Blog is a new open source live-blogging tool for newsrooms and journalists. Sign up now to receive a private invite and be one of the first to test it!</li>
-                <li>In conclusion, this was one of the closest races we've seen in years, but ultimately the candidate with the most votes won.</li>
-                <li>Live Blog is a new open source live-blogging tool for newsrooms and journalists. Sign up now to receive a private invite and be one of the first to test it!</li>
-                <li>In conclusion, this was one of the closest races we've seen in years, but ultimately the candidate with the most votes won.</li>
-                <li>Live Blog is a new open source live-blogging tool for newsrooms and journalists. Sign up now to receive a private invite and be one of the first to test it!</li>
-                <li>In conclusion, this was one of the closest races we've seen in years, but ultimately the candidate with the most votes won.</li>
-              </ul>
-          </div>
 
 
-
-          <!-- new post -->
-          <div id="newPost" class="modal">
-            <header class="bar-title">
-              <h1 class="title">New Post</h1>
-              <a class="button" href="#newPost">
-                <img src="assets/images/button_close.png" alt="close"  class="b_image" />
-              </a>
-            </header>
-
-            <div class="content content-padded">
-
-             <form>
-
-                          <textarea rows="5"></textarea>
-                          <a id="addPhoto" class="rightandmarginbottom10">
-                            <img src="assets/images/camera.png" alt="add image"  class="icon_image" />
-                          </a>
-                          <span class="clear"></span>
-                          <a class="button-main button-block">Add Post</a>
-                        </form>
+      <div id="loginView" class="page"  data-snap-ignore="true" >
+               <div class="content content-padded">
+          <form>
+            <div class="input-group">
+              <div class="input-row">
+                <label>Instance URL</label>
+                <input type="text" name="host" placeholder="liveblog.example.org">
+              </div>
+              <div class="input-row">
+                <label>Username</label>
+                <input name="login" type="text" placeholder="Kate">
+              </div>
+              <div class="input-row">
+                <label>Password</label>
+                <input name="pass" type="password" placeholder="">
+              </div>
 
             </div>
-          </div>
+            <button type="submit" class="button-main button-block width100">Login</button>
+          </form>
+        </div>
+      </div> <!-- /loginView-->
+
+
+
+
+
+      <div id="listView" class="page">
+        <header class="bar-title">
+          <button class="button toggle-left">
+            <img src="assets/images/button_menu.png" alt="open menu"  class="b_image" />
+          </button>
+          <a href="#newPost" class="button">
+            <img src="assets/images/button_plus.png" alt="new post" class="b_image" />
+          </a>
+        </header>
+        <div class="content">
+          <ul class="list">
+          </ul>
+        </div>
+        <!-- new post -->
+        <div id="newPost" class="modal">
+          <header class="bar-title">
+            <h1 class="title">New Post</h1>
+            <a class="button" href="#newPost">
+              <img src="assets/images/button_close.png" alt="close"  class="b_image" />
+            </a>
+          </header>
+
+          <div class="content content-padded">
+
+           <form>
+
+            <textarea rows="5"></textarea>
+            <a id="addPhoto" class="rightandmarginbottom10">
+              <img src="assets/images/camera.png" alt="add image"  class="icon_image" />
+            </a>
+            <span class="clear"></span>
+            <a class="button-main button-block">Add Post</a>
+          </form>
 
         </div>
+      </div>
+    </div> <!-- /listView-->
+
+    <div id="loading" class="page content" data-snap-ignore="true" >
+      <ul class="spinner">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+      </ul>
+
+    </div> <!-- /loading -->
+
+  </div> <!-- /content container -->
 
 
 
-    <script type="text/template" id="tweet_template">
-      <li id="t_<%= id %>">
-        <h3>
-          <img src="<%= profile_image_url %>" alt="<%= from_user %>" width="45" />
-          <div>
-            <a href="http://twitter.com/<%= from_user %>" title="<%= from_user %>">@<%= from_user %></a> at
-            <span class="date"><%= Date.parse(created_at).add(-5).hours().toString("h:mmtt").toLowerCase() %></span>:
-          </div>
-        </h3>
-        <p><%= text %>
-      </li>
-    </script>
-    </body>
-  </html>
+  <script type="text/template" id="tweet_template">
+  <li id="t_<%= id %>">
+  <h3>
+  <img src="<%= profile_image_url %>" alt="<%= from_user %>" width="45" />
+  <div>
+  <a href="http://twitter.com/<%= from_user %>" title="<%= from_user %>">@<%= from_user %></a> at
+  <span class="date"><%= Date.parse(created_at).add(-5).hours().toString("h:mmtt").toLowerCase() %></span>:
+  </div>
+  </h3>
+  <p><%= text %>
+  </li>
+  </script>
+</body>
+</html>
 
-  <!-- ========= -->
-  <!-- Libraries -->
-  <!-- ========= -->
-  <script src="cordova.js"></script>
+<!-- ========= -->
+<!-- Libraries -->
+<!-- ========= -->
+<script src="cordova.js"></script>
 
-  <script src="assets/js/jquery1.9.1.js" ></script>
-  <script src="assets/js/underscore.js"></script>
-  <script src="assets/js/backbone.js" ></script>
-  <script src="assets/js/sha.js" ></script>
-  <script src="assets/js/snap.min.js" ></script>
-  <script src="assets/js/fastclick.js"></script>
-  <script src="assets/js/ratchet.js" ></script>
+<script src="assets/js/jquery1.9.1.js" ></script>
+<script src="assets/js/underscore.js"></script>
+<script src="assets/js/backbone.js" ></script>
+<script src="assets/js/sha.js" ></script>
+<script src="assets/js/snap.min.js" ></script>
+<script src="assets/js/fastclick.js"></script>
+<script src="assets/js/ratchet.js" ></script>
+<script src="assets/js/helpers.js" ></script>
 
-  <!-- Application: -->
-  <script src="src/models.js"></script>
-  <script src="src/collections.js"></script>
-  <script src="src/views.js"></script>
-  <script src="src/router.js"></script>
+<!-- Application: -->
+<script src="src/models.js"></script>
+<script src="src/collections.js"></script>
+<script src="src/views.js"></script>
+<script src="src/router.js"></script>
 
 
 
-  <script src="src/app.js" ></script>
+<script src="src/app.js" ></script>
 
 </body>
 </html>

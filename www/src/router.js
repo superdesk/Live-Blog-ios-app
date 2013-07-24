@@ -12,6 +12,7 @@ $(function() {
 
 		login: function(){
 			var loginView = new window.LoginView;
+			loginView.render();
 		},
 
 		blogsList: function(){

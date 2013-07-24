@@ -6,8 +6,10 @@ $(function() {
 
     window.SessionModel = Backbone.Model.extend({
         defaults: {
+            session: "",
             token: "",
-            host: ""
+            host: "",
+            blog: 0
         }
 
 
