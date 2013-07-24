@@ -46,12 +46,6 @@ $(function() {
    },
 
 
-
-
-
-
-
-
    getUser: function(callback) {
 
 
@@ -70,9 +64,6 @@ $(function() {
           );
        }
        );
-
-
-
 
    },
 
@@ -93,12 +84,12 @@ $(function() {
         var hash = new jsSHA(pass, "ASCII");
         var hashedPass = hash.getHash("SHA-512", "HEX");
 
-         var sql = 'INSERT INTO user(login, pass, host) VALUES("'+login+'", "'+hashedPass+'", "'+host+'")';
+        var sql = 'INSERT INTO user(login, pass, host) VALUES("'+login+'", "'+hashedPass+'", "'+host+'")';
 
-         tx.executeSql(sql);
-       },
-       this.txErrorHandler
-       );
+        tx.executeSql(sql);
+      },
+      this.txErrorHandler
+      );
 
    },
 
@@ -158,11 +149,15 @@ $(function() {
           dataType: "json",
           success: function(data) {
 
-            console.log(data.Token);
+
             session.set("token", data.Token);
             session.set("host", user.host);
             auth.authorize(user, function(){
-              console.log("brawo rondio");
+              console.log("authorization complete");
+              // if there is id of blog assigned - show entriesList. Otherwise let the user select a Blog
+              session.get("blog") === 0 ? router.navigate("blogsList", {trigger: true}) : router.navigate("entriesList", {trigger: true});
+
+
             });
 
 
@@ -208,7 +203,8 @@ authorize: function(user, callback){
       data: req,
       dataType: "json",
       success: function(data) {
-        console.log(JSON.stringify(data));
+
+        session.set("userId", data.User.Id);
         session.set("session", data.Session);
         callback();
 
@@ -226,6 +222,12 @@ authorize: function(user, callback){
     router.navigate("login", {trigger: true});
   }
 
+},
+
+logout : function(){
+  gap.deleteUser(function(){
+    session.clear();
+  });
 }
 
 };
@@ -235,7 +237,6 @@ authorize: function(user, callback){
 
 var appinit = function(){
 
- // alert("appinit");
 
  new FastClick(document.body);
 
@@ -247,8 +248,8 @@ var appinit = function(){
 
 
  $(".toggle-left").bind('click', function(){
-   snapper.state().state=="left" ? snapper.close() : snapper.open('left');
- });
+  snapper.state().state=="left" ? snapper.close() : snapper.open('left');
+});
 
 
 
@@ -260,7 +261,6 @@ var appinit = function(){
 };
 
 appinit();
-
 
 
 });

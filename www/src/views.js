@@ -40,7 +40,7 @@ $(function() {
 
 			$("#loading").css("display", "none");
 
-			console.log(this.el);
+
 			console.log("loginView render");
 
 			this.$el.css("display", "block");

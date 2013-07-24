@@ -4,11 +4,12 @@ $(function() {
 
 	var Router = Backbone.Router.extend({
 		routes: {
-		    "": "showList",
+		    "": "blogsList",
+		    "blogsList": "blogsList",
 		    "login":"login",
-		    "blogsList": "blogsList"
+		    "entriesList": "entriesList"
 		},
-		showList: function() {
+		entriesList: function() {
 
 		},
 
