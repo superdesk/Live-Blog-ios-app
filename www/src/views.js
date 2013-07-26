@@ -1,5 +1,20 @@
 $(function() {
 
+
+	var blogs = [
+	    { name: "blog 1", id : 1  },
+	    { name: "blog 2", id : 2  },
+	    { name: "blog 3", id : 3  },
+	    { name: "blog 4", id : 4  },
+	    { name: "blog 5", id : 5  },
+	    { name: "blog 6", id : 6  },
+	    { name: "blog 7", id : 7  },
+	    { name: "blog 8", id : 8  },
+	    { name: "blog 9", id : 9  },
+	    { name: "blog 10", id : 10  }
+	];
+
+
 	window.ListView = Backbone.View.extend({
 		el: $("#search_form"),
 		search_twitter: function(e) {
@@ -22,12 +37,49 @@ $(function() {
 		}
 	});
 
-	window.blogsListView = Backbone.View.extend({
-		render: function() {
-			var tweet = _.template( $("#tweet_template").html(), this.model.toJSON());
-			$("#tweets").append(tweet);
-			$("#t_" + this.model.get("id")).css("display", "block");
+	window.blogsListItemView = Backbone.View.extend({
+		template: $("#blogItem_template").html(),
+
+		tagName: "li",
+
+		render: function () {
+
+			var tmpl = _.template(this.template);
+
+
+
+			$(this.el).html(tmpl(this.model.toJSON()));
+			return this;
 		}
+
+
+	});
+
+	window.blogsListView = Backbone.View.extend({
+	    el: $("#blogsListView"),
+
+	    initialize: function () {
+
+	    	this.collection = new window.blogsCollection(blogs);
+
+	        this.render();
+	    },
+
+	    render: function () {
+	        var that = this;
+	        _.each(this.collection.models, function (item) {
+	            that.renderBlogItem(item);
+	        }, this);
+	        $("#loading").css("display", "none");
+	        this.$el.css("display", "block");
+	    },
+
+	    renderBlogItem: function (item) {
+	        var blogItemView = new blogsListItemView({
+	            model: item
+	        });
+	        this.$el.find("ul").append(blogItemView.render().el);
+	    }
 	});
 
 
@@ -37,15 +89,10 @@ $(function() {
 		el: '#loginView',
 
 		render: function() {
-
 			$("#loading").css("display", "none");
-
-
 			console.log("loginView render");
-
 			this.$el.css("display", "block");
-
-			},
+		},
 
 		events: {
 			"submit":    "loginHandler"
@@ -57,19 +104,13 @@ $(function() {
 			console.log("loginView loginHandler");
 			$("#loading").css("display", "block");
 			var formData = this.$el.find("form").serializeObject();
-			gap.addUser(formData.login, formData.pass, formData.host);
 
+			var parsedHost = formData.host.replace("http://","");
+			if (parsedHost.slice(-1)=="/") parsedHost = parsedHost.slice(0,parsedHost.length - 1);
+
+			gap.addUser(formData.login, formData.pass, parsedHost);
 			auth.login();
-
-
-			return false;
-
-
 		}
 	});
-
-	window.loginView = new window.LoginView;
-	window.listView = new window.ListView;
-	window.blogsListView = new window.blogsListView;
 
 });

@@ -1,8 +1,11 @@
-var session;
+
 
 $(function() {
 
 	window.TweetModel = Backbone.Model.extend({
+    });
+
+    window.BlogItemModel = Backbone.Model.extend({
     });
 
 
@@ -19,6 +22,6 @@ $(function() {
 
     });
 
-    session = new window.SessionModel;
+
 
 });

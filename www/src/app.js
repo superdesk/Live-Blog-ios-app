@@ -132,8 +132,8 @@ $(function() {
      gap.getUser(function(user){
 
       if(_.isEmpty(user)){
-        router.navigate("someDeadRoute");
-        router.navigate("login", {trigger: true});
+        app.router.navigate("someDeadRoute");
+        app.router.navigate("login", {trigger: true});
         return false;
       }
 
@@ -143,19 +143,19 @@ $(function() {
 
       try{
         $.ajax({
-          url: user.host+'/resources/Security/Authentication.json',
+          url: 'http://'+user.host+'/resources/Security/Authentication.json',
           type: 'POST',
           data: req,
           dataType: "json",
           success: function(data) {
 
 
-            session.set("token", data.Token);
-            session.set("host", user.host);
+            app.session.set("token", data.Token);
+            app.session.set("host", user.host);
             auth.authorize(user, function(){
               console.log("authorization complete");
-              // if there is id of blog assigned - show entriesList. Otherwise let the user select a Blog
-              session.get("blog") === 0 ? router.navigate("blogsList", {trigger: true}) : router.navigate("entriesList", {trigger: true});
+              // if there is id of blog assigned - do nothing, it means that application was "paused". Otherwise let the user select a Blog
+              if(app.session.get("blog") === 0) app.router.navigate("blogsList", {trigger: true});
 
 
             });
@@ -165,8 +165,8 @@ $(function() {
           },
           error: function(jqXHR, textStatus, errorThrown) {
             console.log("login fail");
-            router.navigate("someDeadRoute");
-            router.navigate("login", {trigger: true});
+            app.router.navigate("someDeadRoute");
+            app.router.navigate("login", {trigger: true});
 
 
           }
@@ -174,8 +174,8 @@ $(function() {
       }
       catch(err){
 
-        router.navigate("someDeadRoute");
-        router.navigate("login", {trigger: true});
+        app.router.navigate("someDeadRoute");
+        app.router.navigate("login", {trigger: true});
       }
 
     });
@@ -184,7 +184,7 @@ $(function() {
 
 authorize: function(user, callback){
 
-  var token = session.get("token");
+  var token = app.session.get("token");
 
   shaPassword = user.pass;
   shaStep1 = new jsSHA(shaPassword, "ASCII");
@@ -198,28 +198,28 @@ authorize: function(user, callback){
 
   try{
     $.ajax({
-      url: user.host+'/resources/Security/Authentication/Login.json',
+      url: 'http://'+user.host+'/resources/Security/Authentication/Login.json',
       type: 'POST',
       data: req,
       dataType: "json",
       success: function(data) {
 
-        session.set("userId", data.User.Id);
-        session.set("session", data.Session);
+        app.session.set("userId", data.User.Id);
+        app.session.set("session", data.Session);
         callback();
 
       },
       error: function(jqXHR, textStatus, errorThrown) {
 
-        router.navigate("someDeadRoute");
-        router.navigate("login", {trigger: true});
+        app.router.navigate("someDeadRoute");
+        app.router.navigate("login", {trigger: true});
 
       }
     });
   }
   catch(err){
-    router.navigate("someDeadRoute");
-    router.navigate("login", {trigger: true});
+    app.router.navigate("someDeadRoute");
+    app.router.navigate("login", {trigger: true});
   }
 
 },
@@ -233,34 +233,47 @@ logout : function(){
 };
 
 
+window.app = {
 
+  router : new window.Router,
+  session : new window.SessionModel,
 
-var appinit = function(){
+  loginView : new window.LoginView,
+  listView : new window.ListView,
 
-
- new FastClick(document.body);
-
-
- snapper = new Snap({
-  element: document.getElementById('content'),
-  disable: 'right'
-});
-
-
- $(".toggle-left").bind('click', function(){
-  snapper.state().state=="left" ? snapper.close() : snapper.open('left');
-});
+  blogsListView : new window.blogsListView,
 
 
 
+  init : function(){
 
- gap.initialize(function() {
-  auth.login();
-});
 
-};
 
-appinit();
+    new FastClick(document.body);
+
+
+    snapper = new Snap({
+      element: document.getElementById('content'),
+      disable: 'right'
+    });
+
+
+    $(".toggle-left").bind('click', function(){
+      snapper.state().state=="left" ? snapper.close() : snapper.open('left');
+    });
+
+    gap.initialize(function() {
+      auth.login();
+    });
+
+  }
+
+}
+
+
+
+
+app.init();
 
 
 });

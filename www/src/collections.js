@@ -4,4 +4,8 @@ $(function() {
         model: TweetModel
     });
 
+    window.blogsCollection = Backbone.Collection.extend({
+        model: BlogItemModel
+    });
+
 });

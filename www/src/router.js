@@ -2,7 +2,7 @@
 
 $(function() {
 
-	var Router = Backbone.Router.extend({
+	window.Router = Backbone.Router.extend({
 		routes: {
 		    "": "blogsList",
 		    "blogsList": "blogsList",
@@ -16,17 +16,18 @@ $(function() {
 		login: function(){
 			console.log("login router");
 
-			loginView.render();
+			app.loginView.render();
 		},
 
 		blogsList: function(){
-
+			console.log("blogsList router");
+			app.blogsListView.render();
 		}
 
 	});
 
 
-	window.router = new Router();
+
 
 	Backbone.history.start();
 
