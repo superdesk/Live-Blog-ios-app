@@ -153,9 +153,10 @@ $(function() {
             app.session.set("token", data.Token);
             app.session.set("host", user.host);
             auth.authorize(user, function(){
-              console.log("authorization complete");
+            console.log("authorization complete");
               // if there is id of blog assigned - do nothing, it means that application was "paused". Otherwise let the user select a Blog
-              if(app.session.get("blog") === 0) app.router.navigate("blogsList", {trigger: true});
+
+              if(!app.session.get("blog")) app.router.navigate("blogsList", {trigger: true});
 
 
             });
@@ -241,7 +242,7 @@ window.app = {
   loginView : new window.LoginView,
   listView : new window.ListView,
 
-  blogsListView : new window.blogsListView,
+
 
 
 

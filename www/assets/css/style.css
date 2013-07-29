@@ -2,6 +2,10 @@ body{
     overflow-x:hidden;
 }
 
+a{
+    cursor:pointer;
+}
+
 .icon-bar{
     display: block;
     width: 22px;

@@ -4,7 +4,7 @@ $(function() {
 
 	window.Router = Backbone.Router.extend({
 		routes: {
-		    "": "blogsList",
+		    "": "login",
 		    "blogsList": "blogsList",
 		    "login":"login",
 		    "entriesList": "entriesList"
@@ -21,6 +21,7 @@ $(function() {
 
 		blogsList: function(){
 			console.log("blogsList router");
+			app.blogsListView = new window.blogsListView;
 			app.blogsListView.render();
 		}
 
@@ -28,7 +29,7 @@ $(function() {
 
 
 
-
 	Backbone.history.start();
+
 
 });

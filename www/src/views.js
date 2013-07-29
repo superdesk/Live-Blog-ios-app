@@ -1,20 +1,6 @@
 $(function() {
 
 
-	var blogs = [
-	    { name: "blog 1", id : 1  },
-	    { name: "blog 2", id : 2  },
-	    { name: "blog 3", id : 3  },
-	    { name: "blog 4", id : 4  },
-	    { name: "blog 5", id : 5  },
-	    { name: "blog 6", id : 6  },
-	    { name: "blog 7", id : 7  },
-	    { name: "blog 8", id : 8  },
-	    { name: "blog 9", id : 9  },
-	    { name: "blog 10", id : 10  }
-	];
-
-
 	window.ListView = Backbone.View.extend({
 		el: $("#search_form"),
 		search_twitter: function(e) {
@@ -60,13 +46,16 @@ $(function() {
 
 	    initialize: function () {
 
-	    	this.collection = new window.blogsCollection(blogs);
-
-	        this.render();
+	    	console.log("blogListView init");
+	    	this.collection = new window.blogsCollection();
+	    	this.collection.fetch();
+	        //this.render();
 	    },
 
 	    render: function () {
+	    	console.log("blogsListView render");
 	        var that = this;
+	        this.$el.find('ul').empty();
 	        _.each(this.collection.models, function (item) {
 	            that.renderBlogItem(item);
 	        }, this);
