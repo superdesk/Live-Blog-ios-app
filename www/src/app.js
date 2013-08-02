@@ -132,8 +132,7 @@ $(function() {
      gap.getUser(function(user){
 
       if(_.isEmpty(user)){
-        app.router.navigate("someDeadRoute");
-        app.router.navigate("login", {trigger: true});
+       callback("login");
         return false;
       }
 
@@ -152,12 +151,12 @@ $(function() {
 
             app.session.set("token", data.Token);
             app.session.set("host", user.host);
-            auth.authorize(user, function(){
+            auth.authorize(user, function(route){
             console.log("authorization complete");
               // if there is id of blog assigned - do nothing, it means that application was "paused". Otherwise let the user select a Blog
+              if(!app.session.get("blog")) route = "blogsList";
 
-              if(!app.session.get("blog")) app.router.navigate("blogsList", {trigger: true});
-
+              callback(route);
 
             });
 
@@ -166,8 +165,8 @@ $(function() {
           },
           error: function(jqXHR, textStatus, errorThrown) {
             console.log("login fail");
-            app.router.navigate("someDeadRoute");
-            app.router.navigate("login", {trigger: true});
+            callback("login");
+
 
 
           }
@@ -175,8 +174,7 @@ $(function() {
       }
       catch(err){
 
-        app.router.navigate("someDeadRoute");
-        app.router.navigate("login", {trigger: true});
+        callback("login");
       }
 
     });
@@ -207,20 +205,18 @@ authorize: function(user, callback){
 
         app.session.set("userId", data.User.Id);
         app.session.set("session", data.Session);
-        callback();
+        callback("entriesList");
 
       },
       error: function(jqXHR, textStatus, errorThrown) {
 
-        app.router.navigate("someDeadRoute");
-        app.router.navigate("login", {trigger: true});
+        callback("login");
 
       }
     });
   }
   catch(err){
-    app.router.navigate("someDeadRoute");
-    app.router.navigate("login", {trigger: true});
+    callback("login");
   }
 
 },
@@ -264,7 +260,14 @@ window.app = {
     });
 
     gap.initialize(function() {
-      auth.login();
+      auth.login(function(route){
+        console.log("auth callback fired");
+        Backbone.history.start();
+        app.router.navigate("someDeadRoute");
+        app.router.navigate(route, {trigger: true});
+
+
+      });
     });
 
   }

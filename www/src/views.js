@@ -25,15 +25,15 @@ $(function() {
 
 	window.blogsListItemView = Backbone.View.extend({
 		template: $("#blogItem_template").html(),
-
+		model: BlogItemModel,
 		tagName: "li",
 
 		render: function () {
 
 			var tmpl = _.template(this.template);
 
-
-
+			console.log("blogItem render");
+			console.log(this.model.toJSON());
 			$(this.el).html(tmpl(this.model.toJSON()));
 			return this;
 		}
@@ -47,8 +47,20 @@ $(function() {
 	    initialize: function () {
 
 	    	console.log("blogListView init");
+
+
 	    	this.collection = new window.blogsCollection();
-	    	this.collection.fetch();
+	    //	this.listenTo(this.collection, 'reset', this.render);
+
+	    var self = this;
+
+
+	    	this.collection.fetch().complete(function(){
+	      self.render();
+	    });
+
+
+
 	        //this.render();
 	    },
 
@@ -67,6 +79,7 @@ $(function() {
 	        var blogItemView = new blogsListItemView({
 	            model: item
 	        });
+
 	        this.$el.find("ul").append(blogItemView.render().el);
 	    }
 	});
