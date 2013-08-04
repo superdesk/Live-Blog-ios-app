@@ -26,8 +26,8 @@
 
           <li><a href="#" data-ignore="push"><img src="assets/images/logout.png" alt="logout"  class="b_image" /> Logout</a></li>
           <li><a href="#" data-ignore="push" class="active">Active Link</a></li>
-          <li><a href="#" data-ignore="push">Something</a></li>
-          <li><a href="#" data-ignore="push">Something</a></li>
+          <li><a href="#login" data-ignore="push">Login View</a></li>
+          <li><a href="#blogsList" data-ignore="push">Blogs List View</a></li>
         </ul>
       </div>
 
@@ -64,9 +64,25 @@
 
 
 
+        <div id="blogsListView" class="page">
+          <header class="bar-title">
+            <button class="button toggle-left">
+              <img src="assets/images/button_menu.png" alt="open menu"  class="b_image" />
+            </button>
+
+          </header>
+          <div class="content">
+            <ul class="list">
+            </ul>
+          </div>
+
+      </div> <!-- /blogsListView-->
 
 
-      <div id="listView" class="page">
+
+
+
+      <div id="entriesListView" class="page">
         <header class="bar-title">
           <button class="button toggle-left">
             <img src="assets/images/button_menu.png" alt="open menu"  class="b_image" />
@@ -102,7 +118,7 @@
 
         </div>
       </div>
-    </div> <!-- /listView-->
+    </div> <!-- /entriesListView-->
 
     <div id="loading" class="page content" data-snap-ignore="true" >
       <ul class="spinner">
@@ -118,18 +134,18 @@
 
 
 
-  <script type="text/template" id="tweet_template">
-  <li id="t_<%= id %>">
-  <h3>
-  <img src="<%= profile_image_url %>" alt="<%= from_user %>" width="45" />
-  <div>
-  <a href="http://twitter.com/<%= from_user %>" title="<%= from_user %>">@<%= from_user %></a> at
-  <span class="date"><%= Date.parse(created_at).add(-5).hours().toString("h:mmtt").toLowerCase() %></span>:
-  </div>
-  </h3>
-  <p><%= text %>
-  </li>
+  <script type="text/template" id="blogItem_template">
+
+    <a id="blog_<%= Id %>" data-target="<%= Id %>">
+      <%= Title %>
+      <span class="chevron"></span>
+    </a>
+
   </script>
+
+
+
+
 </body>
 </html>
 

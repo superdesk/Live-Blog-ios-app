@@ -2,31 +2,34 @@
 
 $(function() {
 
-	var Router = Backbone.Router.extend({
+	window.Router = Backbone.Router.extend({
 		routes: {
-		    "": "showList",
+		    "": "login",
+		    "blogsList": "blogsList",
 		    "login":"login",
-		    "blogsList": "blogsList"
+		    "entriesList": "entriesList"
 		},
-		showList: function() {
+		entriesList: function() {
 
 		},
 
 		login: function(){
 			console.log("login router");
 
-			loginView.render();
+			app.loginView.render();
 		},
 
 		blogsList: function(){
-
+			console.log("blogsList router");
+			app.blogsListView = new window.blogsListView;
+			app.blogsListView.render();
 		}
 
 	});
 
 
-	window.router = new Router();
 
-	Backbone.history.start();
+
+
 
 });

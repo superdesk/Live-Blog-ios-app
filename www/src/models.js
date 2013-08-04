@@ -1,13 +1,17 @@
-var session;
+
 
 $(function() {
 
 	window.TweetModel = Backbone.Model.extend({
     });
 
+    window.BlogItemModel = Backbone.Model.extend({
+    });
+
 
     window.SessionModel = Backbone.Model.extend({
         defaults: {
+            userId: 0,
             session: "",
             token: "",
             host: "",
@@ -18,6 +22,6 @@ $(function() {
 
     });
 
-    session = new window.SessionModel;
+
 
 });

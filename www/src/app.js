@@ -46,12 +46,6 @@ $(function() {
    },
 
 
-
-
-
-
-
-
    getUser: function(callback) {
 
 
@@ -70,9 +64,6 @@ $(function() {
           );
        }
        );
-
-
-
 
    },
 
@@ -93,12 +84,12 @@ $(function() {
         var hash = new jsSHA(pass, "ASCII");
         var hashedPass = hash.getHash("SHA-512", "HEX");
 
-         var sql = 'INSERT INTO user(login, pass, host) VALUES("'+login+'", "'+hashedPass+'", "'+host+'")';
+        var sql = 'INSERT INTO user(login, pass, host) VALUES("'+login+'", "'+hashedPass+'", "'+host+'")';
 
-         tx.executeSql(sql);
-       },
-       this.txErrorHandler
-       );
+        tx.executeSql(sql);
+      },
+      this.txErrorHandler
+      );
 
    },
 
@@ -135,61 +126,77 @@ $(function() {
 
 
  window.auth = {
+   route: "login",
 
    login: function(callback){
+      //route reset
+      auth.route = "login";
 
-     gap.getUser(function(user){
-
-      if(_.isEmpty(user)){
-        router.navigate("someDeadRoute");
-        router.navigate("login", {trigger: true});
-        return false;
-      }
+      gap.getUser(function(user){
 
 
 
-      var req = { userName: user.login  };
+        if(_.isEmpty(user)){
 
-      try{
+         return false;
+       }
+
+       var globalCallback= callback;
+
+       var req = { userName: user.login  };
+
+       try{
         $.ajax({
-          url: user.host+'/resources/Security/Authentication.json',
+          url: 'http://'+user.host+'/resources/Security/Authentication.json',
           type: 'POST',
           data: req,
           dataType: "json",
           success: function(data) {
 
-            console.log(data.Token);
-            session.set("token", data.Token);
-            session.set("host", user.host);
+
+            app.session.set("token", data.Token);
+            app.session.set("host", user.host);
             auth.authorize(user, function(){
-              console.log("brawo rondio");
-            });
+              console.log("authorization complete");
+
+              // if there is id of blog assigned - go to entriesList. Otherwise let the user select a Blog
+              if(!app.session.get("blog")){
+                auth.route = "blogsList";
+              }else{
+                auth.route = "entriesList";
+              }
+
+              globalCallback();
+          });
 
 
 
           },
           error: function(jqXHR, textStatus, errorThrown) {
             console.log("login fail");
-            router.navigate("someDeadRoute");
-            router.navigate("login", {trigger: true});
 
+            var globalCallback= callback;
+
+            globalCallback();
 
           }
         });
       }
       catch(err){
 
-        router.navigate("someDeadRoute");
-        router.navigate("login", {trigger: true});
+        console.log(err);
+        globalCallback();
       }
 
+
     });
+
 
 },
 
 authorize: function(user, callback){
 
-  var token = session.get("token");
+  var token = app.session.get("token");
 
   shaPassword = user.pass;
   shaStep1 = new jsSHA(shaPassword, "ASCII");
@@ -199,68 +206,100 @@ authorize: function(user, callback){
 
   var req = { Token: token, HashedToken: hash , UserName: user.login };
 
+  var globalCallback= callback;
+
+
 
 
   try{
     $.ajax({
-      url: user.host+'/resources/Security/Authentication/Login.json',
+      url: 'http://'+user.host+'/resources/Security/Authentication/Login.json',
       type: 'POST',
       data: req,
       dataType: "json",
       success: function(data) {
-        console.log(JSON.stringify(data));
-        session.set("session", data.Session);
-        callback();
+
+        app.session.set("userId", data.User.Id);
+        app.session.set("session", data.Session);
+        globalCallback();
 
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown, callback) {
 
-        router.navigate("someDeadRoute");
-        router.navigate("login", {trigger: true});
+       console.log("auth fail");
+       globalCallback();
 
-      }
-    });
+     }
+   });
   }
   catch(err){
-    router.navigate("someDeadRoute");
-    router.navigate("login", {trigger: true});
+    console.log(err);
+    globalCallback();
   }
 
+
+
+},
+
+logout : function(){
+  gap.deleteUser(function(){
+    session.clear();
+  });
 }
 
 };
 
 
+window.app = {
 
+  router : new window.Router,
+  session : new window.SessionModel,
 
-var appinit = function(){
-
- // alert("appinit");
-
- new FastClick(document.body);
-
-
- snapper = new Snap({
-  element: document.getElementById('content'),
-  disable: 'right'
-});
-
-
- $(".toggle-left").bind('click', function(){
-   snapper.state().state=="left" ? snapper.close() : snapper.open('left');
- });
+  loginView : new window.LoginView,
+  listView : new window.ListView,
 
 
 
 
- gap.initialize(function() {
-  auth.login();
-});
 
-};
+  init : function(){
 
-appinit();
 
+
+    new FastClick(document.body);
+
+
+    snapper = new Snap({
+      element: document.getElementById('content'),
+      disable: 'right'
+    });
+
+
+    $(".toggle-left").bind('click', function(){
+      snapper.state().state=="left" ? snapper.close() : snapper.open('left');
+    });
+
+    gap.initialize(function() {
+      auth.login(function(){
+        console.log("auth callback fired");
+        console.log("auth.route: "+auth.route);
+        Backbone.history.start();
+        app.router.navigate("someDeadRoute");
+
+        app.router.navigate(auth.route, {trigger: true});
+
+
+      });
+    });
+
+  }
+
+}
+
+
+
+
+app.init();
 
 
 });

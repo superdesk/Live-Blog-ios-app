@@ -2,6 +2,10 @@ body{
     overflow-x:hidden;
 }
 
+a{
+    cursor:pointer;
+}
+
 .icon-bar{
     display: block;
     width: 22px;
@@ -27,9 +31,7 @@ body{
     height:32px;
 }
 
-#content .list li {
-    padding-right:20px;
-}
+
 
 .rightandmarginbottom10{
     display: block;
