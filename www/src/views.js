@@ -42,22 +42,20 @@ $(function() {
 	});
 
 	window.blogsListView = Backbone.View.extend({
-	    el: $("#blogsListView"),
+		el: $("#blogsListView"),
 
-	    initialize: function () {
+		initialize: function () {
 
-	    	console.log("blogListView init");
-
-
-	    	this.collection = new window.blogsCollection();
-	    //	this.listenTo(this.collection, 'reset', this.render);
-
-	    var self = this;
+			console.log("blogListView init");
 
 
-	    	this.collection.fetch().complete(function(){
-	      self.render();
-	    });
+			this.collection = new window.blogsCollection();
+		    //	this.listenTo(this.collection, 'reset', this.render);
+
+		    var self = this;
+		    this.collection.fetch().complete(function(){
+		    	self.render();
+		    });
 
 
 
@@ -66,21 +64,21 @@ $(function() {
 
 	    render: function () {
 	    	console.log("blogsListView render");
-	        var that = this;
-	        this.$el.find('ul').empty();
-	        _.each(this.collection.models, function (item) {
-	            that.renderBlogItem(item);
-	        }, this);
-	        $("#loading").css("display", "none");
-	        this.$el.css("display", "block");
+	    	var that = this;
+	    	this.$el.find('ul').empty();
+	    	_.each(this.collection.models, function (item) {
+	    		that.renderBlogItem(item);
+	    	}, this);
+	    	$("#loading").css("display", "none");
+	    	this.$el.css("display", "block");
 	    },
 
 	    renderBlogItem: function (item) {
-	        var blogItemView = new blogsListItemView({
-	            model: item
-	        });
+	    	var blogItemView = new blogsListItemView({
+	    		model: item
+	    	});
 
-	        this.$el.find("ul").append(blogItemView.render().el);
+	    	this.$el.find("ul").append(blogItemView.render().el);
 	    }
 	});
 
@@ -91,6 +89,7 @@ $(function() {
 		el: '#loginView',
 
 		render: function() {
+			$(".page").css("display", "none");
 			$("#loading").css("display", "none");
 			console.log("loginView render");
 			this.$el.css("display", "block");
@@ -111,7 +110,14 @@ $(function() {
 			if (parsedHost.slice(-1)=="/") parsedHost = parsedHost.slice(0,parsedHost.length - 1);
 
 			gap.addUser(formData.login, formData.pass, parsedHost);
-			auth.login();
+			auth.login(function(){
+				console.log("auth callback fired");
+
+				app.router.navigate("someDeadRoute");
+				app.router.navigate(auth.route, {trigger: true})
+
+
+			});
 		}
 	});
 

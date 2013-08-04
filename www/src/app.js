@@ -126,21 +126,26 @@ $(function() {
 
 
  window.auth = {
+   route: "login",
 
    login: function(callback){
+      //route reset
+      auth.route = "login";
 
-     gap.getUser(function(user){
-
-      if(_.isEmpty(user)){
-       callback("login");
-        return false;
-      }
+      gap.getUser(function(user){
 
 
 
-      var req = { userName: user.login  };
+        if(_.isEmpty(user)){
 
-      try{
+         return false;
+       }
+
+       var globalCallback= callback;
+
+       var req = { userName: user.login  };
+
+       try{
         $.ajax({
           url: 'http://'+user.host+'/resources/Security/Authentication.json',
           type: 'POST',
@@ -151,33 +156,41 @@ $(function() {
 
             app.session.set("token", data.Token);
             app.session.set("host", user.host);
-            auth.authorize(user, function(route){
-            console.log("authorization complete");
-              // if there is id of blog assigned - do nothing, it means that application was "paused". Otherwise let the user select a Blog
-              if(!app.session.get("blog")) route = "blogsList";
+            auth.authorize(user, function(){
+              console.log("authorization complete");
 
-              callback(route);
+              // if there is id of blog assigned - go to entriesList. Otherwise let the user select a Blog
+              if(!app.session.get("blog")){
+                auth.route = "blogsList";
+              }else{
+                auth.route = "entriesList";
+              }
 
-            });
+              globalCallback();
+          });
 
 
 
           },
           error: function(jqXHR, textStatus, errorThrown) {
             console.log("login fail");
-            callback("login");
 
+            var globalCallback= callback;
 
+            globalCallback();
 
           }
         });
       }
       catch(err){
 
-        callback("login");
+        console.log(err);
+        globalCallback();
       }
 
+
     });
+
 
 },
 
@@ -193,6 +206,9 @@ authorize: function(user, callback){
 
   var req = { Token: token, HashedToken: hash , UserName: user.login };
 
+  var globalCallback= callback;
+
+
 
 
   try{
@@ -205,19 +221,23 @@ authorize: function(user, callback){
 
         app.session.set("userId", data.User.Id);
         app.session.set("session", data.Session);
-        callback("entriesList");
+        globalCallback();
 
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown, callback) {
 
-        callback("login");
+       console.log("auth fail");
+       globalCallback();
 
-      }
-    });
+     }
+   });
   }
   catch(err){
-    callback("login");
+    console.log(err);
+    globalCallback();
   }
+
+
 
 },
 
@@ -260,11 +280,13 @@ window.app = {
     });
 
     gap.initialize(function() {
-      auth.login(function(route){
+      auth.login(function(){
         console.log("auth callback fired");
+        console.log("auth.route: "+auth.route);
         Backbone.history.start();
         app.router.navigate("someDeadRoute");
-        app.router.navigate(route, {trigger: true});
+
+        app.router.navigate(auth.route, {trigger: true});
 
 
       });
