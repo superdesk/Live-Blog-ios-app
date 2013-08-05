@@ -17,5 +17,18 @@ $(function() {
               }
     });
 
+    window.entriesCollection = Backbone.Collection.extend({
+        model: EntryItemModel,
+        url: function() {
+            console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?x-filter=*');
+            return 'http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?x-filter=*';
+          },
+          parse: function(response) {
+                  console.log('parsing ...');
+                  console.log(JSON.stringify(response.PostList));
+                  return response.PostList;
+              }
+    });
+
 });
 

@@ -10,7 +10,9 @@ $(function() {
 		    "entriesList": "entriesList"
 		},
 		entriesList: function() {
-
+			console.log("entriesList router");
+			app.entriesListView = new window.entriesListView;
+			app.entriesListView.render();
 		},
 
 		login: function(){
@@ -21,7 +23,7 @@ $(function() {
 
 		blogsList: function(){
 			console.log("blogsList router");
-			app.blogsListView = new window.blogsListView;
+			if (app.blogsListView == undefined) app.blogsListView = new window.blogsListView;
 			app.blogsListView.render();
 		}
 

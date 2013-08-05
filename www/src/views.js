@@ -30,13 +30,25 @@ $(function() {
 
 		render: function () {
 
+			this.JSONmodel = this.model.toJSON();
 			var tmpl = _.template(this.template);
 
 			console.log("blogItem render");
-			console.log(this.model.toJSON());
-			$(this.el).html(tmpl(this.model.toJSON()));
+
+			$(this.el).html(tmpl(this.JSONmodel));
 			return this;
-		}
+		},
+		events: {
+			"click a":    "blogItemClick"
+		},
+
+		blogItemClick: function(){
+
+			app.session.set("blog", this.JSONmodel.Id);
+			app.session.set("blogTitle", this.JSONmodel.Title);
+			console.log(app.session.get("blog"));
+			app.router.navigate("entriesList", {trigger: true});
+		},
 
 
 	});
@@ -70,8 +82,11 @@ $(function() {
 	    		that.renderBlogItem(item);
 	    	}, this);
 	    	$("#loading").css("display", "none");
+	    	$(".page").css("display", "none");
 	    	this.$el.css("display", "block");
 	    },
+
+
 
 	    renderBlogItem: function (item) {
 	    	var blogItemView = new blogsListItemView({
@@ -114,11 +129,80 @@ $(function() {
 				console.log("auth callback fired");
 
 				app.router.navigate("someDeadRoute");
-				app.router.navigate(auth.route, {trigger: true})
+				app.router.navigate(route, {trigger: true})
 
 
 			});
 		}
 	});
+
+
+
+	/* entries list View */
+
+	window.entriesListItemView = Backbone.View.extend({
+		template: $("#entryItem_template").html(),
+		model: BlogItemModel,
+		tagName: "li",
+
+		render: function () {
+
+			this.JSONmodel = this.model.toJSON();
+			var tmpl = _.template(this.template);
+
+			console.log("entryItem render");
+
+			$(this.el).html(tmpl(this.JSONmodel));
+			return this;
+		},
+
+
+
+	});
+
+	window.entriesListView = Backbone.View.extend({
+		el: $("#entriesListView"),
+
+		initialize: function () {
+
+			console.log("entriesListView init");
+
+
+			this.collection = new window.entriesCollection();
+
+
+		    var self = this;
+		    this.collection.fetch().complete(function(){
+		    	self.render();
+		    });
+
+
+
+
+	    },
+
+	    render: function () {
+	    	console.log("entriesListView render");
+	    	var that = this;
+	    	this.$el.find('ul').empty();
+	    	_.each(this.collection.models, function (item) {
+	    		that.renderItem(item);
+	    	}, this);
+	    	$("#loading").css("display", "none");
+	    	$(".page").css("display", "none");
+	    	this.$el.css("display", "block");
+	    },
+
+
+
+	    renderItem: function (item) {
+	    	var itemView = new entriesListItemView({
+	    		model: item
+	    	});
+
+	    	this.$el.find("ul").append(itemView.render().el);
+	    }
+	});
+
 
 });
