@@ -8,6 +8,9 @@ $(function() {
     window.BlogItemModel = Backbone.Model.extend({
     });
 
+    window.EntryItemModel = Backbone.Model.extend({
+    });
+
 
     window.SessionModel = Backbone.Model.extend({
         defaults: {
@@ -15,7 +18,8 @@ $(function() {
             session: "",
             token: "",
             host: "",
-            blog: 0
+            blog: 0,
+            blogTitle: ""
         }
 
 
