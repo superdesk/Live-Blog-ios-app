@@ -28,6 +28,7 @@
           <li><a href="#" data-ignore="push" class="active">Active Link</a></li>
           <li><a href="#login" data-ignore="push">Login View</a></li>
           <li><a href="#blogsList" data-ignore="push">Blogs List View</a></li>
+          <li><a href="#entriesList" data-ignore="push">Entries List View</a></li>
         </ul>
       </div>
 
@@ -69,7 +70,7 @@
             <button class="button toggle-left">
               <img src="assets/images/button_menu.png" alt="open menu"  class="b_image" />
             </button>
-
+            <h1 class="title">Live Blogs</h1>
           </header>
           <div class="content">
             <ul class="list">
@@ -87,6 +88,7 @@
           <button class="button toggle-left">
             <img src="assets/images/button_menu.png" alt="open menu"  class="b_image" />
           </button>
+          <h1 class="title"></h1>
           <a href="#newPost" class="button">
             <img src="assets/images/button_plus.png" alt="new post" class="b_image" />
           </a>
@@ -138,6 +140,16 @@
 
     <a id="blog_<%= Id %>" data-target="<%= Id %>">
       <%= Title %>
+      <span class="chevron"></span>
+    </a>
+
+  </script>
+
+
+  <script type="text/template" id="entryItem_template">
+
+    <a id="entry_<%= Id %>" data-target="<%= Id %>">
+      <%= Content %>
       <span class="chevron"></span>
     </a>
 
