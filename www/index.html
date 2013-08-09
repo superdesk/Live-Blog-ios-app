@@ -43,23 +43,28 @@
       <div id="loginView" class="page"  data-snap-ignore="true" >
                <div class="content content-padded">
           <form id="loginForm">
+
+            <h1>Live Blog</h1>
+            <h3>Plese login to continue</h3>
             <div class="input-group">
               <div class="input-row">
-                <label>Instance URL</label>
+
                 <input type="text" name="host" placeholder="liveblog.example.org">
               </div>
               <div class="input-row">
-                <label>Username</label>
-                <input name="login" type="text" placeholder="Kate">
+
+                <input name="login" type="text" placeholder="Username">
               </div>
               <div class="input-row">
-                <label>Password</label>
-                <input name="pass" type="password" placeholder="">
+
+                <input name="pass" type="password" placeholder="Password">
               </div>
 
             </div>
-            <button type="submit" class="button-main button-block width100">Login</button>
+            <button type="submit" class="button-block width100">Login</button>
           </form>
+
+          <img src="assets/images/superdesk_logo.jpg" class="superdesk_logo" />
         </div>
       </div> <!-- /loginView-->
 
@@ -139,19 +144,38 @@
   <script type="text/template" id="blogItem_template">
 
     <a id="blog_<%= Id %>" data-target="<%= Id %>">
-      <%= Title %>
+      <h3><%= Title %></h3>
+      <p><%= Description %></p>
       <span class="chevron"></span>
     </a>
 
   </script>
 
 
-  <script type="text/template" id="entryItem_template">
+  <script type="text/template" id="item_normal_template">
+normal
 
-    <a id="entry_<%= Id %>" data-target="<%= Id %>">
       <%= Content %>
-      <span class="chevron"></span>
-    </a>
+
+
+
+  </script>
+
+  <script type="text/template" id="item_quotation_template">
+
+quotation
+      <%= Content %>
+
+
+
+  </script>
+
+  <script type="text/template" id="item_advertisement_template">
+
+ad
+      <%= Content %>
+
+
 
   </script>
 

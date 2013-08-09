@@ -100,20 +100,20 @@ html {
 /* Base styles
 -------------------------------------------------- */
 
+/* Universal link styling */
 body {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  font: 14px/1.25 "Helvetica Neue", sans-serif;
+  font: 14px/1.25 arial, "Helvetica Neue", sans-serif;
   color: #222;
-  background-color: #fff;
+  background-color: #eee;
 }
 
-/* Universal link styling */
 a {
-  color: #0882f0;
+  color: #000;
   text-decoration: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Removes the dark touch outlines on links */
 }
@@ -127,7 +127,7 @@ a {
   left: 0;
   overflow: auto;
 
-  background: #fff;
+  background: #eee;
 
 
   -webkit-transition-property: top, bottom;
@@ -204,28 +204,27 @@ a {
 -------------------------------------------------- */
 
 /* Bar docked to top of viewport for showing page title and actions */
+/* Centered text in the .bar-title */
 .bar-title {
   top: 0;
   display: -webkit-box;
   display: box;
-  background-color: #fff;
-
+  background-color: #098f64;
 
   -webkit-box-orient: horizontal;
           box-orient: horizontal;
 }
 
-/* Centered text in the .bar-title */
 .bar-title .title {
   position: absolute;
   top: 0;
   left: 0;
   display: block;
   width: 100%;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 1.3em;
+  font-weight: normal;
   line-height: 44px;
-  color: #333;
+  color: #fff;
   text-align: center;
 
   white-space: nowrap;
@@ -308,9 +307,9 @@ a {
   z-index: 10; /* Places buttons over full width title */
   font-size: 12px;
 
-  color: #333;
+  color: #fff;
 
-  background-color: #fff;
+  background-color: transparent;
   background-image: none;
   border: none;
   box-shadow: none;
@@ -503,13 +502,11 @@ a {
 .list li {
   position: relative;
   padding: 20px 60px 20px 10px; /* Given extra right padding to accomodate counts, chevrons or buttons */
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  background:#fff;
+  margin:5px;
 }
 
-/* Give top border to first list items */
-.list li:first-child {
-  border-top: 1px solid rgba(0, 0, 0, .1);
-}
+
 
 /* If a list of links, make sure the child <a> takes up full list item tap area (want to avoid selecting child buttons though) */
 .list li > a:not([class*="button"]) {
@@ -575,22 +572,21 @@ a {
 
 /* Right-aligned subcontent in lists (chevrons, buttons, counts and toggles)
 -------------------------------------------------- */
+/* Position chevrons/counts vertically centered on the right in list items */
+/* Push count over if there's a sibling chevron */
 .list .chevron,
 .list [class*="button"],
 .list [class*="count"],
 .list .toggle {
   position: absolute;
-  top: 50%;
-  right: 10px;
+  top: 15px;
+  right: 7px;
 }
 
- /* Position chevrons/counts vertically centered on the right in list items */
-.list .chevron,
-.list [class*="count"] {
-  margin-top: -10px; /* Half height of chevron */
+ .list .chevron,
+.list [class*="count"] { /* Half height of chevron */
 }
 
-/* Push count over if there's a sibling chevron */
 .list .chevron + [class*="count"] {
   right: 30px;
 }
@@ -638,9 +634,6 @@ input[type="color"],
   padding: 10px;
   margin-bottom: 10px;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 3px;
-  box-shadow: 0 1px 1px rgba(255, 255, 255, .2), inset 0 1px 1px rgba(0, 0, 0, .1);
   -webkit-appearance: none;
   box-sizing: border-box;
 }
@@ -681,9 +674,9 @@ select {
 /* Remove spacing, borders, shadows and rounding since it all belongs on the .input-group not the input */
 .input-group input {
   margin-bottom: 0;
-  background-color: transparent;
+  background-color: #eee;
   border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  margin-bottom:15px;
   border-radius: 0;
   box-shadow: none;
 }
@@ -699,7 +692,7 @@ select {
 /* To use labels with input groups, wrap a label and an input in an .input-row */
 .input-row {
   overflow: hidden;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+
 }
 
 /* Remove bottom border on last input-row to avoid double bottom border */
@@ -726,23 +719,22 @@ select {
 -------------------------------------------------- */
 
 [class*="button"] {
-  position: relative;
-  display: inline-block;
-  padding: 4px 12px;
-  margin: 0;
-  font-weight: bold;
-  line-height: 18px;
-  color: #333;
-  text-align: center;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  vertical-align: top;
-  cursor: pointer;
-  background-color: #f8f8f8;
-  background-image: -webkit-linear-gradient(top, #f8f8f8 0, #d4d4d4 100%);
-  background-image: linear-gradient(to bottom, #f8f8f8 0, #d4d4d4 100%);
-  border: 1px solid rgba(0, 0, 0, .3);
-  border-radius: 3px;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .4), 0 1px 2px rgba(0, 0, 0, .05);
+ position: relative;
+ display: inline-block;
+ padding: 4px 12px;
+ margin: 0;
+ line-height: 1em;
+ font-size: 1.5em;
+ color: #fff;
+ text-align: center;
+ vertical-align: top;
+ cursor: pointer;
+ background-color: #009360;
+ border: none;
+ text-transform: uppercase;
+ font-weight: normal;
+ font-family: arial, sans-serif;
+
 }
 
 /* Active */
@@ -851,19 +843,19 @@ select {
 }
 
 /* Base styles for both 1/2's of the chevron */
+/* Position and rotate respective 1/2's of the chevron */
 .chevron:before,
 .chevron:after {
   position: relative;
   display: block;
   width: 12px;
-  height: 4px;
-  background-color: #999;
+  height: 2px;
+  background-color: #098f64;
   content: '';
 }
 
-/* Position and rotate respective 1/2's of the chevron */
 .chevron:before {
-  top: 5px;
+  top: 1px;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
 }

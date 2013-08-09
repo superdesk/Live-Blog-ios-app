@@ -141,18 +141,26 @@ $(function() {
 	/* entries list View */
 
 	window.entriesListItemView = Backbone.View.extend({
-		template: $("#entryItem_template").html(),
-		model: BlogItemModel,
+
+
 		tagName: "li",
 
 		render: function () {
+			console.log(this.model.getClass());
+			try {
+				var tpl = _.template($('#item_' + this.model.getClass() + '_template').html());
+			} catch (err) {
 
-			this.JSONmodel = this.model.toJSON();
-			var tmpl = _.template(this.template);
+				console.log("No template for " + this.model.getClass() + " type.");
+				var tpl = _.template($('#item_normal_template').html());
+			}
+
+
+
 
 			console.log("entryItem render");
 
-			$(this.el).html(tmpl(this.JSONmodel));
+			$(this.el).html(tpl(this.model.toJSON()));
 			return this;
 		},
 
@@ -171,37 +179,38 @@ $(function() {
 			this.collection = new window.entriesCollection();
 
 
-		    var self = this;
-		    this.collection.fetch().complete(function(){
-		    	self.render();
-		    });
+			var self = this;
+			this.collection.fetch().complete(function(){
+				self.render();
+			});
 
 
 
 
-	    },
+		},
 
-	    render: function () {
-	    	console.log("entriesListView render");
-	    	var that = this;
-	    	this.$el.find('ul').empty();
-	    	_.each(this.collection.models, function (item) {
-	    		that.renderItem(item);
-	    	}, this);
-	    	$("#loading").css("display", "none");
-	    	$(".page").css("display", "none");
-	    	this.$el.css("display", "block");
-	    },
+		render: function () {
+			console.log("entriesListView render");
+			var that = this;
+			this.$el.find('ul').empty();
+			_.each(this.collection.models, function (item) {
+				that.renderItem(item);
+			}, this);
+			$("#loading").css("display", "none");
+			$(".page").css("display", "none");
+			this.$el.find("h1.title").html(app.session.get("blogTitle"));
+			this.$el.css("display", "block");
+		},
 
 
 
-	    renderItem: function (item) {
-	    	var itemView = new entriesListItemView({
-	    		model: item
-	    	});
+		renderItem: function (item) {
+			var itemView = new entriesListItemView({
+				model: item
+			});
 
-	    	this.$el.find("ul").append(itemView.render().el);
-	    }
+			this.$el.find("ul").append(itemView.render().el);
+		}
 	});
 
 
