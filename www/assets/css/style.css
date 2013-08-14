@@ -314,3 +314,110 @@ color:#fff;
     width:68px;
     height:25px;
 }
+
+li.quotation{
+
+    font-style: italic;
+
+}
+
+p.attributes{
+    font-style: normal;
+    color: #444;
+    font-size: 0.9em;
+}
+
+img.responsive{
+    max-width:100%;
+}
+
+#entriesListView .list li{
+    padding:10px;
+}
+
+#loading{
+    display:block;
+}
+
+
+#entriesListView .list li > a:not([class*="button"]) {
+
+  padding: 0;
+  margin: 0;
+
+
+}
+
+.service_content{
+    margin:5px;
+    background: #eee;
+    padding:15px;
+    display:block;
+}
+
+.small_caption{
+    display:block;
+    color:#444;
+    font-size:0.9em;
+}
+
+
+.source-icon{
+   display: inline-block;
+   height: 16px;
+   width: 16px;
+   margin-right: 4px;
+   vertical-align: middle;
+}
+.google .attributes .source-icon {
+background-image: url('../images/google-16px.png');
+}
+
+.twitter .attributes .source-icon {
+background-image: url('../images/twitter-16px.png');
+}
+
+.flickr .attributes .source-icon {
+background-image: url('../images/flickr-16px.png');
+}
+
+.instagram .attributes .source-icon {
+background-image: url('../images/instagram-16px.png');
+}
+
+.youtube .attributes .source-icon {
+background-image: url('../images/youtube-16px.png');
+}
+
+.soundcloud .attributes .source-icon {
+background-image: url('../images/soundcloud-16px.png');
+}
+
+.authorImage{
+    float:left;
+    margin-right:10px;
+}
+.authorImage img{
+    width:40px;
+}
+
+.result-content{
+    clear:both;
+}
+
+.profile.attributes{
+    color:#000;
+    font-size:1.1em;
+    margin-bottom:15px;
+}
+
+.profile.attributes time{
+    display:block;
+    font-size:0.75em;
+    color:#8c8c8c;
+    margin-top:2px;
+}
+
+.content li a{
+    color:#0088CC;
+}

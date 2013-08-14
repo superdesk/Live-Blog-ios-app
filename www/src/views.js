@@ -129,7 +129,7 @@ $(function() {
 				console.log("auth callback fired");
 
 				app.router.navigate("someDeadRoute");
-				app.router.navigate(route, {trigger: true})
+				app.router.navigate(route, {trigger: true});
 
 
 			});
@@ -145,73 +145,128 @@ $(function() {
 
 		tagName: "li",
 
+		initialize: function() {
+			this.model.bind('change', this.update, this);
+			this.model.bind('remove', this.remove, this);
+		},
+
+
 		render: function () {
-			console.log(this.model.getClass());
+
+
 			try {
-				var tpl = _.template($('#item_' + this.model.getClass() + '_template').html());
+				var tpl = _.template($('#item-' + this.model.getClass() + '-template').html());
 			} catch (err) {
 
 				console.log("No template for " + this.model.getClass() + " type.");
-				var tpl = _.template($('#item_normal_template').html());
+				var tpl = _.template($('#item-normal-template').html());
 			}
 
+			if (this.model.isService()) {
+				$(this.el).addClass(this.model.get('AuthorName')).removeClass('quote');
+
+				if (this.model.get('AuthorName') == 'flickr') {
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+					this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
+
+				} else if (this.model.get('AuthorName') == 'twitter') {
+					var p = $(this.el).find('p.result-text').first();
+			               //p.html(this.twitter.link.all(p.html()));
+			               //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			    } else if (this.model.get('AuthorName') == 'instagram') {
+			    	var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+			    	this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
+
+				} else if (this.model.get('AuthorName') == 'youtube') {
+	           	var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+	           	this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
+
+				} else if (this.model.get('AuthorName') == 'google') {
+	           		var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+		           	 if(meta.GsearchResultClass == 'GwebSearch'){
+	           			this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
+	           		 } else if(meta.GsearchResultClass == 'GnewsSearch'){
+	           			this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
+	           		 } else if(meta.GsearchResultClass == 'GimageSearch'){
+	           			this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
+	           		 }
+		   		} else if (this.model.get('AuthorName') == 'soundcloud') {
+	           	var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+	           	this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
+
+				}
 
 
 
-			console.log("entryItem render");
+		   }
 
-			$(this.el).html(tpl(this.model.toJSON()));
-			return this;
+
+
+		   console.log("entryItem render");
+
+		   $(this.el).html(tpl({item: this.model})).addClass(this.model.getClass());
+
+
+
+
+		   return this;
 		},
 
 
 
 	});
 
-	window.entriesListView = Backbone.View.extend({
-		el: $("#entriesListView"),
+window.entriesListView = Backbone.View.extend({
+	el: $("#entriesListView"),
 
-		initialize: function () {
+	initialize: function () {
 
-			console.log("entriesListView init");
-
-
-			this.collection = new window.entriesCollection();
+		console.log("entriesListView init");
 
 
-			var self = this;
-			this.collection.fetch().complete(function(){
-				self.render();
-			});
+		this.collection = new window.entriesCollection();
 
 
-
-
-		},
-
-		render: function () {
-			console.log("entriesListView render");
-			var that = this;
-			this.$el.find('ul').empty();
-			_.each(this.collection.models, function (item) {
-				that.renderItem(item);
-			}, this);
-			$("#loading").css("display", "none");
-			$(".page").css("display", "none");
-			this.$el.find("h1.title").html(app.session.get("blogTitle"));
-			this.$el.css("display", "block");
-		},
+		var self = this;
+		this.collection.fetch().complete(function(){
+			self.render();
+		});
 
 
 
-		renderItem: function (item) {
-			var itemView = new entriesListItemView({
-				model: item
-			});
 
-			this.$el.find("ul").append(itemView.render().el);
-		}
-	});
+	},
+
+	render: function () {
+		console.log("entriesListView render");
+		var that = this;
+		this.$el.find('ul').empty();
+		_.each(this.collection.models, function (item) {
+			that.renderItem(item);
+		}, this);
+		$("#loading").css("display", "none");
+		$(".page").css("display", "none");
+		this.$el.find("h1.title").html(app.session.get("blogTitle"));
+		this.$el.css("display", "block");
+
+	},
+
+
+
+	renderItem: function (item) {
+		var itemView = new entriesListItemView({
+			model: item
+		});
+
+		this.$el.find("ul").append(itemView.render().el);
+	}
+});
 
 
 });

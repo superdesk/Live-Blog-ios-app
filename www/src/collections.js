@@ -10,7 +10,7 @@ $(function() {
           },
           parse: function(response) {
                   console.log('parsing ...');
-                  console.log(JSON.stringify(response.BlogList));
+
                   return response.BlogList;
               }
     });
@@ -23,7 +23,7 @@ $(function() {
           },
           parse: function(response) {
                   console.log('parsing ...');
-                  console.log(JSON.stringify(response.PostList));
+
                   return response.PostList;
               }
     });

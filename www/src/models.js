@@ -14,7 +14,9 @@ $(function() {
             'google': true,
             'twitter': true,
             'facebook': true,
-            'youtube': true
+            'youtube': true,
+            'soundcloud':true,
+            'instagram': true
         },
 
         /**
@@ -51,7 +53,17 @@ $(function() {
        */
        isService: function() {
           return this.get('AuthorName') in this.services;
-      }
+      },
+      /**
+         * Get published time
+         *
+         * @return {string}
+         */
+        getPublished: function() {
+            var date = new Date(this.get('PublishedOn'));
+
+            return date.defaultView() + ', ' + date.toLocaleTimeString();
+        }
   });
 
 
