@@ -348,6 +348,8 @@ img.responsive{
 
 }
 
+
+
 .service_content{
     margin:5px;
     background: #eee;
@@ -393,6 +395,10 @@ background-image: url('../images/youtube-16px.png');
 background-image: url('../images/soundcloud-16px.png');
 }
 
+.advertisement{
+    border-left:3px solid #098f64;
+}
+
 .authorImage{
     float:left;
     margin-right:10px;
@@ -403,6 +409,7 @@ background-image: url('../images/soundcloud-16px.png');
 
 .result-content{
     clear:both;
+    display:block;
 }
 
 .profile.attributes{
@@ -420,4 +427,10 @@ background-image: url('../images/soundcloud-16px.png');
 
 .content li a{
     color:#0088CC;
+}
+
+.content{
+    overflow-y:scroll;
+
+
 }

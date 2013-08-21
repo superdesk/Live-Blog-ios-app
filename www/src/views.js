@@ -129,7 +129,7 @@ $(function() {
 				console.log("auth callback fired");
 
 				app.router.navigate("someDeadRoute");
-				app.router.navigate(route, {trigger: true});
+				app.router.navigate(auth.route, {trigger: true});
 
 
 			});
@@ -151,6 +151,8 @@ $(function() {
 		},
 
 
+
+
 		render: function () {
 
 
@@ -158,7 +160,7 @@ $(function() {
 				var tpl = _.template($('#item-' + this.model.getClass() + '-template').html());
 			} catch (err) {
 
-				console.log("No template for " + this.model.getClass() + " type.");
+
 				var tpl = _.template($('#item-normal-template').html());
 			}
 
@@ -171,101 +173,213 @@ $(function() {
 					this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
 
 				} else if (this.model.get('AuthorName') == 'twitter') {
-					var p = $(this.el).find('p.result-text').first();
-			               //p.html(this.twitter.link.all(p.html()));
-			               //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			    } else if (this.model.get('AuthorName') == 'instagram') {
-			    	var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-			    	this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
+				} else if (this.model.get('AuthorName') == 'instagram') {
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+					this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
 
 				} else if (this.model.get('AuthorName') == 'youtube') {
-	           	var meta = jQuery.parseJSON(this.model.get('Meta'));
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-	           	this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
+					this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
 
 				} else if (this.model.get('AuthorName') == 'google') {
-	           		var meta = jQuery.parseJSON(this.model.get('Meta'));
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-		           	 if(meta.GsearchResultClass == 'GwebSearch'){
-	           			this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
-	           		 } else if(meta.GsearchResultClass == 'GnewsSearch'){
-	           			this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
-	           		 } else if(meta.GsearchResultClass == 'GimageSearch'){
-	           			this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
-	           		 }
-		   		} else if (this.model.get('AuthorName') == 'soundcloud') {
-	           	var meta = jQuery.parseJSON(this.model.get('Meta'));
+					if(meta.GsearchResultClass == 'GwebSearch'){
+						this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
+					} else if(meta.GsearchResultClass == 'GnewsSearch'){
+						this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
+					} else if(meta.GsearchResultClass == 'GimageSearch'){
+						this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
+					}
 
-	           	this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
+				} else if (this.model.get('AuthorName') == 'soundcloud') {
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+					this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
 
 				}
 
 
 
-		   }
+			}
+
+
+			console.log(this.model.get('CId'));
+
+
+			$(this.el).html(tpl({item: this.model})).addClass(this.model.getClass());
 
 
 
-		   console.log("entryItem render");
 
-		   $(this.el).html(tpl({item: this.model})).addClass(this.model.getClass());
-
-
-
-
-		   return this;
+			return this;
 		},
+
+		// not supported yet
+		update: function() {
+			var view = this;
+			$(this.el).fadeTo(500, '0.1', function() {
+				$(view.render().el).fadeTo(500, '1');
+			});
+		}
 
 
 
 	});
 
 window.entriesListView = Backbone.View.extend({
-	el: $("#entriesListView"),
+	el: "#entriesListView",
+	isLoading: false,
+	wait: 10000, // ms
+
+
 
 	initialize: function () {
 
 		console.log("entriesListView init");
 
+		this.$el.find('ul').empty();
+		this.$el.find("h1.title").html(app.session.get("blogTitle"));
+
+		this.isLoading = false;
+
 
 		this.collection = new window.entriesCollection();
 
 
+
 		var self = this;
-		this.collection.fetch().complete(function(){
+
+		this.collection.fetch({reset: true}).complete(function(){
+			self.collection.updateCids();
+
 			self.render();
+
+
+			self.timer = _.delay(self.prependResults, self.wait, self);
 		});
 
 
 
-
+		_.bindAll(this, 'checkScroll');
+		$("#entriesListView .content").unbind("scroll").bind("scroll", this.checkScroll);
 	},
 
 	render: function () {
 		console.log("entriesListView render");
 		var that = this;
-		this.$el.find('ul').empty();
+
 		_.each(this.collection.models, function (item) {
-			that.renderItem(item);
+			that.renderItem(item,0);
 		}, this);
 		$("#loading").css("display", "none");
 		$(".page").css("display", "none");
-		this.$el.find("h1.title").html(app.session.get("blogTitle"));
+
 		this.$el.css("display", "block");
 
 	},
 
 
 
-	renderItem: function (item) {
+	renderItem: function (item, prependFlag) {
 		var itemView = new entriesListItemView({
 			model: item
 		});
 
-		this.$el.find("ul").append(itemView.render().el);
+		var rendered = itemView.render();
+
+
+
+		if(prependFlag){
+			$(rendered.el).prependTo(this.$el.find("ul")).hide().slideDown(1000);
+		//	this.$el.find("ul").prepend(itemView.render().el);
+	}else{
+		$(rendered.el).appendTo(this.$el.find("ul")).hide().fadeIn(1000);
+			//this.$el.find("ul").append(itemView.render().el);
+		}
+
+	},
+
+
+	prependResults: function (that) {
+
+		console.log("prependResults");
+
+		if(!this.isLoading){
+
+			that.isLoading = true;
+
+			that.collection.loadDirection="new";
+
+			that.collection.fetch({
+				reset: true,
+				complete: function (item) {
+
+					_.each(that.collection.models, function (item) {
+						that.renderItem(item, 1);
+					}, that);
+
+					that.collection.updateCids();
+					that.isLoading = false;
+					that.timer = _.delay(that.prependResults, that.wait, that);
+
+				}
+			});
+		}
+
+	},
+
+
+	appendResults: function () {
+
+		if( !this.collection.listEnd){
+			var that = this;
+
+			this.isLoading = true;
+
+			this.collection.loadDirection="more";
+
+			this.collection.fetch({
+				reset: true,
+				complete: function (item) {
+
+					_.each(that.collection.models, function (item) {
+						that.renderItem(item, 0);
+					}, that);
+
+					that.collection.updateCids();
+					that.isLoading = false;
+
+				}
+			});
+		}
+
+	},
+
+
+
+	checkScroll: function () {
+
+		var triggerPoint = 100;
+		var target = $("#entriesListView .content");
+		var scrollY = target.scrollTop() + target.height();
+		var docHeight = target.get(0).scrollHeight;
+
+
+		if( !this.isLoading && scrollY > docHeight - triggerPoint ) {
+
+			this.appendResults();
+
+		}
 	}
+
+
+
+
 });
 
 

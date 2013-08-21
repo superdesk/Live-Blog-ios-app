@@ -119,13 +119,15 @@ a {
 }
 
 /* Wrapper to be used around all content not in .bar-title and .bar-tab */
+/* Hack to force all relatively and absolutely positioned elements still render while scrolling
+   Note: This is a bug for "-webkit-overflow-scrolling: touch" */
+/* Utility wrapper to pad in components like forms, block buttons and segmented-controllers so they're not full-bleed */
 .content {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
 
   background: #eee;
 
@@ -137,16 +139,13 @@ a {
   -webkit-transition-timing-function: linear, linear;
           transition-timing-function: linear, linear;
   -webkit-overflow-scrolling: touch;
+  overflow: auto;
 }
 
-/* Hack to force all relatively and absolutely positioned elements still render while scrolling
-   Note: This is a bug for "-webkit-overflow-scrolling: touch" */
 .content > * {
-  -webkit-transform: translateZ(0px);
           transform: translateZ(0px);
 }
 
-/* Utility wrapper to pad in components like forms, block buttons and segmented-controllers so they're not full-bleed */
 .content-padded {
   padding: 10px;
 }
@@ -492,13 +491,13 @@ a {
 -------------------------------------------------- */
 
 /* Remove usual bullet styles from list */
+/* Pad each list item and add dividers */
 .list {
   margin-bottom: 10px;
   list-style: none;
   background: transparent ;
 }
 
-/* Pad each list item and add dividers */
 .list li {
   position: relative;
   padding: 20px 60px 20px 10px; /* Given extra right padding to accomodate counts, chevrons or buttons */
