@@ -132,16 +132,17 @@ $(function() {
       //route reset
       auth.route = "login";
 
+
       gap.getUser(function(user){
 
-
+        var globalCallback= callback;
 
         if(_.isEmpty(user)){
-
+         globalCallback();
          return false;
        }
 
-       var globalCallback= callback;
+
 
        var req = { userName: user.login  };
 
@@ -269,6 +270,7 @@ window.app = {
     new FastClick(document.body);
 
 
+
     snapper = new Snap({
       element: document.getElementById('content'),
       disable: 'right'
@@ -280,6 +282,7 @@ window.app = {
     });
 
     gap.initialize(function() {
+
       auth.login(function(){
         console.log("auth callback fired");
         console.log("auth.route: "+auth.route);
@@ -302,4 +305,5 @@ window.app = {
 app.init();
 
 
+//document.addEventListener("deviceready", app.init, false);
 });
