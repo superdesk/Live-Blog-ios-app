@@ -208,7 +208,7 @@ $(function() {
 			}
 
 
-			console.log(this.model.get('CId'));
+
 
 
 			$(this.el).html(tpl({item: this.model})).addClass(this.model.getClass());
@@ -234,7 +234,8 @@ $(function() {
 window.entriesListView = Backbone.View.extend({
 	el: "#entriesListView",
 	isLoading: false,
-	wait: 10000, // ms
+	wait: 15000, // ms
+	scrollPosition: 0, // 0 - top
 
 
 
@@ -255,18 +256,20 @@ window.entriesListView = Backbone.View.extend({
 		var self = this;
 
 		this.collection.fetch({reset: true}).complete(function(){
-			self.collection.updateCids();
 
 			self.render();
-
-
+			self.collection.updateCids();
 			self.timer = _.delay(self.prependResults, self.wait, self);
 		});
 
 
-
 		_.bindAll(this, 'checkScroll');
 		$("#entriesListView .content").unbind("scroll").bind("scroll", this.checkScroll);
+
+		_.bindAll(this, 'newButtonClickHandler');
+		$("#entriesListView #loadNewPosts").unbind("click").bind("click", this.newButtonClickHandler);
+
+
 	},
 
 	render: function () {
@@ -309,7 +312,7 @@ window.entriesListView = Backbone.View.extend({
 
 		console.log("prependResults");
 
-		if(!this.isLoading){
+		if(!that.isLoading){
 
 			that.isLoading = true;
 
@@ -318,12 +321,14 @@ window.entriesListView = Backbone.View.extend({
 			that.collection.fetch({
 				reset: true,
 				complete: function (item) {
-
-					_.each(that.collection.models, function (item) {
-						that.renderItem(item, 1);
-					}, that);
-
-					that.collection.updateCids();
+					if(that.collection.length){
+						// check if scroll is on top
+						if(that.scrollPosition - 10 < 0){
+							that.prependResultsRender();
+						} else {
+							that.showNewButton();
+						}
+					}
 					that.isLoading = false;
 					that.timer = _.delay(that.prependResults, that.wait, that);
 
@@ -331,6 +336,14 @@ window.entriesListView = Backbone.View.extend({
 			});
 		}
 
+	},
+
+	prependResultsRender : function () {
+		_.each(this.collection.models, function (item) {
+			this.renderItem(item, 1);
+		}, this);
+		this.collection.updateCids();
+		return true;
 	},
 
 
@@ -360,7 +373,21 @@ window.entriesListView = Backbone.View.extend({
 
 	},
 
+	showNewButton : function () {
 
+		var button = $(this.el).find("#loadNewPosts");
+		button.find(".postsnumber").html(this.collection.length);
+		button.slideDown();
+
+	},
+
+	newButtonClickHandler: function () {
+		$(this.el).find("#loadNewPosts").slideUp();
+		$("#entriesListView .content").animate({ scrollTop: 0 }, "slow");
+		this.prependResultsRender();
+
+
+	},
 
 	checkScroll: function () {
 
@@ -368,6 +395,10 @@ window.entriesListView = Backbone.View.extend({
 		var target = $("#entriesListView .content");
 		var scrollY = target.scrollTop() + target.height();
 		var docHeight = target.get(0).scrollHeight;
+
+
+		this.scrollPosition = target.scrollTop();
+
 
 
 		if( !this.isLoading && scrollY > docHeight - triggerPoint ) {
