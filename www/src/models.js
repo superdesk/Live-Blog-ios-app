@@ -25,7 +25,8 @@ $(function() {
         * @return {string}
         */
         getClass: function() {
-         switch (this.get('Type').Key) {
+
+          switch (this.get('Type').Key) {
              case 'wrapup':
              return 'wrapup';
              break;

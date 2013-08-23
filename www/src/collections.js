@@ -8,6 +8,7 @@ $(function() {
 
       return 'http://'+app.session.get("host")+'/resources/HR/User/'+app.session.get("userId")+'/Blog/Live.json?X-Filter=Id,Title, Description';
     },
+
     parse: function(response) {
 
       return response.BlogList;
@@ -25,12 +26,12 @@ $(function() {
 
 
     url: function() {
-      if (this.loadDirection=="new"){
+      if (this.loadDirection == "new"){
 
         console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?cId.since='+this.maxCid+'&asc=order&x-filter=*');
         return 'http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?cId.since='+this.maxCid+'&asc=order&x-filter=*';
 
-      } else if (this.loadDirection=="more"){
+      } else if (this.loadDirection == "more"){
 
         console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&cId.until='+this.minCid+'&x-filter=*');
         return 'http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&cId.until='+this.minCid+'&x-filter=*';
@@ -44,10 +45,20 @@ $(function() {
 
       }
     },
+
     parse: function(response) {
       console.log('parsing entriesList ...');
 
-      return response.PostList;
+      var newList = _.filter(response.PostList,
+        function(obj){
+
+          if(!obj.DeletedOn) return obj;
+
+        });
+
+
+
+      return newList;
 
 
     },
@@ -63,19 +74,22 @@ $(function() {
         pluckedCids = _.map(pluckedCids, function(num){ return parseInt(num); });
 
         var max =  parseInt(_.max(pluckedCids));
+        var min =  parseInt(_.min(pluckedCids));
+
+
         if (max > this.maxCid) this.maxCid = max;
 
         if (!this.minCid){
-          this.minCid = parseInt(_.min(pluckedCids));
-        } else{
-          var min =  parseInt(_.min(pluckedCids));
+          this.minCid = min;
+        } else {
 
           if ( min < this.minCid ) this.minCid = min;
           if( isNaN(min) ) this.listEnd = true;
 
         }
+        console.log('cids updated. min:'+this.minCid+', max:'+this.maxCid);
 
-        console.log(this.minCid+"  "+this.maxCid);
+
       }
 
     });
