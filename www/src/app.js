@@ -270,7 +270,6 @@ window.app = {
     new FastClick(document.body);
 
 
-
     snapper = new Snap({
       element: document.getElementById('content'),
       disable: 'right'

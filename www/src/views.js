@@ -399,7 +399,7 @@ window.entriesListView = Backbone.View.extend({
 
 		this.scrollPosition = target.scrollTop();
 
-
+		console.log(this.scrollPosition);
 
 		if( !this.isLoading && scrollY > docHeight - triggerPoint ) {
 
