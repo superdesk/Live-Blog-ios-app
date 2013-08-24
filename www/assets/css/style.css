@@ -409,6 +409,7 @@ img.responsive{
   z-index: 10;
 }
 
+
 .chevronup:before,
 .chevronup:after {
   position: relative;
@@ -431,6 +432,39 @@ img.responsive{
           transform: rotate(45deg);
 }
 
+
+.chevrondown {
+  display: block;
+  height: 20px;
+  position: absolute;
+  right:20px;
+
+  top:20px;
+  z-index: 10;
+}
+
+.chevrondown:before,
+.chevrondown:after {
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 2px;
+  background-color: #fff;
+  content: '';
+}
+
+.chevrondown:before {
+  top: 3px;
+  left:0;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.chevrondown:after {
+  top: 1px;
+  -webkit-transform: rotate(45deg);
+   transform: rotate(45deg);
+   left: -10px;
+}
 
 .service_content{
     margin:5px;
@@ -546,28 +580,7 @@ img.responsive{
     position: relative;
 }
 
-.pull-to-refresh >.message >i.arrow,
-.pull-to-refresh >.message >i.spinner {
-    -webkit-background-size: 100% 100%;
-    -moz-background-size: 100% 100%;
-    background-size: 100% 100%;
-    display: inline-block;
-    margin-left: 10px;
-    background-position: center center;
 
-}
-
-.pull-to-refresh >.message >i.arrow {
-    width: 20px;
-    height: 40px;
-    background-image: url('img/arrow.png');
-}
-
-.pull-to-refresh >.message >i.spinner {
-    width: 16px;
-    height: 16px;
-    background-image: url('img/spinner.gif');
-}
 
 .pull-to-refresh >.message >span.pull,
 .pull-to-refresh >.message >span.release,
@@ -581,4 +594,84 @@ img.responsive{
     position: absolute;
     top: 0;
     left: 0;
+}
+
+
+.pull-to-refresh .chevronup, .pull-to-refresh .chevrondown {
+
+  right:50%;
+  margin-right:-15px;
+  top:20px;
+
+}
+
+.pull-to-refresh .chevronup:before,
+.pull-to-refresh .chevronup:after,
+.pull-to-refresh .chevrondown:before,
+.pull-to-refresh .chevrondown:after {
+
+  background-color: #098f64;
+
+}
+
+
+
+.loaderElement {
+    background-color: #098f64;
+    width: 8px;
+    height: 8px;
+    float: left;
+    margin-left: 5px;
+
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+
+
+    -moz-animation: blink 1s infinite linear;
+    -webkit-animation: blink 1s infinite linear;
+}
+
+#loader_1 {
+    -moz-animation-delay: .1s;
+    -webkit-animation-delay: .1s;
+}
+
+#loader_2 {
+    -moz-animation-delay: .3s;
+    -webkit-animation-delay: .3s;
+}
+
+#loader_3 {
+    -moz-animation-delay: .5s;
+    -webkit-animation-delay: .5s;
+}
+
+@-moz-keyframes blink {
+    0% {
+        background-color: #fff;
+    }
+
+    100% {
+        background-color: #098f64;
+    };
+}
+
+@-webkit-keyframes blink {
+    0% {
+        background-color: #fff;
+    }
+
+    100% {
+        background-color: #098f64;
+    };
+}
+
+@keyframes blink {
+    0% {
+        background-color: #fff;
+    }
+
+    100% {
+        background-color: #098f64;
+    };
 }
