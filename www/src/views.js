@@ -243,7 +243,41 @@ window.entriesListView = Backbone.View.extend({
 
 		console.log("entriesListView init");
 
-		this.$el.find('ul').empty();
+		// destroy scrollable element
+		$('.scrollable').remove();
+
+		// create and add new scrollable element to DOM
+		var scrollable=document.createElement("DIV");
+		scrollable.className="scrollable";
+		var wrap = document.createElement("DIV");
+		wrap.className="wrap";
+		var list = document.createElement("UL");
+		list.className="list";
+
+		wrap.appendChild(list);
+		scrollable.appendChild(wrap);
+
+		$(this.el).find(".content").append(scrollable);
+
+		// now we can init pull to refresh
+		$(this.el).find('.scrollable').pullToRefresh({
+		    callback: function() {
+		    	var deff = $.Deferred();
+
+		        self.prependResults(self, deff, function (deff) {
+		        	deff.resolve();
+
+		        });
+
+
+		        return $.when(deff).done(function () { deff.promise(); });
+
+		    }
+		});
+
+
+
+
 		this.$el.find("h1.title").html(app.session.get("blogTitle"));
 
 		this.isLoading = false;
@@ -264,10 +298,13 @@ window.entriesListView = Backbone.View.extend({
 
 
 		_.bindAll(this, 'checkScroll');
-		$("#entriesListView .content").unbind("scroll").bind("scroll", this.checkScroll);
+		$("#entriesListView .scrollable").unbind("scroll").bind("scroll", this.checkScroll);
 
 		_.bindAll(this, 'newButtonClickHandler');
 		$("#entriesListView #loadNewPosts").unbind("click").bind("click", this.newButtonClickHandler);
+
+
+
 
 
 	},
@@ -299,16 +336,16 @@ window.entriesListView = Backbone.View.extend({
 
 		if(prependFlag){
 			$(rendered.el).prependTo(this.$el.find("ul")).hide().slideDown(1000);
-		//	this.$el.find("ul").prepend(itemView.render().el);
-	}else{
-		$(rendered.el).appendTo(this.$el.find("ul")).hide().fadeIn(1000);
+			//	this.$el.find("ul").prepend(itemView.render().el);
+		}else{
+			$(rendered.el).appendTo(this.$el.find("ul")).hide().fadeIn(1000);
 			//this.$el.find("ul").append(itemView.render().el);
 		}
 
 	},
 
 
-	prependResults: function (that) {
+	prependResults: function (that, deff, callback) {
 
 		console.log("prependResults");
 
@@ -323,14 +360,18 @@ window.entriesListView = Backbone.View.extend({
 				complete: function (item) {
 					if(that.collection.length){
 						// check if scroll is on top
+						console.log("scrollposition: "+that.scrollPosition);
 						if(that.scrollPosition - 10 < 0){
 							that.prependResultsRender();
 						} else {
 							that.showNewButton();
 						}
 					}
+
+					if(_.isFunction(callback)) callback(deff);
 					that.isLoading = false;
 					that.timer = _.delay(that.prependResults, that.wait, that);
+
 
 				}
 			});
@@ -338,7 +379,7 @@ window.entriesListView = Backbone.View.extend({
 
 	},
 
-	prependResultsRender : function () {
+	prependResultsRender : function (callback) {
 		_.each(this.collection.models, function (item) {
 			this.renderItem(item, 1);
 		}, this);
@@ -383,7 +424,7 @@ window.entriesListView = Backbone.View.extend({
 
 	newButtonClickHandler: function () {
 		$(this.el).find("#loadNewPosts").slideUp();
-		$("#entriesListView .content").animate({ scrollTop: 0 }, "slow");
+		$("#entriesListView .scrollable").animate({ scrollTop: 0 }, "slow");
 		this.prependResultsRender();
 
 
@@ -392,14 +433,14 @@ window.entriesListView = Backbone.View.extend({
 	checkScroll: function () {
 
 		var triggerPoint = 100;
-		var target = $("#entriesListView .content");
+		var target = $("#entriesListView .scrollable");
 		var scrollY = target.scrollTop() + target.height();
 		var docHeight = target.get(0).scrollHeight;
 
 
 		this.scrollPosition = target.scrollTop();
 
-
+		console.log(this.scrollPosition);
 
 		if( !this.isLoading && scrollY > docHeight - triggerPoint ) {
 
