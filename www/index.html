@@ -7,6 +7,7 @@
 
     <link href="assets/css/ratchet.css" rel="stylesheet" type="text/css">
     <link href="assets/css/snap.css" rel="stylesheet" type="text/css">
+
     <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 
 
@@ -103,9 +104,10 @@
         <h2 class="title">new posts</h2>
         <span class="chevronup"></span>
       </div>
+
+
       <div class="content">
-        <ul class="list">
-        </ul>
+
       </div>
       <!-- new post -->
       <div id="newPost" class="modal">
@@ -169,9 +171,9 @@
 
 <script type="text/template" id="item-service-template">
 <div class="result-content">
-    <div class="result-text"><%= item.get('Content')  %></div>
-    <p class="attributes"><i class="source-icon"></i><%= item.get('AuthorName') %> - <time><%= item.getPublished() %></time>
-    </p>
+<div class="result-text"><%= item.get('Content')  %></div>
+<p class="attributes"><i class="source-icon"></i><%= item.get('AuthorName') %> - <time><%= item.getPublished() %></time>
+</p>
 </div>
 </script>
 
@@ -212,6 +214,9 @@
 <script src="assets/js/fastclick.js"></script>
 <script src="assets/js/ratchet.js" ></script>
 <script src="assets/js/helpers.js" ></script>
+<script src="assets/js/jquery.pulltorefresh.js" ></script>
+
+
 
 <!-- Application: -->
 <script src="src/models.js"></script>
