@@ -50,15 +50,7 @@ a, input, textarea, select, button{
     clear:both;
 }
 
-.snap-drawer .list li {
-    border-bottom: 1px solid #777676;
-    color:#777676;
-}
 
-.snap-drawer .list li .active {
-
-    color:#fff;
-}
 
 .page{
     display:none;
@@ -688,4 +680,37 @@ img.responsive{
     100% {
         background-color: #098f64;
     };
+}
+
+.menu li{
+    background-color:transparent;
+    border-bottom:none;
+    border-top:1px solid #7b7b7b;
+    color:#fff;
+    margin:0;
+    font-family:arial;
+}
+
+.menu li strong{
+
+}
+.menu li ul{
+    margin:10px -60px 0 -10px;
+    border-bottom: 1px solid #424242;
+}
+.menu li ul li{
+    border-top: 1px solid #424242;
+    font-size:0.9em;
+
+}
+
+.menu li.menu_top_container{
+    border:none;
+
+}
+
+#logout_button{
+    background:#525252;
+    padding:5px 10px;
+    cursor:pointer;
 }

@@ -11,7 +11,8 @@ $(function() {
 		},
 		entriesList: function() {
 			console.log("entriesList router");
-			app.entriesListView = new window.entriesListView;
+			if (app.entriesListView != undefined) app.entriesListView.unbind();
+			app.entriesListView = new window.entriesListView();
 			app.entriesListView.render();
 		},
 
@@ -23,8 +24,13 @@ $(function() {
 
 		blogsList: function(){
 			console.log("blogsList router");
+			if (app.menuBlogsListView == undefined) app.menuBlogsListView = new window.menuBlogsListView;
+
 			if (app.blogsListView == undefined) app.blogsListView = new window.blogsListView;
 			app.blogsListView.render();
+
+
+
 		}
 
 	});

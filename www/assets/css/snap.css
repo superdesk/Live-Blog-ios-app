@@ -36,14 +36,14 @@ html, body {
 }
 
 .snap-drawer {
-  background:#222;
+  background:#333;
 
   position: absolute;
   top: 0;
   right: auto;
   bottom: 0;
   left: auto;
-  width: 265px;
+  width: 266px;
   height: auto;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
