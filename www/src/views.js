@@ -257,7 +257,7 @@ window.entriesListView = Backbone.View.extend({
 		wrap.appendChild(list);
 		scrollable.appendChild(wrap);
 
-		$(this.el).find(".content").append(scrollable);
+		$(this.el).find(".content").prepend(scrollable);
 
 		// now we can init pull to refresh
 		$(this.el).find('.scrollable').pullToRefresh({
@@ -373,6 +373,11 @@ window.entriesListView = Backbone.View.extend({
 					that.timer = _.delay(that.prependResults, that.wait, that);
 
 
+				},
+				error : function () {
+					if(_.isFunction(callback)) callback(deff);
+					that.isLoading = false;
+					that.timer = _.delay(that.prependResults, that.wait, that);
 				}
 			});
 		}else{
@@ -398,7 +403,7 @@ window.entriesListView = Backbone.View.extend({
 			var that = this;
 
 			this.isLoading = true;
-
+			this.showLoadingIndicator();
 			this.collection.loadDirection="more";
 
 			this.collection.fetch({
@@ -410,6 +415,12 @@ window.entriesListView = Backbone.View.extend({
 					}, that);
 
 					that.collection.updateCids();
+					that.hideLoadingIndicator();
+					that.isLoading = false;
+
+				},
+				error : function () {
+					that.hideLoadingIndicator();
 					that.isLoading = false;
 
 				}
@@ -417,6 +428,16 @@ window.entriesListView = Backbone.View.extend({
 		}
 
 	},
+
+	// shows loading indicator on appendResults
+	showLoadingIndicator : function (){
+		$(this.el).find("#appendLoadingIndicator").slideDown();
+	},
+
+	hideLoadingIndicator : function () {
+		$(this.el).find("#appendLoadingIndicator").slideUp();
+	},
+
 
 	showNewButton : function () {
 

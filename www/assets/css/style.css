@@ -615,6 +615,12 @@ img.responsive{
 }
 
 
+#appendLoadingIndicator{
+    display:none;
+    position: relative;
+    height:40px;
+
+}
 .loaderCenter{
     width:45px;
 
