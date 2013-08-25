@@ -244,7 +244,10 @@ authorize: function(user, callback){
 
 logout : function(){
   gap.deleteUser(function(){
-    session.clear();
+    app.session.clear();
+    app.snapper.close();
+    app.router.navigate("someDeadRoute");
+    app.router.navigate("login", {trigger: true});
   });
 }
 
@@ -255,9 +258,9 @@ window.app = {
 
   router : new window.Router,
   session : new window.SessionModel,
-
+  blogsCollection : new window.blogsCollection,
   loginView : new window.LoginView,
-  listView : new window.ListView,
+
 
 
 
@@ -271,15 +274,18 @@ window.app = {
     new FastClick(document.body);
 
 
-    snapper = new Snap({
+
+    this.snapper = new Snap({
       element: document.getElementById('content'),
       disable: 'right'
     });
 
 
     $(".toggle-left").bind('click', function(){
-      snapper.state().state=="left" ? snapper.close() : snapper.open('left');
+      app.snapper.state().state=="left" ? app.snapper.close() : app.snapper.open('left');
     });
+
+    $("#logout_button").bind("click", auth.logout);
 
     gap.initialize(function() {
 

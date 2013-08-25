@@ -1,27 +1,80 @@
 $(function() {
 
+	// left menu
 
-	window.ListView = Backbone.View.extend({
-		el: $("#search_form"),
-		search_twitter: function(e) {
-			e.preventDefault();
-			var self = this;
-			$.getJSON("http://search.twitter.com/search.json?callback=?",{
-				q: $("#q").val()
-			}, function(data) {
-				$("#tweets li").fadeOut();
-				for(var i in data.results) {
-					var tweet = new Tweet(data.results[i]);
-					console.log(data.results[i]);
-					var tweetView = new TweetView({model: TweetModel});
-					tweetView.render();
-				}
-			});
+	window.menuBlogsListItemView = Backbone.View.extend({
+		template: $("#menuBlogItem_template").html(),
+		model: BlogItemModel,
+		tagName: "li",
+
+		render: function () {
+
+			this.JSONmodel = this.model.toJSON();
+			var tmpl = _.template(this.template);
+
+
+
+			$(this.el).html(tmpl(this.JSONmodel));
+			return this;
 		},
 		events: {
-			"submit": "search_twitter"
-		}
+			"click a":    "blogItemClick"
+		},
+
+		blogItemClick: function(){
+
+
+
+			app.session.set("blog", this.JSONmodel.Id);
+			app.session.set("blogTitle", this.JSONmodel.Title);
+
+			app.router.navigate("someDeadRoute");
+			app.router.navigate("entriesList", {trigger: true});
+			app.snapper.close();
+		},
+
+
 	});
+
+	window.menuBlogsListView = Backbone.View.extend({
+		el: $("#menuBlogsListView"),
+
+		initialize: function () {
+
+			console.log("blogListView init");
+
+
+			this.collection = app.blogsCollection;
+		    this.listenTo(this.collection, 'add', this.renderMenu);
+
+		    var self = this;
+
+
+	    },
+
+	    renderMenu: function () {
+	    	console.log("menublogsListView render");
+	    	var that = this;
+	    	this.$el.empty();
+	    	_.each(this.collection.models, function (item) {
+	    		that.renderBlogItem(item);
+	    	}, this);
+
+	    },
+
+
+
+	    renderBlogItem: function (item) {
+	    	var menuBlogItemView = new menuBlogsListItemView({
+	    		model: item
+	    	});
+
+	    	this.$el.append(menuBlogItemView.render().el);
+	    }
+	});
+
+	///////////////////
+
 
 	window.blogsListItemView = Backbone.View.extend({
 		template: $("#blogItem_template").html(),
@@ -46,7 +99,7 @@ $(function() {
 
 			app.session.set("blog", this.JSONmodel.Id);
 			app.session.set("blogTitle", this.JSONmodel.Title);
-			console.log(app.session.get("blog"));
+
 			app.router.navigate("entriesList", {trigger: true});
 		},
 
@@ -61,7 +114,7 @@ $(function() {
 			console.log("blogListView init");
 
 
-			this.collection = new window.blogsCollection();
+			this.collection = app.blogsCollection;
 		    //	this.listenTo(this.collection, 'reset', this.render);
 
 		    var self = this;
@@ -233,7 +286,7 @@ $(function() {
 
 window.entriesListView = Backbone.View.extend({
 	el: "#entriesListView",
-	isLoading: false,
+	isLoading: true,
 	wait: 15000, // ms
 	scrollPosition: 0, // 0 - top
 
@@ -241,7 +294,7 @@ window.entriesListView = Backbone.View.extend({
 
 	initialize: function () {
 
-		console.log("entriesListView init");
+		console.log("##### entriesListView init");
 
 		// destroy scrollable element
 		$('.scrollable').remove();
@@ -280,7 +333,7 @@ window.entriesListView = Backbone.View.extend({
 
 		this.$el.find("h1.title").html(app.session.get("blogTitle"));
 
-		this.isLoading = false;
+
 
 
 		this.collection = new window.entriesCollection();
@@ -290,9 +343,11 @@ window.entriesListView = Backbone.View.extend({
 		var self = this;
 
 		this.collection.fetch({reset: true}).complete(function(){
-
-			self.render();
 			self.collection.updateCids();
+
+			self.renderView();
+
+			self.isLoading = false;
 			self.timer = _.delay(self.prependResults, self.wait, self);
 		});
 
@@ -309,7 +364,7 @@ window.entriesListView = Backbone.View.extend({
 
 	},
 
-	render: function () {
+	renderView: function () {
 		console.log("entriesListView render");
 		var that = this;
 

@@ -21,15 +21,18 @@
 
     <div class="snap-drawers">
       <div class="snap-drawer snap-drawer-left" id="left-drawer">
-        <ul class="list">
+        <ul class="list menu">
 
 
 
-          <li><a href="#" data-ignore="push"><img src="assets/images/logout.png" alt="logout"  class="b_image" /> Logout</a></li>
-          <li><a href="#" data-ignore="push" class="active">Active Link</a></li>
-          <li><a href="#login" data-ignore="push">Login View</a></li>
-          <li><a href="#blogsList" data-ignore="push">Blogs List View</a></li>
-          <li><a href="#entriesList" data-ignore="push">Entries List View</a></li>
+          <li class="menu_top_container"><span id="logout_button">Logout</span></li>
+
+          <li>
+            <strong>Active Blogs</strong>
+            <ul id="menuBlogsListView">
+            </ul>
+          </li>
+
         </ul>
       </div>
 
@@ -162,6 +165,14 @@
 <h3><%= Title %></h3>
 <p><%= Description %></p>
 <span class="chevron"></span>
+</a>
+
+</script>
+
+<script type="text/template" id="menuBlogItem_template">
+
+<a id="blog_<%= Id %>" data-target="<%= Id %>">
+<%= Title %>
 </a>
 
 </script>
