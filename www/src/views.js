@@ -261,18 +261,18 @@ window.entriesListView = Backbone.View.extend({
 
 		// now we can init pull to refresh
 		$(this.el).find('.scrollable').pullToRefresh({
-		    callback: function() {
-		    	var deff = $.Deferred();
+			callback: function() {
+				var deff = $.Deferred();
 
-		        self.prependResults(self, deff, function (deff) {
-		        	deff.resolve();
+				self.prependResults(self, deff, function (deff) {
+					deff.resolve();
 
-		        });
+				});
 
 
-		        return $.when(deff).done(function () { deff.promise(); });
+				return $.when(deff).done(function () { deff.promise(); });
 
-		    }
+			}
 		});
 
 
@@ -360,7 +360,7 @@ window.entriesListView = Backbone.View.extend({
 				complete: function (item) {
 					if(that.collection.length){
 						// check if scroll is on top
-						console.log("scrollposition: "+that.scrollPosition);
+
 						if(that.scrollPosition - 10 < 0){
 							that.prependResultsRender();
 						} else {
@@ -375,7 +375,11 @@ window.entriesListView = Backbone.View.extend({
 
 				}
 			});
+		}else{
+			if(_.isFunction(callback)) callback(deff);
 		}
+
+		return true;
 
 	},
 

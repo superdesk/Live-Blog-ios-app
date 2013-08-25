@@ -21,9 +21,9 @@
                         '<span class="pull"><span class="chevrondown"></span></span>' +
                         '<span class="release"><span class="chevronup"></span></span>' +
                         '<span class="loading">'+
-                            '<div id="loader_1" class="loaderElement"></div>'+
+                            '<div class="loaderCenter"><div id="loader_1" class="loaderElement"></div>'+
                             '<div id="loader_2" class="loaderElement"></div>'+
-                            '<div id="loader_3" class="loaderElement"></div>'+
+                            '<div id="loader_3" class="loaderElement"></div></div>'+
                         '</span>' +
                       '</div>' +
                     '</div>';

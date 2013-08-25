@@ -615,6 +615,14 @@ img.responsive{
 }
 
 
+.loaderCenter{
+    width:45px;
+
+    position:absolute;
+    top:20px;
+    left:50%;
+    margin-left:-25px;
+}
 
 .loaderElement {
     background-color: #098f64;
