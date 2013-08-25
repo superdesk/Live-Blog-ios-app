@@ -17,15 +17,16 @@
                 }
             }, options),
             html = '<div class="pull-to-refresh">' +
-                '<div class="icon"></div>' +
-                '<div class="message">' +
-                    '<i class="arrow"></i>' +
-                    '<i class="spinner large"></i>' +
-                    '<span class="pull">' + cfg.message.pull + '</span>' +
-                    '<span class="release">' + cfg.message.release + '</span>' +
-                    '<span class="loading">' + cfg.message.loading + '</span>' +
-                  '</div>' +
-                '</div>';
+                    '<div class="message">' +
+                        '<span class="pull"><span class="chevrondown"></span></span>' +
+                        '<span class="release"><span class="chevronup"></span></span>' +
+                        '<span class="loading">'+
+                            '<div class="loaderCenter"><div id="loader_1" class="loaderElement"></div>'+
+                            '<div id="loader_2" class="loaderElement"></div>'+
+                            '<div id="loader_3" class="loaderElement"></div></div>'+
+                        '</span>' +
+                      '</div>' +
+                    '</div>';
 
 
 

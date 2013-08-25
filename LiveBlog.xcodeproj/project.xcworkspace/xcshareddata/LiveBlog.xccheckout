@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9A7BC33A-F89B-4062-AAAE-170BD92D510D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LiveBlog</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9FEA79F6-0A00-4321-8038-1579DF371337</key>
+		<string>https://github.com/tomaszrondio/Live-Blog-ios-app.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LiveBlog.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9FEA79F6-0A00-4321-8038-1579DF371337</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/tomaszrondio/Live-Blog-ios-app.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9FEA79F6-0A00-4321-8038-1579DF371337</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9FEA79F6-0A00-4321-8038-1579DF371337</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LiveBlog</string>
+		</dict>
+	</array>
+</dict>
+</plist>
