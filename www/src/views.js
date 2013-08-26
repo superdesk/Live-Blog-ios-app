@@ -45,32 +45,32 @@ $(function() {
 
 
 			this.collection = app.blogsCollection;
-		    this.listenTo(this.collection, 'add', this.renderMenu);
+			this.listenTo(this.collection, 'add', this.renderMenu);
 
-		    var self = this;
-
-
-	    },
-
-	    renderMenu: function () {
-	    	console.log("menublogsListView render");
-	    	var that = this;
-	    	this.$el.empty();
-	    	_.each(this.collection.models, function (item) {
-	    		that.renderBlogItem(item);
-	    	}, this);
-
-	    },
+			var self = this;
 
 
+		},
 
-	    renderBlogItem: function (item) {
-	    	var menuBlogItemView = new menuBlogsListItemView({
-	    		model: item
-	    	});
+		renderMenu: function () {
+			console.log("menublogsListView render");
+			var that = this;
+			this.$el.empty();
+			_.each(this.collection.models, function (item) {
+				that.renderBlogItem(item);
+			}, this);
 
-	    	this.$el.append(menuBlogItemView.render().el);
-	    }
+		},
+
+
+
+		renderBlogItem: function (item) {
+			var menuBlogItemView = new menuBlogsListItemView({
+				model: item
+			});
+
+			this.$el.append(menuBlogItemView.render().el);
+		}
 	});
 
 	///////////////////
@@ -203,7 +203,47 @@ $(function() {
 			this.model.bind('remove', this.remove, this);
 		},
 
+		twitter: {
+			link: {
+				anchor: function(str)
+				{
+					return str.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g, function(m)
+					{
+						m = m.link(m);
+						m = m.replace('href="','target="_blank" href="');
+						return m;
+					});
+				},
+				user: function(str)
+				{
+					return str.replace(/[@]+[A-Za-z0-9-_]+/g, function(us)
+					{
+						var username = us.replace("@","");
 
+						us = us.link("http://twitter.com/"+username);
+						us = us.replace('href="','target="_blank" onclick="loadProfile(\''+username+'\');return(false);"  href="');
+						return us;
+					});
+				},
+				tag: function(str)
+				{
+					return str.replace(/[#]+[A-Za-z0-9-_]+/g, function(t)
+					{
+						var tag = t.replace(" #"," %23");
+						t = t.link("http://summize.com/search?q="+tag);
+						t = t.replace('href="','target="_blank" href="');
+						return t;
+					});
+				},
+				all: function(str)
+				{
+					str = this.anchor(str);
+					str = this.user(str);
+					str = this.tag(str);
+					return str;
+				}
+			}
+		},
 
 
 		render: function () {
@@ -226,6 +266,29 @@ $(function() {
 					this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
 
 				} else if (this.model.get('AuthorName') == 'twitter') {
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+					var user = '<figure class="authorImage"><img src="'+meta.user.profile_image_url+'" alt="Gravatar" /></figure>'+
+					'<p class="attributes profile">'+meta.user.name+' ('+meta.user.screen_name+')'+
+					'   <time>'+meta.created_at+'</time></p>';
+
+					var text = '<p>'+this.twitter.link.all(this.model.get('Content'))+'</p>';
+
+					var content = '<div class="service_content ">'+user+text+'</div>';
+					this.model.set('Content', content);
+
+
+				} else if (this.model.get('AuthorName') == 'facebook') {
+					var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+					var user = '<figure class="authorImage"><img src="http://graph.facebook.com/'+meta.from.id+'/picture" alt="Gravatar" /></figure>'+
+					'<p class="attributes profile">'+meta.from.name+
+					'   <time>'+meta.formated_time+'</time></p>';
+
+					var text = '<p>'+this.model.get('Content')+'</p>';
+
+					var content = '<div class="service_content ">'+user+text+'</div>';
+					this.model.set('Content', content);
 
 
 				} else if (this.model.get('AuthorName') == 'instagram') {
@@ -270,16 +333,7 @@ $(function() {
 
 
 			return this;
-		},
-
-		// not supported yet
-		update: function() {
-			var view = this;
-			$(this.el).fadeTo(500, '0.1', function() {
-				$(view.render().el).fadeTo(500, '1');
-			});
 		}
-
 
 
 	});
