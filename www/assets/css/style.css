@@ -503,6 +503,10 @@ img.responsive{
     background-image: url('../images/soundcloud-16px.png');
 }
 
+.facebook .attributes .source-icon {
+    background-image: url('../images/facebook-16px.png');
+}
+
 .advertisement{
     border-left:3px solid #098f64;
 }
