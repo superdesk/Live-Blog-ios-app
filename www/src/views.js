@@ -393,7 +393,6 @@ window.entriesListView = Backbone.View.extend({
 		this.collection = new window.entriesCollection();
 
 
-
 		var self = this;
 
 		this.collection.fetch({reset: true}).complete(function(){
@@ -407,7 +406,9 @@ window.entriesListView = Backbone.View.extend({
 
 
 		_.bindAll(this, 'checkScroll');
-		$("#entriesListView .scrollable").unbind("scroll").bind("scroll", this.checkScroll);
+		// allow checkScroll function to be fired not often than every 150ms
+		var throttledCheckScroll = _.throttle(this.checkScroll, 150);
+		$("#entriesListView .scrollable").unbind("scroll").bind("scroll", throttledCheckScroll);
 
 		_.bindAll(this, 'newButtonClickHandler');
 		$("#entriesListView #loadNewPosts").unbind("click").bind("click", this.newButtonClickHandler);
@@ -540,11 +541,11 @@ window.entriesListView = Backbone.View.extend({
 
 	// shows loading indicator on appendResults
 	showLoadingIndicator : function (){
-		$(this.el).find("#appendLoadingIndicator").slideDown();
+		$(this.el).find("#appendLoadingIndicator").fadeIn();
 	},
 
 	hideLoadingIndicator : function () {
-		$(this.el).find("#appendLoadingIndicator").slideUp();
+		$(this.el).find("#appendLoadingIndicator").fadeOut();
 	},
 
 
@@ -574,7 +575,7 @@ window.entriesListView = Backbone.View.extend({
 
 		this.scrollPosition = target.scrollTop();
 
-		console.log(this.scrollPosition);
+
 
 		if( !this.isLoading && scrollY > docHeight - triggerPoint ) {
 

@@ -11,7 +11,12 @@ $(function() {
 		},
 		entriesList: function() {
 			console.log("entriesList router");
-			if (app.entriesListView != undefined) app.entriesListView.unbind();
+			if (typeof app.entriesListView === 'object'){
+				clearTimeout(app.entriesListView.timer);
+				app.entriesListView.unbind();
+				delete app.entriesListView;
+				console.log("delete poszło");
+			}
 			app.entriesListView = new window.entriesListView();
 			app.entriesListView.render();
 		},
