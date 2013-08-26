@@ -275,13 +275,14 @@ window.app = {
 
 
 
-    this.snapper = new Snap({
+    app.snapper = new Snap({
       element: document.getElementById('content'),
       disable: 'right'
     });
 
 
     $(".toggle-left").bind('click', function(){
+
       app.snapper.state().state=="left" ? app.snapper.close() : app.snapper.open('left');
     });
 
