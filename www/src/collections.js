@@ -19,7 +19,7 @@ $(function() {
   window.entriesCollection = Backbone.Collection.extend({
     model: EntryItemModel,
     limit: 10,
-    maxCid:0,
+    maxCid: false,
     minCid: false,
     loadDirection: "init",
     listEnd:false,
@@ -77,7 +77,15 @@ $(function() {
         var min =  parseInt(_.min(pluckedCids));
 
 
-        if (max > this.maxCid) this.maxCid = max;
+        if (!this.maxCid){
+          this.maxCid = max;
+        } else if (max > this.maxCid) {
+
+           this.maxCid = max;
+
+        }
+
+
 
         if (!this.minCid){
           this.minCid = min;
