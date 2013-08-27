@@ -364,7 +364,7 @@ window.entriesListView = Backbone.View.extend({
 		wrap.appendChild(list);
 		scrollable.appendChild(wrap);
 
-		$(this.el).find(".content").prepend(scrollable);
+		$(this.el).find("#entriesListContent").prepend(scrollable);
 
 		// now we can init pull to refresh
 		$(this.el).find('.scrollable').pullToRefresh({
@@ -590,4 +590,17 @@ window.entriesListView = Backbone.View.extend({
 });
 
 
+window.newPostView = Backbone.View.extend({
+
+
+	render: function () {
+
+		return this;
+	}
+
 });
+
+
+});
+
+

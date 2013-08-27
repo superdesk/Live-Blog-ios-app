@@ -33,6 +33,7 @@
             </ul>
           </li>
 
+
         </ul>
       </div>
 
@@ -110,7 +111,7 @@
       </div>
 
 
-      <div class="content">
+      <div class="content" id="entriesListContent">
 
         <div id="appendLoadingIndicator">
           <div class="loaderCenter">
@@ -133,12 +134,20 @@
 
          <form>
 
+          <select name="postType">
+            <option value="default">default option</option>
+            <option>other option</option>
+            <option>nice option</option>
+            <option>ugly option</option>
+
+          </select>
+
           <textarea rows="5"></textarea>
           <a id="addPhoto" class="rightandmarginbottom10">
             <img src="assets/images/camera.png" alt="add image"  class="icon_image" />
           </a>
           <span class="clear"></span>
-          <a class="button-main button-block">Add Post</a>
+          <a class="button-block width100">Create Post</a>
         </form>
 
       </div>

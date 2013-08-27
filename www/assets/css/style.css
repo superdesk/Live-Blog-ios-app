@@ -720,3 +720,10 @@ img.responsive{
     padding:5px 10px;
     cursor:pointer;
 }
+
+
+textarea{
+    border:none;
+    border-radius: 2px;
+    font-family: arial, sans-serif;
+}
