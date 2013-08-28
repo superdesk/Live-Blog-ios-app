@@ -33,6 +33,7 @@
             </ul>
           </li>
 
+
         </ul>
       </div>
 
@@ -110,7 +111,7 @@
       </div>
 
 
-      <div class="content">
+      <div class="content" id="entriesListContent">
 
         <div id="appendLoadingIndicator">
           <div class="loaderCenter">
@@ -121,7 +122,7 @@
         </div>
       </div>
       <!-- new post -->
-      <div id="newPost" class="modal">
+      <div id="newPost" class="modal" data-snap-ignore="true">
         <header class="bar-title">
           <h1 class="title">New Post</h1>
           <a class="button" href="#newPost">
@@ -131,14 +132,23 @@
 
         <div class="content content-padded">
 
-         <form>
+         <form id="newPostForm">
 
-          <textarea rows="5"></textarea>
+          <select name="type" id="postTypeSelect">
+            <option value="normal" selected="selected">normal</option>
+            <option value="image">image</option>
+            <option value="link">link</option>
+            <option value="quote">quote</option>
+            <option value="wrapup">wrapup</option>
+
+          </select>
+
+          <textarea rows="5" id="postMessage"></textarea>
           <a id="addPhoto" class="rightandmarginbottom10">
             <img src="assets/images/camera.png" alt="add image"  class="icon_image" />
           </a>
           <span class="clear"></span>
-          <a class="button-main button-block">Add Post</a>
+          <button type="submit" class="button-block width100">Create Post</button>
         </form>
 
       </div>

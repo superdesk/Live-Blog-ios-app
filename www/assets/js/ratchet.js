@@ -26,7 +26,7 @@
     if (modalToggle && modalToggle.hash) return document.querySelector(modalToggle.hash);
   };
 
-  window.addEventListener('touchend', function (event) {
+  window.addEventListener('click', function (event) {
     var modal = getModal(event);
     if (modal) modal.classList.toggle('active');
   });
