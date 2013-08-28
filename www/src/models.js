@@ -7,6 +7,9 @@ $(function() {
     window.BlogItemModel = Backbone.Model.extend({
     });
 
+    window.PostTypeModel = Backbone.Model.extend({
+    });
+
     window.EntryItemModel = Backbone.Model.extend({
         idAttribute: 'Id',
         services: {

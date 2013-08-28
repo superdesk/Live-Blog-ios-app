@@ -7,7 +7,8 @@ $(function() {
 		    "": "login",
 		    "blogsList": "blogsList",
 		    "login":"login",
-		    "entriesList": "entriesList"
+		    "entriesList": "entriesList",
+		    "newPost" : "newPost"
 		},
 		entriesList: function() {
 			console.log("entriesList router");
@@ -15,7 +16,6 @@ $(function() {
 				clearTimeout(app.entriesListView.timer);
 				app.entriesListView.unbind();
 				delete app.entriesListView;
-				console.log("delete poszło");
 			}
 			app.entriesListView = new window.entriesListView();
 			app.entriesListView.render();
@@ -34,6 +34,19 @@ $(function() {
 			if (app.blogsListView == undefined) app.blogsListView = new window.blogsListView;
 			app.blogsListView.render();
 
+
+
+		},
+
+		newPost: function () {
+			console.log("#############################newPost router");
+
+			if (typeof app.newPostView === 'object'){
+				app.newPostView.unbind();
+				delete app.newPostView;
+			}
+			app.newPostView = new window.newPostView();
+			app.newPostView.render();
 
 
 		}
