@@ -39,7 +39,7 @@ $(function() {
 		},
 
 		newPost: function () {
-			console.log("newPost router");
+			console.log("#############################newPost router");
 
 			if (typeof app.newPostView === 'object'){
 				app.newPostView.unbind();

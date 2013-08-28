@@ -591,12 +591,102 @@ window.entriesListView = Backbone.View.extend({
 
 
 window.newPostView = Backbone.View.extend({
+	el: "#newPost",
 
+
+	initialize : function () {
+
+		this.collection = new window.postTypesCollection();
+
+
+		var that = this;
+
+		this.collection.fetch({reset: true}).complete(function(){
+
+
+			_.each(that.collection.models, function (item) {
+				that.renderType(item);
+			}, that);
+
+
+
+		});
+
+		_.bindAll(this, 'selectHandler');
+		this.$el.find("#postTypeSelect").unbind("change").bind("change", this.selectHandler);
+
+		_.bindAll(this, 'submitHandler');
+		this.$el.find("#newPostForm").unbind("submit").bind("submit", this.submitHandler);
+
+		_.bindAll(this, 'submitForm');
+
+
+	},
+
+	renderType : function (item) {
+		var typeOption = '<option value="'+item.get('Type').Key+'" data-content="'+escape(item.get('Content'))+'">'+item.get('Name')+'</option>';
+		this.$el.find("#postTypeSelect").append(typeOption);
+
+	},
 
 	render: function () {
 
 		return this;
+	},
+
+	selectHandler : function (e) {
+		var content = unescape($(e.target).find('option:selected').data('content'));
+		console.log(content);
+		if( content != 'undefined'){
+			this.$el.find("#postMessage").val(content);
+		}
+
+	},
+
+	submitHandler : function (e) {
+		e.preventDefault();
+		this.submitForm();
+
+	},
+
+	submitForm : function () {
+		var type = this.$el.find("#postTypeSelect").val();
+		var message = this.$el.find("#postMessage").val();
+
+		var req = { Meta : { }, Content: message, Type: type, Creator: app.session.get("userId") };
+
+		try{
+			$.ajax({
+				url: 'http://'+app.session.get("host")+'/resources/my/LiveDesk/Blog/'+app.session.get("blog")+'/Post.json',
+				type: 'POST',
+				data: req,
+				dataType: "json",
+				beforeSend : function(xhr) {
+
+				     // set header
+				     xhr.setRequestHeader("Authorization", app.session.get("session"));
+				 },
+
+				 success: function(data) {
+
+				 	console.log("submit success");
+
+				 },
+				 error: function(jqXHR, textStatus, errorThrown, callback) {
+
+				 	console.log("submit fail");
+
+
+				 }
+				});
+		}
+		catch(err){
+			console.log(err);
+
+		}
+
 	}
+
 
 });
 

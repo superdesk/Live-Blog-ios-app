@@ -52,7 +52,8 @@ $(function() {
       var newList = _.filter(response.PostList,
         function(obj){
 
-          if(!obj.DeletedOn) return obj;
+          console.log();
+          if(!obj.DeletedOn && obj.IsPublished == 'True') return obj;
 
         });
 
@@ -81,26 +82,40 @@ $(function() {
           this.maxCid = max;
         } else if (max > this.maxCid) {
 
-           this.maxCid = max;
+         this.maxCid = max;
 
-        }
+       }
 
 
 
-        if (!this.minCid){
-          this.minCid = min;
-        } else {
+       if (!this.minCid){
+        this.minCid = min;
+      } else {
 
-          if ( min < this.minCid ) this.minCid = min;
-          if( isNaN(min) ) this.listEnd = true;
-
-        }
-        console.log('cids updated. min:'+this.minCid+', max:'+this.maxCid);
-
+        if ( min < this.minCid ) this.minCid = min;
+        if( isNaN(min) ) this.listEnd = true;
 
       }
+      console.log('cids updated. min:'+this.minCid+', max:'+this.maxCid);
 
-    });
+
+    }
+
+  });
+
+
+window.postTypesCollection = Backbone.Collection.extend({
+  model: PostTypeModel,
+  url: function() {
+    return 'http://'+app.session.get("host")+'/resources/my/LiveDesk/BlogType/'+app.session.get("blog")+'/Post.json?Authorization='+app.session.get("session")+'&X-Filter=*';
+  },
+
+  parse: function(response) {
+    return response.PostList;
+  }
 
 });
+
+});
+
 
