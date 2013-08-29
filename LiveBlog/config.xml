@@ -36,6 +36,11 @@
     <content src="index.html" />
 
     <!-- Preferences for iOS -->
+    <preference name="webviewbounce" value="false" />
+     <preference name="uiwebviewbounce" value="false" />
+      <preference name="stay-in-webview" value="false" />
+      
+    
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="AutoHideSplashScreen" value="true" />
     <preference name="BackupWebStorage" value="cloud" />

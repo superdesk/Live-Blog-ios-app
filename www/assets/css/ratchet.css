@@ -658,8 +658,8 @@ select {
   height: auto;
   font-size: 14px;
   background: #999 url('../images/chevrondown.png') no-repeat;
-  background-position: right 14px center;
-  background-size: 20px 9px;
+  background-position: right center;
+  background-size: 35px 9px;
   color:#fff;
   border:none;
   border-radius:2px;

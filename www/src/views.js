@@ -349,6 +349,7 @@ window.entriesListView = Backbone.View.extend({
 	initialize: function () {
 
 		console.log("##### entriesListView init");
+		this.showLoadingIndicator();
 
 		// destroy scrollable element
 		$('.scrollable').remove();
@@ -402,7 +403,10 @@ window.entriesListView = Backbone.View.extend({
 
 			self.isLoading = false;
 			self.timer = _.delay(self.prependResults, self.wait, self);
+			self.hideLoadingIndicator();
 		});
+
+
 
 
 		_.bindAll(this, 'checkScroll');
@@ -419,6 +423,21 @@ window.entriesListView = Backbone.View.extend({
 
 	},
 
+	updateAnchorClickEvent : function () {
+		console.log("update +++++++");
+		$("#entriesListView .list a").unbind("click").bind("click", function(e){
+
+		             e.preventDefault();
+		             var url = $(e.target).attr('href');
+
+		             window.open(url, '_system');
+
+
+
+
+		});
+	},
+
 	renderView: function () {
 		console.log("entriesListView render");
 		var that = this;
@@ -426,6 +445,7 @@ window.entriesListView = Backbone.View.extend({
 		_.each(this.collection.models, function (item) {
 			that.renderItem(item,0);
 		}, this);
+		this.updateAnchorClickEvent();
 		$("#loading").css("display", "none");
 		$(".page").css("display", "none");
 
@@ -502,6 +522,8 @@ window.entriesListView = Backbone.View.extend({
 		_.each(this.collection.models, function (item) {
 			this.renderItem(item, 1);
 		}, this);
+
+		this.updateAnchorClickEvent();
 		this.collection.updateCids();
 		return true;
 	},
@@ -524,6 +546,7 @@ window.entriesListView = Backbone.View.extend({
 						that.renderItem(item, 0);
 					}, that);
 
+					that.updateAnchorClickEvent();
 					that.collection.updateCids();
 					that.hideLoadingIndicator();
 					that.isLoading = false;

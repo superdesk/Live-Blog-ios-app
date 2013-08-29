@@ -481,8 +481,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tomasz Rondio (6Y8X225D6V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tomasz Rondio (6Y8X225D6V)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -494,6 +496,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = LiveBlog;
+				PROVISIONING_PROFILE = "93ED05B0-3EEE-4EBF-9B4B-32D0D4F8E1FD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "93ED05B0-3EEE-4EBF-9B4B-32D0D4F8E1FD";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -502,8 +506,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tomasz Rondio (6Y8X225D6V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tomasz Rondio (6Y8X225D6V)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveBlog/LiveBlog-Prefix.pch";
@@ -513,6 +519,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = LiveBlog;
+				PROVISIONING_PROFILE = "93ED05B0-3EEE-4EBF-9B4B-32D0D4F8E1FD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "93ED05B0-3EEE-4EBF-9B4B-32D0D4F8E1FD";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -520,7 +528,7 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -550,7 +558,7 @@
 					CoreMedia,
 					"-weak-lSystem",
 					"-force_load",
-					"${TARGET_BUILD_DIR}/libCordova.a",
+					"${BUILT_PRODUCTS_DIR}/libCordova.a",
 					"-ObjC",
 				);
 				SDKROOT = iphoneos;
@@ -562,7 +570,7 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -592,7 +600,7 @@
 					CoreMedia,
 					"-weak-lSystem",
 					"-force_load",
-					"${TARGET_BUILD_DIR}/libCordova.a",
+					"${BUILT_PRODUCTS_DIR}/libCordova.a",
 					"-ObjC",
 				);
 				SDKROOT = iphoneos;
