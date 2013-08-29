@@ -271,6 +271,7 @@ window.app = {
 
 
 
+
     new FastClick(document.body);
 
 
@@ -309,8 +310,8 @@ window.app = {
 
 
 
-app.init();
+//app.init();
 
 
-//document.addEventListener("deviceready", app.init, false);
+document.addEventListener("deviceready", app.init, false);
 });
