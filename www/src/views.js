@@ -424,13 +424,13 @@ window.entriesListView = Backbone.View.extend({
 	},
 
 	updateAnchorClickEvent : function () {
-		console.log("update +++++++");
+
 		$("#entriesListView .list a").unbind("click").bind("click", function(e){
 
-		             e.preventDefault();
-		             var url = $(e.target).attr('href');
+			e.preventDefault();
+			var url = $(e.target).attr('href');
 
-		             window.open(url, '_system');
+			window.open(url, '_system');
 
 
 
@@ -624,16 +624,7 @@ window.newPostView = Backbone.View.extend({
 
 		var that = this;
 
-		this.collection.fetch({reset: true}).complete(function(){
 
-
-			_.each(that.collection.models, function (item) {
-				that.renderType(item);
-			}, that);
-
-
-
-		});
 
 		_.bindAll(this, 'selectHandler');
 		this.$el.find("#postTypeSelect").unbind("change").bind("change", this.selectHandler);
@@ -647,12 +638,27 @@ window.newPostView = Backbone.View.extend({
 	},
 
 	renderType : function (item) {
-		var typeOption = '<option value="'+item.get('Type').Key+'" data-content="'+escape(item.get('Content'))+'">'+item.get('Name')+'</option>';
+		var typeOption = '<option class="rendered" value="'+item.get('Type').Key+'" data-content="'+escape(item.get('Content'))+'">'+item.get('Name')+'</option>';
 		this.$el.find("#postTypeSelect").append(typeOption);
 
 	},
 
 	render: function () {
+		console.log("postTypeRender");
+		//clear list of post types
+		$(this.el).find("#postTypeSelect .rendered").remove();
+
+		var that = this;
+		this.collection.fetch({reset: true}).complete(function(){
+
+
+			_.each(that.collection.models, function (item) {
+				that.renderType(item);
+			}, that);
+
+
+
+		});
 
 		return this;
 	},
@@ -672,12 +678,38 @@ window.newPostView = Backbone.View.extend({
 
 	},
 
+	showLoading : function () {
+		var button = $(this.el).find("#newPostForm button");
+		button.html("");
+		button.addClass("loading");
+
+	},
+
+	hideLoading : function () {
+
+		var button = $(this.el).find("#newPostForm button");
+		button.html("Create Post");
+		button.removeClass("loading");
+
+	},
+
+	clearForm : function () {
+		this.$el.find("#postMessage").val("");
+		return true;
+	},
+
 	submitForm : function () {
 		var type = this.$el.find("#postTypeSelect").val();
 		var message = this.$el.find("#postMessage").val();
 
-		var req = { Meta : { }, Content: message, Type: type, Creator: app.session.get("userId") };
+		if(message.length < 3){
+			app.alert("Please write a message");
+			return false;
+		}
 
+		var req = { Meta : { }, Content: message, Type: type, Creator: app.session.get("userId") };
+		this.showLoading();
+		var that = this;
 		try{
 			$.ajax({
 				url: 'http://'+app.session.get("host")+'/resources/my/LiveDesk/Blog/'+app.session.get("blog")+'/Post.json',
@@ -691,21 +723,24 @@ window.newPostView = Backbone.View.extend({
 				 },
 
 				 success: function(data) {
+				 	that.hideLoading();
+				 	that.clearForm();
+
 
 				 	console.log("submit success");
 
 				 },
 				 error: function(jqXHR, textStatus, errorThrown, callback) {
-
+				 	that.hideLoading();
+				 	app.alert("Something went wrong. Try again");
 				 	console.log("submit fail");
-
-
 				 }
 				});
 		}
 		catch(err){
 			console.log(err);
-
+			app.alert("Something went wrong. Try again");
+			this.hideLoading();
 		}
 
 	}
