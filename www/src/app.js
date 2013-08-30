@@ -263,14 +263,18 @@ window.app = {
 
 
 
+  alert : function (text) {
+    $("#alert p").html(text);
+    $("#alert").css("display", "table");
 
+    setTimeout(function(){
+      $("#alert").fadeOut();
+    },2000);
+
+  },
 
 
   init : function(){
-
-
-
-
 
     new FastClick(document.body);
 
@@ -310,8 +314,8 @@ window.app = {
 
 
 
-//app.init();
+app.init();
 
 
-document.addEventListener("deviceready", app.init, false);
+//document.addEventListener("deviceready", app.init, false);
 });
