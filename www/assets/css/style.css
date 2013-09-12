@@ -391,6 +391,10 @@ img.responsive{
     padding:2px 6px;
 }
 
+#entriesListView iframe{
+    max-width:100% !important;
+}
+
 .chevronup {
   display: block;
   height: 20px;
