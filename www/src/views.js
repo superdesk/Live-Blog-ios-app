@@ -21,7 +21,7 @@ $(function() {
 			"click a":    "blogItemClick"
 		},
 
-		blogItemClick: function(){
+		blogItemClick: function(e){
 
 
 
@@ -41,7 +41,7 @@ $(function() {
 
 		initialize: function () {
 
-			console.log("blogListView init");
+			console.log("menublogListView init");
 
 
 			this.collection = app.blogsCollection;
@@ -96,6 +96,7 @@ $(function() {
 		},
 
 		blogItemClick: function(){
+
 
 			app.session.set("blog", this.JSONmodel.Id);
 			app.session.set("blogTitle", this.JSONmodel.Title);
@@ -177,12 +178,31 @@ $(function() {
 			var parsedHost = formData.host.replace("http://","");
 			if (parsedHost.slice(-1)=="/") parsedHost = parsedHost.slice(0,parsedHost.length - 1);
 
+			//form validation
+			if(!parsedHost || !formData.login || !formData.pass){
+
+				app.errorAlert("Please fill all fields");
+
+				$(".page").css("display", "none");
+				this.$el.css("display", "block");
+
+				return;
+
+			}
+			var that = this;
 			gap.addUser(formData.login, formData.pass, parsedHost);
 			auth.login(function(){
 				console.log("auth callback fired");
 
-				app.router.navigate("someDeadRoute");
-				app.router.navigate(auth.route, {trigger: true});
+				if(auth.route!="login"){
+					app.router.navigate("someDeadRoute");
+					app.router.navigate(auth.route, {trigger: true});
+				}else{
+					app.errorAlert("Login failed");
+					$(".page").css("display", "none");
+					that.$el.css("display", "block");
+				}
+
 
 
 			});
@@ -191,152 +211,152 @@ $(function() {
 
 
 
-	/* entries list View */
+/* entries list View */
 
-	window.entriesListItemView = Backbone.View.extend({
+window.entriesListItemView = Backbone.View.extend({
 
 
-		tagName: "li",
+	tagName: "li",
 
-		initialize: function() {
-			this.model.bind('change', this.update, this);
-			this.model.bind('remove', this.remove, this);
-		},
+	initialize: function() {
+		this.model.bind('change', this.update, this);
+		this.model.bind('remove', this.remove, this);
+	},
 
-		twitter: {
-			link: {
-				anchor: function(str)
+	twitter: {
+		link: {
+			anchor: function(str)
+			{
+				return str.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g, function(m)
 				{
-					return str.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g, function(m)
-					{
-						m = m.link(m);
-						m = m.replace('href="','target="_blank" href="');
-						return m;
-					});
-				},
-				user: function(str)
+					m = m.link(m);
+					m = m.replace('href="','target="_blank" href="');
+					return m;
+				});
+			},
+			user: function(str)
+			{
+				return str.replace(/[@]+[A-Za-z0-9-_]+/g, function(us)
 				{
-					return str.replace(/[@]+[A-Za-z0-9-_]+/g, function(us)
-					{
-						var username = us.replace("@","");
+					var username = us.replace("@","");
 
-						us = us.link("http://twitter.com/"+username);
-						us = us.replace('href="','target="_blank" onclick="loadProfile(\''+username+'\');return(false);"  href="');
-						return us;
-					});
-				},
-				tag: function(str)
+					us = us.link("http://twitter.com/"+username);
+					us = us.replace('href="','target="_blank" onclick="loadProfile(\''+username+'\');return(false);"  href="');
+					return us;
+				});
+			},
+			tag: function(str)
+			{
+				return str.replace(/[#]+[A-Za-z0-9-_]+/g, function(t)
 				{
-					return str.replace(/[#]+[A-Za-z0-9-_]+/g, function(t)
-					{
-						var tag = t.replace(" #"," %23");
-						t = t.link("http://summize.com/search?q="+tag);
-						t = t.replace('href="','target="_blank" href="');
-						return t;
-					});
-				},
-				all: function(str)
-				{
-					str = this.anchor(str);
-					str = this.user(str);
-					str = this.tag(str);
-					return str;
-				}
+					var tag = t.replace(" #"," %23");
+					t = t.link("http://summize.com/search?q="+tag);
+					t = t.replace('href="','target="_blank" href="');
+					return t;
+				});
+			},
+			all: function(str)
+			{
+				str = this.anchor(str);
+				str = this.user(str);
+				str = this.tag(str);
+				return str;
 			}
-		},
+		}
+	},
 
 
-		render: function () {
+	render: function () {
 
 
-			try {
-				var tpl = _.template($('#item-' + this.model.getClass() + '-template').html());
-			} catch (err) {
+		try {
+			var tpl = _.template($('#item-' + this.model.getClass() + '-template').html());
+		} catch (err) {
 
 
-				var tpl = _.template($('#item-normal-template').html());
-			}
+			var tpl = _.template($('#item-normal-template').html());
+		}
 
-			if (this.model.isService()) {
-				$(this.el).addClass(this.model.get('AuthorName')).removeClass('quote');
+		if (this.model.isService()) {
+			$(this.el).addClass(this.model.get('AuthorName')).removeClass('quote');
 
-				if (this.model.get('AuthorName') == 'flickr') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
+			if (this.model.get('AuthorName') == 'flickr') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-					this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
+				this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
 
-				} else if (this.model.get('AuthorName') == 'twitter') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
+			} else if (this.model.get('AuthorName') == 'twitter') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-					var user = '<figure class="authorImage"><img src="'+meta.user.profile_image_url+'" alt="Gravatar" /></figure>'+
-					'<p class="attributes profile">'+meta.user.name+' ('+meta.user.screen_name+')'+
-					'   <time>'+meta.created_at+'</time></p>';
+				var user = '<figure class="authorImage"><img src="'+meta.user.profile_image_url+'" alt="Gravatar" /></figure>'+
+				'<p class="attributes profile">'+meta.user.name+' ('+meta.user.screen_name+')'+
+				'   <time>'+meta.created_at+'</time></p>';
 
-					var text = '<p>'+this.twitter.link.all(this.model.get('Content'))+'</p>';
+				var text = '<p>'+this.twitter.link.all(this.model.get('Content'))+'</p>';
 
-					var content = '<div class="service_content ">'+user+text+'</div>';
-					this.model.set('Content', content);
-
-
-				} else if (this.model.get('AuthorName') == 'facebook') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
-
-					var user = '<figure class="authorImage"><img src="http://graph.facebook.com/'+meta.from.id+'/picture" alt="Gravatar" /></figure>'+
-					'<p class="attributes profile">'+meta.from.name+
-					'   <time>'+meta.formated_time+'</time></p>';
-
-					var text = '<p>'+this.model.get('Content')+'</p>';
-
-					var content = '<div class="service_content ">'+user+text+'</div>';
-					this.model.set('Content', content);
+				var content = '<div class="service_content ">'+user+text+'</div>';
+				this.model.set('Content', content);
 
 
-				} else if (this.model.get('AuthorName') == 'instagram') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
+			} else if (this.model.get('AuthorName') == 'facebook') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-					this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
+				var user = '<figure class="authorImage"><img src="http://graph.facebook.com/'+meta.from.id+'/picture" alt="Gravatar" /></figure>'+
+				'<p class="attributes profile">'+meta.from.name+
+				'   <time>'+meta.formated_time+'</time></p>';
 
-				} else if (this.model.get('AuthorName') == 'youtube') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
+				var text = '<p>'+this.model.get('Content')+'</p>';
 
-					this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
+				var content = '<div class="service_content ">'+user+text+'</div>';
+				this.model.set('Content', content);
 
-				} else if (this.model.get('AuthorName') == 'google') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-					if(meta.GsearchResultClass == 'GwebSearch'){
-						this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
-					} else if(meta.GsearchResultClass == 'GnewsSearch'){
-						this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
-					} else if(meta.GsearchResultClass == 'GimageSearch'){
-						this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
-					}
+			} else if (this.model.get('AuthorName') == 'instagram') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-				} else if (this.model.get('AuthorName') == 'soundcloud') {
-					var meta = jQuery.parseJSON(this.model.get('Meta'));
+				this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
 
-					this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
+			} else if (this.model.get('AuthorName') == 'youtube') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
+				this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
+
+			} else if (this.model.get('AuthorName') == 'google') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+				if(meta.GsearchResultClass == 'GwebSearch'){
+					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
+				} else if(meta.GsearchResultClass == 'GnewsSearch'){
+					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
+				} else if(meta.GsearchResultClass == 'GimageSearch'){
+					this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
 				}
 
+			} else if (this.model.get('AuthorName') == 'soundcloud') {
+				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
+				this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
 
 			}
 
 
 
-
-
-			$(this.el).html(tpl({item: this.model})).addClass(this.model.getClass());
-
-
-
-
-			return this;
 		}
 
 
-	});
+
+
+
+		$(this.el).html(tpl({item: this.model})).addClass(this.model.getClass());
+
+
+
+
+		return this;
+	}
+
+
+});
 
 window.entriesListView = Backbone.View.extend({
 	el: "#entriesListView",
@@ -383,10 +403,17 @@ window.entriesListView = Backbone.View.extend({
 			}
 		});
 
+		var blogTitle = app.session.get("blogTitle");
+		if(blogTitle.length > 22){
+			var cutat= blogTitle.lastIndexOf(' ',23);
+			if(cutat!=-1){
+				blogTitle = blogTitle.substring(0,cutat)+'...';
+			}else{
+				blogTitle = blogTitle.substring(0,20)+'...';
+			}
+		}
 
-
-
-		this.$el.find("h1.title").html(app.session.get("blogTitle"));
+		this.$el.find("h1.title").html(blogTitle);
 
 
 
@@ -425,17 +452,23 @@ window.entriesListView = Backbone.View.extend({
 
 	updateAnchorClickEvent : function () {
 
-		$("#entriesListView .list a").unbind("click").bind("click", function(e){
+		// it was used to open external links in safari. Now it is handled in MainViewController.m
 
-			e.preventDefault();
-			var url = $(e.target).attr('href');
+		// $("#entriesListView .list a").unbind("click").bind("click", function(e){
 
-			window.open(url, '_system');
+		// 	e.preventDefault();
+		// 	var url = $(e.target).attr('href');
+		// 	console.log("clickEvent #############");
+
+		// 	window.open(url, '_system');
 
 
 
 
-		});
+		// });
+
+
+
 	},
 
 	renderView: function () {
@@ -445,7 +478,10 @@ window.entriesListView = Backbone.View.extend({
 		_.each(this.collection.models, function (item) {
 			that.renderItem(item,0);
 		}, this);
-		this.updateAnchorClickEvent();
+
+
+
+		//this.updateAnchorClickEvent();
 		$("#loading").css("display", "none");
 		$(".page").css("display", "none");
 
@@ -523,7 +559,7 @@ window.entriesListView = Backbone.View.extend({
 			this.renderItem(item, 1);
 		}, this);
 
-		this.updateAnchorClickEvent();
+		//this.updateAnchorClickEvent();
 		this.collection.updateCids();
 		return true;
 	},
@@ -546,7 +582,7 @@ window.entriesListView = Backbone.View.extend({
 						that.renderItem(item, 0);
 					}, that);
 
-					that.updateAnchorClickEvent();
+					//that.updateAnchorClickEvent();
 					that.collection.updateCids();
 					that.hideLoadingIndicator();
 					that.isLoading = false;
@@ -703,7 +739,7 @@ window.newPostView = Backbone.View.extend({
 		var message = this.$el.find("#postMessage").val();
 
 		if(message.length < 3){
-			app.alert("Please write a message");
+			app.errorAlert("Please write a message");
 			return false;
 		}
 
@@ -725,21 +761,21 @@ window.newPostView = Backbone.View.extend({
 				 success: function(data) {
 				 	that.hideLoading();
 				 	that.clearForm();
-
+				 	app.successAlert("Post sent");
 
 				 	console.log("submit success");
 
 				 },
 				 error: function(jqXHR, textStatus, errorThrown, callback) {
 				 	that.hideLoading();
-				 	app.alert("Something went wrong. Try again");
+				 	app.errorAlert("Something went wrong. Try again");
 				 	console.log("submit fail");
 				 }
 				});
 		}
 		catch(err){
 			console.log(err);
-			app.alert("Something went wrong. Try again");
+			app.errorAlert("Something went wrong. Try again");
 			this.hideLoading();
 		}
 
