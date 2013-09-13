@@ -205,6 +205,8 @@ typedef enum {
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {
     BOOL shouldLoad = YES;
+    
+    
 
     if ([_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
         shouldLoad = [_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
