@@ -116,7 +116,7 @@ $(function() {
 
  txErrorHandler: function(err) {
   console.log(err.code+'  '+err.message);
-  app.alert("There was an error. Please try again");
+  app.errorAlert("There was an error. Please try again");
 }
 };
 
@@ -253,6 +253,9 @@ authorize: function(user, callback){
 logout : function(){
   gap.deleteUser(function(){
     app.session.clear();
+    app.blogsCollection.reset();
+    app.blogsListView = undefined;
+
     app.snapper.close();
     app.router.navigate("someDeadRoute");
     app.router.navigate("login", {trigger: true});
@@ -271,12 +274,22 @@ window.app = {
 
 
 
-  alert : function (text) {
-    $("#alert p").html(text);
-    $("#alert").css("display", "table");
+  errorAlert : function (text) {
+    $("#errorAlert p").html(text);
+    $("#errorAlert").css("display", "table");
 
     setTimeout(function(){
-      $("#alert").fadeOut();
+      $("#errorAlert").fadeOut();
+    },2000);
+
+  },
+
+  successAlert : function (text) {
+    $("#successAlert p").html(text);
+    $("#successAlert").css("display", "table");
+
+    setTimeout(function(){
+      $("#successAlert").fadeOut();
     },2000);
 
   },
@@ -284,6 +297,10 @@ window.app = {
 
   init : function(){
     console.log("app init");
+
+    $(window).on('beforeunload', function () {
+               console.log("beforeunload");
+            });
 
 
     new FastClick(document.body);

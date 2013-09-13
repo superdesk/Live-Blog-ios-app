@@ -21,7 +21,7 @@ $(function() {
 			"click a":    "blogItemClick"
 		},
 
-		blogItemClick: function(){
+		blogItemClick: function(e){
 
 
 
@@ -41,7 +41,7 @@ $(function() {
 
 		initialize: function () {
 
-			console.log("blogListView init");
+			console.log("menublogListView init");
 
 
 			this.collection = app.blogsCollection;
@@ -96,6 +96,7 @@ $(function() {
 		},
 
 		blogItemClick: function(){
+
 
 			app.session.set("blog", this.JSONmodel.Id);
 			app.session.set("blogTitle", this.JSONmodel.Title);
@@ -180,7 +181,7 @@ $(function() {
 			//form validation
 			if(!parsedHost || !formData.login || !formData.pass){
 
-				app.alert("Please fill all fields");
+				app.errorAlert("Please fill all fields");
 
 				$(".page").css("display", "none");
 				this.$el.css("display", "block");
@@ -197,7 +198,7 @@ $(function() {
 					app.router.navigate("someDeadRoute");
 					app.router.navigate(auth.route, {trigger: true});
 				}else{
-					app.alert("Login failed");
+					app.errorAlert("Login failed");
 					$(".page").css("display", "none");
 					that.$el.css("display", "block");
 				}
@@ -334,7 +335,7 @@ window.entriesListItemView = Backbone.View.extend({
 			} else if (this.model.get('AuthorName') == 'soundcloud') {
 				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-				this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
+				this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
 
 			}
 
@@ -402,10 +403,17 @@ window.entriesListView = Backbone.View.extend({
 			}
 		});
 
+		var blogTitle = app.session.get("blogTitle");
+		if(blogTitle.length > 22){
+			var cutat= blogTitle.lastIndexOf(' ',23);
+			if(cutat!=-1){
+				blogTitle = blogTitle.substring(0,cutat)+'...';
+			}else{
+				blogTitle = blogTitle.substring(0,20)+'...';
+			}
+		}
 
-
-
-		this.$el.find("h1.title").html(app.session.get("blogTitle"));
+		this.$el.find("h1.title").html(blogTitle);
 
 
 
@@ -444,17 +452,23 @@ window.entriesListView = Backbone.View.extend({
 
 	updateAnchorClickEvent : function () {
 
-		$("#entriesListView .list a").unbind("click").bind("click", function(e){
+		// it was used to open external links in safari. Now it is handled in MainViewController.m
 
-			e.preventDefault();
-			var url = $(e.target).attr('href');
+		// $("#entriesListView .list a").unbind("click").bind("click", function(e){
 
-			window.open(url, '_system');
+		// 	e.preventDefault();
+		// 	var url = $(e.target).attr('href');
+		// 	console.log("clickEvent #############");
+
+		// 	window.open(url, '_system');
 
 
 
 
-		});
+		// });
+
+
+
 	},
 
 	renderView: function () {
@@ -464,7 +478,10 @@ window.entriesListView = Backbone.View.extend({
 		_.each(this.collection.models, function (item) {
 			that.renderItem(item,0);
 		}, this);
-		this.updateAnchorClickEvent();
+
+
+
+		//this.updateAnchorClickEvent();
 		$("#loading").css("display", "none");
 		$(".page").css("display", "none");
 
@@ -542,7 +559,7 @@ window.entriesListView = Backbone.View.extend({
 			this.renderItem(item, 1);
 		}, this);
 
-		this.updateAnchorClickEvent();
+		//this.updateAnchorClickEvent();
 		this.collection.updateCids();
 		return true;
 	},
@@ -565,7 +582,7 @@ window.entriesListView = Backbone.View.extend({
 						that.renderItem(item, 0);
 					}, that);
 
-					that.updateAnchorClickEvent();
+					//that.updateAnchorClickEvent();
 					that.collection.updateCids();
 					that.hideLoadingIndicator();
 					that.isLoading = false;
@@ -722,7 +739,7 @@ window.newPostView = Backbone.View.extend({
 		var message = this.$el.find("#postMessage").val();
 
 		if(message.length < 3){
-			app.alert("Please write a message");
+			app.errorAlert("Please write a message");
 			return false;
 		}
 
@@ -744,21 +761,21 @@ window.newPostView = Backbone.View.extend({
 				 success: function(data) {
 				 	that.hideLoading();
 				 	that.clearForm();
-
+				 	app.successAlert("Post sent");
 
 				 	console.log("submit success");
 
 				 },
 				 error: function(jqXHR, textStatus, errorThrown, callback) {
 				 	that.hideLoading();
-				 	app.alert("Something went wrong. Try again");
+				 	app.errorAlert("Something went wrong. Try again");
 				 	console.log("submit fail");
 				 }
 				});
 		}
 		catch(err){
 			console.log(err);
-			app.alert("Something went wrong. Try again");
+			app.errorAlert("Something went wrong. Try again");
 			this.hideLoading();
 		}
 
