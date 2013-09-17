@@ -342,8 +342,8 @@ window.app = {
 
 
 
-app.init();
-//document.addEventListener("deviceready", app.init, false);
+//app.init();
+document.addEventListener("deviceready", app.init, false);
 
 });
 

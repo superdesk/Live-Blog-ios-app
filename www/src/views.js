@@ -469,15 +469,15 @@ window.entriesListView = Backbone.View.extend({
 
 
 
-	},
+},
 
-	renderView: function () {
-		console.log("entriesListView render");
-		var that = this;
+renderView: function () {
+	console.log("entriesListView render");
+	var that = this;
 
-		_.each(this.collection.models, function (item) {
-			that.renderItem(item,0);
-		}, this);
+	_.each(this.collection.models, function (item) {
+		that.renderItem(item,0);
+	}, this);
 
 
 
@@ -670,7 +670,27 @@ window.newPostView = Backbone.View.extend({
 
 		_.bindAll(this, 'submitForm');
 
+		_.bindAll(this, 'cameraClickHandler');
+		this.$el.find("#addPhoto").unbind("click").bind("click", this.cameraClickHandler);
 
+
+
+
+	},
+
+	cameraClickHandler: function () {
+		navigator.camera.getPicture(this.cameraSuccess, this.cameraFail, { quality: 50,
+			destinationType: Camera.DestinationType.FILE_URI });
+
+	},
+
+	cameraSuccess : function(imageURI) {
+		//var image = document.getElementById('myImage');
+		// image.src = imageURI;
+	},
+
+	cameraFail : function(message) {
+		app.errorAlert(message);
 	},
 
 	renderType : function (item) {
