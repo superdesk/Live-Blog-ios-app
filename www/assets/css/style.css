@@ -11,6 +11,9 @@ a,input,textarea,select,button {
     outline: none;
 }
 
+img {
+    max-width:100%;
+}
 .icon-bar {
     display: block;
     width: 22px;
@@ -74,7 +77,7 @@ a,input,textarea,select,button {
     left: 50%;
     top: 0;
     margin: 0 0 0 -.1em;
-    background: #00C176;
+    background: #ff5d1a;
 
     -webkit-transform-origin: 50% 250%;
     -moz-transform-origin: 50% 250%;
@@ -93,7 +96,7 @@ a,input,textarea,select,button {
     top: 50%;
     right: 0;
     margin: -.1em 0 0 0;
-    background: #FF003C;
+    background: #007fb3;
 
     -webkit-transform-origin: -150% 50%;
     -moz-transform-origin: -150% 50%;
@@ -112,7 +115,7 @@ a,input,textarea,select,button {
     left: 50%;
     bottom: 0;
     margin: 0 0 0 -.1em;
-    background: #FABE28;
+    background: #009360;
 
     -webkit-transform-origin: 50% -150%;
     -moz-transform-origin: 50% -150%;
@@ -129,9 +132,9 @@ a,input,textarea,select,button {
 
 .spinner li:nth-child(4) {
     top: 50%;
-    left 0;
-     margin: -.1em 0 0 0;
-    background: #88C100;
+    left: 0;
+    margin: -.1em 0 0 0;
+    background: #4b2582;
 
     -webkit-transform-origin: 250% 50%;
     -moz-transform-origin: 250% 50%;
@@ -139,367 +142,57 @@ a,input,textarea,select,button {
     -ms-transform-origin: 250% 50%;
     transform-origin: 250% 50%;
 
-    -webkit-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    -moz-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    -ms-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    -o-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
+    -webkit-animation: rota 1.72s linear infinite;
+    -moz-animation: rota 1.72s linear infinite;
+    -ms-animation: rota 1.72s linear infinite;
+    -o-animation: rota 1.72s linear infinite;
+    animation: rota 1.72s linear infinite;
 }
 
 @keyframes "rota" {
- to {
+   to {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
     -o-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     transform: rotate(360deg);
- }
+}
 
 }
 
 @-moz-keyframes rota {
- to {
-   -moz-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -moz-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
 @-webkit-keyframes "rota" {
- to {
-   -webkit-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -webkit-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
 @-ms-keyframes "rota" {
- to {
-   -ms-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -ms-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
 @-o-keyframes "rota" {
- to {
-   -o-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -o-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
-@keyframes "opa" {
-    12.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
 
-19.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=88)";
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=64)";
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=69)";
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=63)";
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=87)";
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-moz-keyframes opa {
-    12.0% {
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-webkit-keyframes "opa" {
-    12.0% {
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-ms-keyframes "opa" {
-    12.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=88)";
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=64)";
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=69)";
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=63)";
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=87)";
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-o-keyframes "opa" {
-    12.0% {
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
 
 #loginForm {
     background: #fff;
@@ -546,6 +239,10 @@ img.responsive {
 #entriesListView .list li {
     padding: 10px;
     overflow:hidden;
+
+}
+#entriesListView .list li, #blogListView .list li{
+    font-size:0.9em;
 }
 
 #loading {
@@ -898,51 +595,51 @@ img.responsive {
 }
 
 @keyframes "blink" {
- 0% {
+   0% {
     background-color: #fff;
- }
- 100% {
+}
+100% {
     background-color: #098f64;
- }
+}
 
 }
 
 @-moz-keyframes blink {
- 0% {
-   background-color: #fff;
+   0% {
+     background-color: #fff;
  }
  100% {
-   background-color: #098f64;
+     background-color: #098f64;
  }
 
 }
 
 @-webkit-keyframes "blink" {
- 0% {
-   background-color: #fff;
+   0% {
+     background-color: #fff;
  }
  100% {
-   background-color: #098f64;
+     background-color: #098f64;
  }
 
 }
 
 @-ms-keyframes "blink" {
- 0% {
-   background-color: #fff;
+   0% {
+     background-color: #fff;
  }
  100% {
-   background-color: #098f64;
+     background-color: #098f64;
  }
 
 }
 
 @-o-keyframes "blink" {
- 0% {
-   background-color: #fff;
+   0% {
+     background-color: #fff;
  }
  100% {
-   background-color: #098f64;
+     background-color: #098f64;
  }
 
 }
@@ -1040,3 +737,20 @@ button.loading {
     color: #fff;
     font-size: 1.2em;
 }
+
+#photoPreview{
+    overflow: hidden;
+    width:102px;
+    height:62px;
+    margin-right:10px;
+    border-radius:5px;
+}
+
+#photoPreview img{
+    max-width:102px;
+    display:none;
+}
+
+
+
+

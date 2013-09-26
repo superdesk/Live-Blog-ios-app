@@ -298,6 +298,11 @@ window.app = {
   init : function(){
     console.log("app init");
 
+
+    if (parseFloat(window.device.version) >= 7.0) {
+        document.body.style.marginTop = "20px";
+    }
+
     $(window).on('beforeunload', function () {
                console.log("beforeunload");
             });
