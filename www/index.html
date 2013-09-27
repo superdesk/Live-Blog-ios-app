@@ -19,6 +19,8 @@
 
 
 
+
+
     <div class="snap-drawers">
       <div class="snap-drawer snap-drawer-left" id="left-drawer">
         <ul class="list menu">
@@ -33,7 +35,7 @@
             </ul>
           </li>
 
-          <li>version: 0.2</li>
+          <li>version: 0.3</li>
 
 
         </ul>
@@ -124,9 +126,7 @@
 
         <div id="appendLoadingIndicator">
           <div class="loaderCenter">
-            <div id="loader_1" class="loaderElement"></div>
-            <div id="loader_2" class="loaderElement"></div>
-            <div id="loader_3" class="loaderElement"></div>
+            <div  class="loaderElement"></div>
           </div>
         </div>
       </div>
@@ -153,9 +153,13 @@
           </select>
 
           <textarea rows="5" id="postMessage"></textarea>
+
           <a id="addPhoto" class="rightandmarginbottom10">
             <img src="assets/images/camera.png" alt="add image"  class="icon_image" />
           </a>
+          <div id="photoPreview" class="rightandmarginbottom10">
+            <img  src="http://maandeeqnews.com/wp-content/uploads/2013/01/Top-News3.jpg" />
+          </div>
           <span class="clear"></span>
           <button type="submit" class="button-block width100">Create Post</button>
         </form>
@@ -210,7 +214,9 @@
 <script type="text/template" id="item-service-template">
 <div class="result-content">
 <div class="result-text"><%= item.get('Content')  %></div>
-<p class="attributes"><i class="source-icon"></i><%= item.get('AuthorName') %> - <time><%= item.getPublished() %></time>
+<p class="attributes">
+<% if (!item.has('noSource') ) { %>
+<i class="source-icon"></i><%= item.get('AuthorName') %> - <% } %><time><%= item.getPublished() %></time>
 </p>
 </div>
 </script>

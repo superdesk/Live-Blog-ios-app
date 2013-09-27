@@ -11,6 +11,9 @@ a,input,textarea,select,button {
     outline: none;
 }
 
+img {
+    max-width:100%;
+}
 .icon-bar {
     display: block;
     width: 22px;
@@ -74,7 +77,7 @@ a,input,textarea,select,button {
     left: 50%;
     top: 0;
     margin: 0 0 0 -.1em;
-    background: #00C176;
+    background: #ff5d1a;
 
     -webkit-transform-origin: 50% 250%;
     -moz-transform-origin: 50% 250%;
@@ -93,7 +96,7 @@ a,input,textarea,select,button {
     top: 50%;
     right: 0;
     margin: -.1em 0 0 0;
-    background: #FF003C;
+    background: #007fb3;
 
     -webkit-transform-origin: -150% 50%;
     -moz-transform-origin: -150% 50%;
@@ -112,7 +115,7 @@ a,input,textarea,select,button {
     left: 50%;
     bottom: 0;
     margin: 0 0 0 -.1em;
-    background: #FABE28;
+    background: #009360;
 
     -webkit-transform-origin: 50% -150%;
     -moz-transform-origin: 50% -150%;
@@ -129,9 +132,9 @@ a,input,textarea,select,button {
 
 .spinner li:nth-child(4) {
     top: 50%;
-    left 0;
-     margin: -.1em 0 0 0;
-    background: #88C100;
+    left: 0;
+    margin: -.1em 0 0 0;
+    background: #4b2582;
 
     -webkit-transform-origin: 250% 50%;
     -moz-transform-origin: 250% 50%;
@@ -139,367 +142,57 @@ a,input,textarea,select,button {
     -ms-transform-origin: 250% 50%;
     transform-origin: 250% 50%;
 
-    -webkit-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    -moz-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    -ms-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    -o-animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
-    animation: rota 1.72s linear infinite, opa 5.25s ease-in-out infinite alternate;
+    -webkit-animation: rota 1.72s linear infinite;
+    -moz-animation: rota 1.72s linear infinite;
+    -ms-animation: rota 1.72s linear infinite;
+    -o-animation: rota 1.72s linear infinite;
+    animation: rota 1.72s linear infinite;
 }
 
 @keyframes "rota" {
- to {
+   to {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
     -o-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     transform: rotate(360deg);
- }
+}
 
 }
 
 @-moz-keyframes rota {
- to {
-   -moz-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -moz-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
 @-webkit-keyframes "rota" {
- to {
-   -webkit-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -webkit-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
 @-ms-keyframes "rota" {
- to {
-   -ms-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -ms-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
 @-o-keyframes "rota" {
- to {
-   -o-transform: rotate(360deg);
-   transform: rotate(360deg);
+   to {
+     -o-transform: rotate(360deg);
+     transform: rotate(360deg);
  }
 
 }
 
-@keyframes "opa" {
-    12.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
 
-19.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=88)";
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=64)";
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=69)";
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=63)";
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=87)";
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-moz-keyframes opa {
-    12.0% {
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-webkit-keyframes "opa" {
-    12.0% {
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-ms-keyframes "opa" {
-    12.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=88)";
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=64)";
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=69)";
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=52)";
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=63)";
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=87)";
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
-
-@-o-keyframes "opa" {
-    12.0% {
-    filter: alpha(opacity=80);
-    opacity: 0.80;
-}
-
-19.5% {
-    filter: alpha(opacity=88);
-    opacity: 0.88;
-}
-
-37.2% {
-    filter: alpha(opacity=64);
-    opacity: 0.64;
-}
-
-40.5% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-52.7% {
-    filter: alpha(opacity=69);
-    opacity: 0.69;
-}
-
-60.2% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-66.6% {
-    filter: alpha(opacity=52);
-    opacity: 0.52;
-}
-
-70.0% {
-    filter: alpha(opacity=63);
-    opacity: 0.63;
-}
-
-79.9% {
-    filter: alpha(opacity=60);
-    opacity: 0.60;
-}
-
-84.2% {
-    filter: alpha(opacity=75);
-    opacity: 0.75;
-}
-
-91.0% {
-    filter: alpha(opacity=87);
-    opacity: 0.87;
-}
-
-}
 
 #loginForm {
     background: #fff;
@@ -539,6 +232,10 @@ p.attributes {
     font-size: 0.9em;
 }
 
+.service p.attributes {
+    margin-left:5px;
+}
+
 img.responsive {
     max-width: 100%;
 }
@@ -546,6 +243,10 @@ img.responsive {
 #entriesListView .list li {
     padding: 10px;
     overflow:hidden;
+
+}
+#entriesListView .list li, #blogListView .list li{
+    font-size:0.9em;
 }
 
 #loading {
@@ -705,10 +406,25 @@ img.responsive {
     display: block;
 }
 
+p.color_dark{
+    color:#222;
+}
+
 .small_caption {
     display: block;
     color: #444;
     font-size: 0.9em;
+    margin-top: 10px;
+}
+
+a .small_caption{
+    color:inherit;
+}
+
+.news_thumbnail{
+    float: right;
+    margin: 3px 0 10px 10px;
+    max-width: 150px;
 }
 
 .source-icon {
@@ -716,7 +432,8 @@ img.responsive {
     height: 16px;
     width: 16px;
     margin-right: 4px;
-    vertical-align: middle;
+    vertical-align: top;
+
 }
 
 .google .attributes .source-icon {
@@ -832,6 +549,10 @@ img.responsive {
     left: 0;
 }
 
+.pull-to-refresh >.message >span.loading{
+    height:20px;
+    top:10px;
+}
 .pull-to-refresh .chevronup,.pull-to-refresh .chevrondown {
     right: 50%;
     margin-right: -15px;
@@ -847,102 +568,86 @@ img.responsive {
     position: absolute;
     height: 40px;
     bottom: 0;
-    left: 50%;
+    left: 0;
+    z-index:999;
+    width:100%;
 }
 
 .loaderCenter {
-    width: 45px;
+    width: 100%;
     position: absolute;
-    top: 20px;
-    left: 50%;
-    margin-left: -25px;
+    top: 0;
+    left: 0;
+    background:#fff;
+    height:20px;
+
 }
 
 .loaderElement {
     background-color: #098f64;
-    width: 8px;
-    height: 8px;
-    float: left;
-    margin-left: 5px;
-    border-radius: 2px;
+    width: 10px;
+    height:20px;
+    position:absolute;
+    top:0;
+    left:0;
 
-    -webkit-animation: blink 1s infinite linear;
-    -moz-animation: blink 1s infinite linear;
-    -ms-animation: blink 1s infinite linear;
-    -o-animation: blink 1s infinite linear;
-    animation: blink 1s infinite linear;
+
+    -webkit-animation: leftToRight 2s infinite linear;
+    -moz-animation: leftToRight 2s infinite linear;
+    -ms-animation: leftToRight 2s infinite linear;
+    -o-animation: leftToRight 2s infinite linear;
+    animation: leftToRight 2s infinite linear;
 }
 
-#loader_1 {
-    -webkit-animation-delay: .1s;
-    -moz-animation-delay: .1s;
-    -ms-animation-delay: .1s;
-    -o-animation-delay: .1s;
-    animation-delay: .1s;
+
+
+
+@keyframes "leftToRight" {
+   0% {
+    left:0;
+}
+100% {
+    left:100%;
 }
 
-#loader_2 {
-    -webkit-animation-delay: .3s;
-    -moz-animation-delay: .3s;
-    -ms-animation-delay: .3s;
-    -o-animation-delay: .3s;
-    animation-delay: .3s;
 }
 
-#loader_3 {
-    -webkit-animation-delay: .5s;
-    -moz-animation-delay: .5s;
-    -ms-animation-delay: .5s;
-    -o-animation-delay: .5s;
-    animation-delay: .5s;
-}
-
-@keyframes "blink" {
- 0% {
-    background-color: #fff;
+@-moz-keyframes leftToRight {
+   0% {
+     left:0;
  }
  100% {
-    background-color: #098f64;
+     left:100%;
  }
 
 }
 
-@-moz-keyframes blink {
- 0% {
-   background-color: #fff;
+@-webkit-keyframes "leftToRight" {
+   0% {
+     left:0;
  }
  100% {
-   background-color: #098f64;
+     left:100%;
  }
 
 }
 
-@-webkit-keyframes "blink" {
- 0% {
-   background-color: #fff;
+@-ms-keyframes "leftToRight" {
+   0% {
+     left:0;
  }
  100% {
-   background-color: #098f64;
+     left:100%;
  }
 
 }
 
-@-ms-keyframes "blink" {
- 0% {
-   background-color: #fff;
+@-o-keyframes "leftToRight" {
+   0% {
+     left:0;
  }
  100% {
-   background-color: #098f64;
- }
-
-}
-
-@-o-keyframes "blink" {
- 0% {
-   background-color: #fff;
- }
- 100% {
-   background-color: #098f64;
+    left:100%;
  }
 
 }
@@ -1040,3 +745,20 @@ button.loading {
     color: #fff;
     font-size: 1.2em;
 }
+
+#photoPreview{
+    overflow: hidden;
+    width:102px;
+    height:62px;
+    margin-right:10px;
+    border-radius:5px;
+}
+
+#photoPreview img{
+    max-width:102px;
+    display:none;
+}
+
+
+
+
