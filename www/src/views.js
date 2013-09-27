@@ -279,14 +279,15 @@ window.entriesListItemView = Backbone.View.extend({
 
 		if (this.model.isService()) {
 			$(this.el).addClass(this.model.get('AuthorName')).removeClass('quote');
+			var meta = jQuery.parseJSON(this.model.get('Meta'));
 
 			if (this.model.get('AuthorName') == 'flickr') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-				this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
+				console.log(JSON.stringify(meta));
+				this.model.set('Content', '<a class="service_content " href="http:'+meta.imageUrls.full+'"><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></a>');
 
 			} else if (this.model.get('AuthorName') == 'twitter') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				var user = '<figure class="authorImage"><img src="'+meta.user.profile_image_url+'" alt="Gravatar" /></figure>'+
 				'<p class="attributes profile">'+meta.user.name+' ('+meta.user.screen_name+')'+
@@ -299,7 +300,7 @@ window.entriesListItemView = Backbone.View.extend({
 
 
 			} else if (this.model.get('AuthorName') == 'facebook') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				var user = '<figure class="authorImage"><img src="http://graph.facebook.com/'+meta.from.id+'/picture" alt="Gravatar" /></figure>'+
 				'<p class="attributes profile">'+meta.from.name+
@@ -312,28 +313,35 @@ window.entriesListItemView = Backbone.View.extend({
 
 
 			} else if (this.model.get('AuthorName') == 'instagram') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
 
 			} else if (this.model.get('AuthorName') == 'youtube') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
 
 			} else if (this.model.get('AuthorName') == 'google') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+				this.model.set('noSource',1);
 
 				if(meta.GsearchResultClass == 'GwebSearch'){
-					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
+
+					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank"><p><strong>'+meta.titleNoFormatting+'</strong></p><p class="color_dark">'+meta.content+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.url+'" />'+meta.visibleUrl+'</span></a>');
 				} else if(meta.GsearchResultClass == 'GnewsSearch'){
-					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
+
+					var picture = '';
+					if(meta.image.tbUrl) picture = '<img class="news_thumbnail" src="'+meta.image.tbUrl+'" />';
+
+					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank"><p><strong>'+meta.titleNoFormatting+'</strong></p>'+picture+'<p class="color_dark">'+meta.content+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.unescapedUrl+'" />'+meta.publisher+'</span></a>');
 				} else if(meta.GsearchResultClass == 'GimageSearch'){
-					this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
+
+					this.model.set('Content', '<a class="service_content " href="'+meta.originalContextUrl+'"><img class="responsive" src="'+meta.unescapedUrl+'" /><p class="color_dark">'+this.model.get('Content')+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.originalContextUrl+'" />'+meta.visibleUrl+'</span></a>');
 				}
 
 			} else if (this.model.get('AuthorName') == 'soundcloud') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
 
@@ -367,6 +375,9 @@ window.entriesListView = Backbone.View.extend({
 
 
 	initialize: function () {
+
+		$(".page").css("display", "none");
+		$("#loading").css("display", "block");
 
 		console.log("##### entriesListView init");
 		this.showLoadingIndicator();
@@ -483,7 +494,7 @@ renderView: function () {
 
 		//this.updateAnchorClickEvent();
 		$("#loading").css("display", "none");
-		$(".page").css("display", "none");
+
 
 		this.$el.css("display", "block");
 
@@ -651,6 +662,8 @@ renderView: function () {
 
 window.newPostView = Backbone.View.extend({
 	el: "#newPost",
+	localImageURI : false,
+	serverImageURI : false,
 
 
 	initialize : function () {
@@ -673,25 +686,20 @@ window.newPostView = Backbone.View.extend({
 		_.bindAll(this, 'cameraClickHandler');
 		this.$el.find("#addPhoto").unbind("click").bind("click", this.cameraClickHandler);
 
+		_.bindAll(this, 'cameraSuccess');
+		_.bindAll(this, 'uploadPhoto');
+		_.bindAll(this, 'uploadPhotoFail');
+		_.bindAll(this, 'uploadPhotoSuccess');
+
+
+
 
 
 
 	},
 
-	cameraClickHandler: function () {
-		navigator.camera.getPicture(this.cameraSuccess, this.cameraFail, { quality: 50,
-			destinationType: Camera.DestinationType.FILE_URI });
 
-	},
 
-	cameraSuccess : function(imageURI) {
-		//var image = document.getElementById('myImage');
-		// image.src = imageURI;
-	},
-
-	cameraFail : function(message) {
-		app.errorAlert(message);
-	},
 
 	renderType : function (item) {
 		var typeOption = '<option class="rendered" value="'+item.get('Type').Key+'" data-content="'+escape(item.get('Content'))+'">'+item.get('Name')+'</option>';
@@ -730,7 +738,12 @@ window.newPostView = Backbone.View.extend({
 
 	submitHandler : function (e) {
 		e.preventDefault();
-		this.submitForm();
+		this.showLoading();
+		if(this.localImageURI){
+			this.uploadPhoto();
+		}else{
+			this.submitForm();
+		}
 
 	},
 
@@ -738,6 +751,7 @@ window.newPostView = Backbone.View.extend({
 		var button = $(this.el).find("#newPostForm button");
 		button.html("");
 		button.addClass("loading");
+		button.disabled=true;
 
 	},
 
@@ -746,11 +760,15 @@ window.newPostView = Backbone.View.extend({
 		var button = $(this.el).find("#newPostForm button");
 		button.html("Create Post");
 		button.removeClass("loading");
+		button.disabled=false;
 
 	},
 
 	clearForm : function () {
 		this.$el.find("#postMessage").val("");
+		this.localImageURI = false;
+		this.serverImageURI = false;
+		$("#photoPreview img").fadeOut();
 		return true;
 	},
 
@@ -758,13 +776,16 @@ window.newPostView = Backbone.View.extend({
 		var type = this.$el.find("#postTypeSelect").val();
 		var message = this.$el.find("#postMessage").val();
 
-		if(message.length < 3){
+		if(message.length < 3 && !this.serverImageURI){
 			app.errorAlert("Please write a message");
+			this.hideLoading();
 			return false;
 		}
+		var photo ='';
+		if(this.serverImageURI) photo = '<img src="'+this.serverImageURI+'" />';
 
-		var req = { Meta : { }, Content: message, Type: type, Creator: app.session.get("userId") };
-		this.showLoading();
+		var req = { Meta : { }, Content: photo + message, Type: type, Creator: app.session.get("userId") };
+
 		var that = this;
 		try{
 			$.ajax({
@@ -773,25 +794,26 @@ window.newPostView = Backbone.View.extend({
 				data: req,
 				dataType: "json",
 				beforeSend : function(xhr) {
+					// set header
+					xhr.setRequestHeader("Authorization", app.session.get("session"));
+				},
 
-				     // set header
-				     xhr.setRequestHeader("Authorization", app.session.get("session"));
-				 },
+				success: function(data) {
+					that.hideLoading();
+					that.clearForm();
+					//hide the preview image
+					$("#photoPreview img").fadeOut();
+					app.successAlert("Post sent");
 
-				 success: function(data) {
-				 	that.hideLoading();
-				 	that.clearForm();
-				 	app.successAlert("Post sent");
+					console.log("submit success");
 
-				 	console.log("submit success");
-
-				 },
-				 error: function(jqXHR, textStatus, errorThrown, callback) {
-				 	that.hideLoading();
-				 	app.errorAlert("Something went wrong. Try again");
-				 	console.log("submit fail");
-				 }
-				});
+				},
+				error: function(jqXHR, textStatus, errorThrown, callback) {
+					that.hideLoading();
+					app.errorAlert("Something went wrong. Try again");
+					console.log("submit fail");
+				}
+			});
 		}
 		catch(err){
 			console.log(err);
@@ -799,7 +821,72 @@ window.newPostView = Backbone.View.extend({
 			this.hideLoading();
 		}
 
+	},
+
+	cameraClickHandler: function () {
+
+		navigator.camera.getPicture(this.cameraSuccess, this.cameraFail,
+		{
+			quality: 75,
+			correctOrientation: true,
+			destinationType: Camera.DestinationType.FILE_URI,
+			saveToPhotoAlbum: true,
+			sourceType : Camera.PictureSourceType.CAMERA,
+			encodingType: Camera.EncodingType.JPEG,
+			targetWidth: 600,
+			targetHeight: 600
+		}
+		);
+
+	},
+
+	cameraSuccess : function(imageURI) {
+		var image = $("#photoPreview img");
+		image.attr("src",imageURI);
+		this.localImageURI = imageURI;
+
+		image.fadeIn();
+
+	},
+
+	cameraFail : function(message) {
+		app.errorAlert(message);
+	},
+
+
+	uploadPhoto : function () {
+		var options = new FileUploadOptions();
+		options.fileKey="file";
+		options.fileName=this.localImageURI.substr(this.localImageURI.lastIndexOf('/')+1);
+		options.mimeType="image/jpeg";
+
+		var params = {};
+
+		options.params = params;
+
+		var uploadURL = 'http://'+app.session.get("host")+'/resources/my/HR/User/'+app.session.get("userId")+'/MetaData/Upload.json?X-Filter=*&Authorization='+ app.session.get("session");
+
+		var ft = new FileTransfer();
+		var that= this;
+		ft.upload(this.localImageURI, encodeURI(uploadURL), that.uploadPhotoSuccess, that.uploadPhotoFail, options);
+	},
+
+	uploadPhotoSuccess : function (r) {
+		console.log("Code = " + r.responseCode);
+		console.log("Response = " + r.response);
+		console.log("Sent = " + r.bytesSent);
+		this.serverImageURI = JSON.parse(r.response).Content.href;
+		this.submitForm();
+	},
+
+	uploadPhotoFail : function (error) {
+		app.errorAlert("An error has occurred. Please try again.");
+		this.hideLoading();
+		console.log("upload error source " + error.source);
+		console.log("upload error target " + error.target);
 	}
+
+
 
 
 });

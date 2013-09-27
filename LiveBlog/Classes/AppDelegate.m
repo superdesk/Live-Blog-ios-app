@@ -64,6 +64,8 @@
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    
+    
 
 #if __has_feature(objc_arc)
         self.window = [[UIWindow alloc] initWithFrame:screenBounds];
@@ -85,6 +87,8 @@
 
     // NOTE: To customize the view's frame size (which defaults to full screen), override
     // [self.viewController viewWillAppear:] in your view controller.
+    
+   
 
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];

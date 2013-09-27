@@ -109,7 +109,7 @@ body {
   left: 0;
   font: 1em/1.25em arial, "Helvetica Neue", sans-serif;
   color: #222;
-  background-color: #eee;
+  background-color: #098f64;
 }
 
 a {
@@ -807,9 +807,10 @@ select {
 /* Block level buttons (full width buttons) */
 .button-block {
   display: block;
-  padding: 11px 0 13px;
+  padding: 12px 0 11px;
   margin-bottom: 10px;
   font-size: 16px;
+  text-transform: uppercase;
 }
 
 /* Active state for block level buttons */
