@@ -126,9 +126,7 @@
 
         <div id="appendLoadingIndicator">
           <div class="loaderCenter">
-            <div id="loader_1" class="loaderElement"></div>
-            <div id="loader_2" class="loaderElement"></div>
-            <div id="loader_3" class="loaderElement"></div>
+            <div  class="loaderElement"></div>
           </div>
         </div>
       </div>
@@ -216,7 +214,9 @@
 <script type="text/template" id="item-service-template">
 <div class="result-content">
 <div class="result-text"><%= item.get('Content')  %></div>
-<p class="attributes"><i class="source-icon"></i><%= item.get('AuthorName') %> - <time><%= item.getPublished() %></time>
+<p class="attributes">
+<% if (!item.has('noSource') ) { %>
+<i class="source-icon"></i><%= item.get('AuthorName') %> - <% } %><time><%= item.getPublished() %></time>
 </p>
 </div>
 </script>

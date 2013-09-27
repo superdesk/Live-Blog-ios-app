@@ -279,14 +279,15 @@ window.entriesListItemView = Backbone.View.extend({
 
 		if (this.model.isService()) {
 			$(this.el).addClass(this.model.get('AuthorName')).removeClass('quote');
+			var meta = jQuery.parseJSON(this.model.get('Meta'));
 
 			if (this.model.get('AuthorName') == 'flickr') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
 
-				this.model.set('Content', '<div class="service_content "><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></div>');
+				console.log(JSON.stringify(meta));
+				this.model.set('Content', '<a class="service_content " href="http:'+meta.imageUrls.full+'"><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></a>');
 
 			} else if (this.model.get('AuthorName') == 'twitter') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				var user = '<figure class="authorImage"><img src="'+meta.user.profile_image_url+'" alt="Gravatar" /></figure>'+
 				'<p class="attributes profile">'+meta.user.name+' ('+meta.user.screen_name+')'+
@@ -299,7 +300,7 @@ window.entriesListItemView = Backbone.View.extend({
 
 
 			} else if (this.model.get('AuthorName') == 'facebook') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				var user = '<figure class="authorImage"><img src="http://graph.facebook.com/'+meta.from.id+'/picture" alt="Gravatar" /></figure>'+
 				'<p class="attributes profile">'+meta.from.name+
@@ -312,28 +313,35 @@ window.entriesListItemView = Backbone.View.extend({
 
 
 			} else if (this.model.get('AuthorName') == 'instagram') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.images.low_resolution.url+'" /></div>');
 
 			} else if (this.model.get('AuthorName') == 'youtube') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				this.model.set('Content', '<iframe width="100%" height="200" src="http://www.youtube.com/embed/'+meta.id+'" frameborder="0" allowfullscreen></iframe>');
 
 			} else if (this.model.get('AuthorName') == 'google') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
+				this.model.set('noSource',1);
 
 				if(meta.GsearchResultClass == 'GwebSearch'){
-					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.visibleUrl+'</span></a>');
+
+					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank"><p><strong>'+meta.titleNoFormatting+'</strong></p><p class="color_dark">'+meta.content+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.url+'" />'+meta.visibleUrl+'</span></a>');
 				} else if(meta.GsearchResultClass == 'GnewsSearch'){
-					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank">'+this.model.get('Content')+'<span class="small_caption">'+meta.unescapedUrl+'</span></a>');
+
+					var picture = '';
+					if(meta.image.tbUrl) picture = '<img class="news_thumbnail" src="'+meta.image.tbUrl+'" />';
+
+					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank"><p><strong>'+meta.titleNoFormatting+'</strong></p>'+picture+'<p class="color_dark">'+meta.content+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.unescapedUrl+'" />'+meta.publisher+'</span></a>');
 				} else if(meta.GsearchResultClass == 'GimageSearch'){
-					this.model.set('Content', '<div class="service_content "><img class="responsive" src="'+meta.unescapedUrl+'" /><p>'+this.model.get('Content')+'</p></div>');
+
+					this.model.set('Content', '<a class="service_content " href="'+meta.originalContextUrl+'"><img class="responsive" src="'+meta.unescapedUrl+'" /><p class="color_dark">'+this.model.get('Content')+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.originalContextUrl+'" />'+meta.visibleUrl+'</span></a>');
 				}
 
 			} else if (this.model.get('AuthorName') == 'soundcloud') {
-				var meta = jQuery.parseJSON(this.model.get('Meta'));
+
 
 				this.model.set('Content', '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'+meta.id+'&amp;auto_play=false&amp;show_artwork=true&amp;color=ff7700"></iframe>');
 
