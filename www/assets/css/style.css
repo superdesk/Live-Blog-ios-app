@@ -421,6 +421,11 @@ a .small_caption{
     color:inherit;
 }
 
+#entriesListContent .list li img {
+    display:block;
+
+}
+
 .news_thumbnail{
     float: right;
     margin: 3px 0 10px 10px;
@@ -428,7 +433,7 @@ a .small_caption{
 }
 
 .source-icon {
-    display: inline-block;
+    display: inline-block !important;
     height: 16px;
     width: 16px;
     margin-right: 4px;
@@ -512,11 +517,11 @@ a .small_caption{
     padding-bottom: 1px;
     background: #f5f5f5;
 
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
-    -o-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
+    -webkit-transform: translateZ(0px);
+    -moz-transform: translateZ(0px);
+    -o-transform: translateZ(0px);
+    -ms-transform: translateZ(0px);
+    transform: translateZ(0px);
 }
 
 .pull-to-refresh {

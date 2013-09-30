@@ -45,7 +45,7 @@ $(function() {
 
 
 			this.collection = app.blogsCollection;
-			this.listenTo(this.collection, 'add', this.renderMenu);
+			this.listenTo(this.collection, 'change', this.renderMenu);
 
 			var self = this;
 
@@ -54,6 +54,7 @@ $(function() {
 
 		renderMenu: function () {
 			console.log("menublogsListView render");
+			navigator.splashscreen.hide();
 			var that = this;
 			this.$el.empty();
 			_.each(this.collection.models, function (item) {
@@ -121,6 +122,7 @@ $(function() {
 		    var self = this;
 		    this.collection.fetch().complete(function(){
 		    	self.render();
+		    	self.collection.trigger("change");
 		    });
 
 
@@ -283,7 +285,7 @@ window.entriesListItemView = Backbone.View.extend({
 
 			if (this.model.get('AuthorName') == 'flickr') {
 
-				console.log(JSON.stringify(meta));
+
 				this.model.set('Content', '<a class="service_content " href="http:'+meta.imageUrls.full+'"><img class="responsive" src="http:'+meta.imageUrls.full+'" /><p>'+this.model.get('Content')+'</p></a>');
 
 			} else if (this.model.get('AuthorName') == 'twitter') {
@@ -375,6 +377,7 @@ window.entriesListView = Backbone.View.extend({
 
 
 	initialize: function () {
+		var self = this;
 
 		$(".page").css("display", "none");
 		$("#loading").css("display", "block");
@@ -399,6 +402,7 @@ window.entriesListView = Backbone.View.extend({
 		$(this.el).find("#entriesListContent").prepend(scrollable);
 
 		// now we can init pull to refresh
+
 		$(this.el).find('.scrollable').pullToRefresh({
 			callback: function() {
 				var deff = $.Deferred();
@@ -432,7 +436,7 @@ window.entriesListView = Backbone.View.extend({
 		this.collection = new window.entriesCollection();
 
 
-		var self = this;
+
 
 		this.collection.fetch({reset: true}).complete(function(){
 			self.collection.updateCids();
@@ -525,7 +529,11 @@ renderView: function () {
 	prependResults: function (that, deff, callback) {
 
 		console.log("prependResults");
-
+		if(!app.hasConnection){
+			if(_.isFunction(callback)) callback(deff);
+			that.isLoading = false;
+			return true;
+		}
 		if(!that.isLoading){
 
 			that.isLoading = true;
@@ -545,22 +553,26 @@ renderView: function () {
 						}
 					}
 
-					if(_.isFunction(callback)) callback(deff);
-					that.isLoading = false;
-					that.timer = _.delay(that.prependResults, that.wait, that);
 
+					that.isLoading = false;
+					//that.timer = _.delay(that.prependResults, that.wait, that);
+					if(_.isFunction(callback)) callback(deff);
 
 				},
 				error : function () {
-					if(_.isFunction(callback)) callback(deff);
+
 					that.isLoading = false;
-					that.timer = _.delay(that.prependResults, that.wait, that);
+					//that.timer = _.delay(that.prependResults, that.wait, that);
+					if(_.isFunction(callback)) callback(deff);
 				}
 			});
 		}else{
+			console.log("weszet w else");
 			if(_.isFunction(callback)) callback(deff);
 		}
 
+		clearTimeout(that.timer);
+		that.timer = _.delay(that.prependResults, that.wait, that);
 		return true;
 
 	},
@@ -811,7 +823,7 @@ window.newPostView = Backbone.View.extend({
 				error: function(jqXHR, textStatus, errorThrown, callback) {
 					that.hideLoading();
 					app.errorAlert("Something went wrong. Try again");
-					console.log("submit fail");
+					console.log(errorThrown+' '+textStatus);
 				}
 			});
 		}

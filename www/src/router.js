@@ -18,7 +18,7 @@ $(function() {
 				delete app.entriesListView;
 			}
 			app.entriesListView = new window.entriesListView();
-			app.entriesListView.render();
+
 		},
 
 		login: function(){
