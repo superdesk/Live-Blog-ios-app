@@ -275,6 +275,9 @@ window.app = {
   loginView : new window.LoginView,
   hasConnection : true,
 
+  //loginDelayedFunction is used in onlineEventHandler. Sometimes it fires two times: when it gets 3g connection and then wifi
+  loginDelayedFunction : null,
+
 
 
   errorAlert : function (text) {
@@ -300,21 +303,25 @@ window.app = {
   onlineEventHandler : function () {
     app.hasConnection = true;
     console.log("### we are online");
-    auth.login(function(){
-      console.log("auth callback fired");
+    clearTimeout(app.loginDelayedFunction);
+    app.loginDelayedFunction = _.delay(function () {
+      auth.login(function(){
+        console.log("auth callback fired");
 
-      if(auth.route!="login"){
-        app.router.navigate("someDeadRoute");
-        app.router.navigate(auth.route, {trigger: true});
-      }else{
-        app.errorAlert("Login failed");
-        $(".page").css("display", "none");
-        that.$el.css("display", "block");
-      }
+        if(auth.route!="login"){
+          app.router.navigate("someDeadRoute");
+          app.router.navigate(auth.route, {trigger: true});
+        }else{
+          app.errorAlert("Login failed");
+          app.router.navigate("someDeadRoute");
+          app.router.navigate("login", {trigger: true});
+
+        }
 
 
 
-    });
+      });
+    }, 2000);
 
   },
 
