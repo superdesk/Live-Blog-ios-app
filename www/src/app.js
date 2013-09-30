@@ -118,6 +118,8 @@ $(function() {
   console.log(err.code+'  '+err.message);
   app.errorAlert("There was an error. Please try again");
 }
+
+
 };
 
 
@@ -171,7 +173,7 @@ window.auth = {
 
                     if(!app.session.get("userId")) auth.route = "login";
                     auth.loginCallback();
-                });
+                  });
 
 
 
@@ -185,15 +187,15 @@ window.auth = {
 
             }
           });
-        }
-        catch(err){
+}
+catch(err){
 
-          console.log(err);
-          auth.loginCallback();
-        }
+  console.log(err);
+  auth.loginCallback();
+}
 
 
-      });
+});
 
 
 },
@@ -271,6 +273,10 @@ window.app = {
   session : new window.SessionModel,
   blogsCollection : new window.blogsCollection,
   loginView : new window.LoginView,
+  hasConnection : true,
+
+  //loginDelayedFunction is used in onlineEventHandler. Sometimes it fires two times: when it gets 3g connection and then wifi
+  loginDelayedFunction : null,
 
 
 
@@ -294,18 +300,50 @@ window.app = {
 
   },
 
+  onlineEventHandler : function () {
+    app.hasConnection = true;
+    console.log("### we are online");
+    clearTimeout(app.loginDelayedFunction);
+    app.loginDelayedFunction = _.delay(function () {
+      auth.login(function(){
+        console.log("auth callback fired");
+
+        if(auth.route!="login"){
+          app.router.navigate("someDeadRoute");
+          app.router.navigate(auth.route, {trigger: true});
+        }else{
+          app.errorAlert("Login failed");
+          app.router.navigate("someDeadRoute");
+          app.router.navigate("login", {trigger: true});
+
+        }
+
+
+
+      });
+    }, 2000);
+
+  },
+
+  offlineEventHandler : function () {
+    app.hasConnection = false;
+    console.log("### we are offline");
+    app.errorAlert("You don't have an internet connection");
+  },
+
 
   init : function(){
     console.log("app init");
 
 
     if (parseFloat(window.device.version) >= 7.0) {
-        document.body.style.marginTop = "20px";
+      document.body.style.marginTop = "20px";
     }
 
-    $(window).on('beforeunload', function () {
-               console.log("beforeunload");
-            });
+    document.addEventListener("online", app.onlineEventHandler, false);
+
+    document.addEventListener("offline", app.offlineEventHandler, false);
+
 
 
     new FastClick(document.body);
@@ -350,5 +388,8 @@ window.app = {
 //app.init();
 document.addEventListener("deviceready", app.init, false);
 
+
+
 });
+
 

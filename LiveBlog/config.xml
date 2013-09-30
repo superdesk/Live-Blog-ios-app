@@ -38,13 +38,13 @@
     <!-- Preferences for iOS -->
    
       <preference name="stay-in-webview" value="false" />
-      <preference name="DisallowOverscroll" value="true" />
+      
       
     
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="AutoHideSplashScreen" value="true" />
     <preference name="BackupWebStorage" value="cloud" />
-    <preference name="DisallowOverscroll" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="EnableLocation" value="false" /><!-- DEPRECATED -->
     <preference name="EnableViewportScale" value="false" />
     <preference name="FadeSplashScreen" value="true" />
@@ -64,9 +64,7 @@
     <feature name="Device">
       <param name="ios-package" value="CDVDevice"/>
     </feature>
-    <feature name="Accelerometer">
-      <param name="ios-package" value="CDVAccelerometer"/>
-    </feature>
+   
     <feature name="Compass">
       <param name="ios-package" value="CDVLocation"/>
     </feature>
@@ -85,9 +83,7 @@
     <feature name="NetworkStatus">
       <param name="ios-package" value="CDVConnection"/>
     </feature>
-    <feature name="Notification">
-      <param name="ios-package" value="CDVNotification"/>
-    </feature>
+    
     <feature name="FileTransfer">
       <param name="ios-package" value="CDVFileTransfer"/>
     </feature>
@@ -100,21 +96,15 @@
     <feature name="SplashScreen">
       <param name="ios-package" value="CDVSplashScreen"/>
     </feature>
-    <feature name="Echo">
-      <param name="ios-package" value="CDVEcho"/>
-    </feature>
+    
     <feature name="Globalization">
       <param name="ios-package" value="CDVGlobalization"/>
     </feature>
-    <feature name="InAppBrowser">
-      <param name="ios-package" value="CDVInAppBrowser"/>
-    </feature>
+    
     <feature name="Logger">
       <param name="ios-package" value="CDVLogger"/>
     </feature>
-    <feature name="LocalStorage">
-        <param name="ios-package" value="CDVLocalStorage"/>
-    </feature>
+    
     <!-- Deprecated plugins element. REmove in 3.0 -->
     <plugins>
     </plugins>
