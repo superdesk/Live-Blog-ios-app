@@ -529,7 +529,11 @@ renderView: function () {
 	prependResults: function (that, deff, callback) {
 
 		console.log("prependResults");
-
+		if(!app.hasConnection){
+			if(_.isFunction(callback)) callback(deff);
+			that.isLoading = false;
+			return true;
+		}
 		if(!that.isLoading){
 
 			that.isLoading = true;
@@ -563,8 +567,10 @@ renderView: function () {
 				}
 			});
 		}else{
+			console.log("weszet w else");
 			if(_.isFunction(callback)) callback(deff);
 		}
+
 		clearTimeout(that.timer);
 		that.timer = _.delay(that.prependResults, that.wait, that);
 		return true;
@@ -817,7 +823,7 @@ window.newPostView = Backbone.View.extend({
 				error: function(jqXHR, textStatus, errorThrown, callback) {
 					that.hideLoading();
 					app.errorAlert("Something went wrong. Try again");
-					console.log("submit fail");
+					console.log(errorThrown+' '+textStatus);
 				}
 			});
 		}

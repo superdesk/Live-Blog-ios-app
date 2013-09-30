@@ -9,11 +9,12 @@ $(function() {
       return 'http://'+app.session.get("host")+'/resources/HR/User/'+app.session.get("userId")+'/Blog/Live.json?X-Filter=Id,Title, Description';
     },
 
-    parse: function(response) {
 
-      return response.BlogList;
-    }
-  });
+   parse: function(response) {
+
+    return response.BlogList;
+  }
+});
 
 
   window.entriesCollection = Backbone.Collection.extend({
@@ -23,6 +24,8 @@ $(function() {
     minCid: false,
     loadDirection: "init",
     listEnd:false,
+
+
 
 
     url: function() {
