@@ -437,18 +437,18 @@ window.entriesListView = Backbone.View.extend({
 
 
 
+		if(app.hasConnection){
+			this.collection.fetch({reset: true}).complete(function(){
+				self.collection.updateCids();
 
-		this.collection.fetch({reset: true}).complete(function(){
-			self.collection.updateCids();
+				self.renderView();
 
-			self.renderView();
+				self.isLoading = false;
+				self.timer = _.delay(self.prependResults, self.wait, self);
+				self.hideLoadingIndicator();
+			});
 
-			self.isLoading = false;
-			self.timer = _.delay(self.prependResults, self.wait, self);
-			self.hideLoadingIndicator();
-		});
-
-
+		}
 
 
 		_.bindAll(this, 'checkScroll');
@@ -465,34 +465,15 @@ window.entriesListView = Backbone.View.extend({
 
 	},
 
-	updateAnchorClickEvent : function () {
-
-		// it was used to open external links in safari. Now it is handled in MainViewController.m
-
-		// $("#entriesListView .list a").unbind("click").bind("click", function(e){
-
-		// 	e.preventDefault();
-		// 	var url = $(e.target).attr('href');
-		// 	console.log("clickEvent #############");
-
-		// 	window.open(url, '_system');
 
 
+	renderView: function () {
+		console.log("entriesListView render");
+		var that = this;
 
-
-		// });
-
-
-
-},
-
-renderView: function () {
-	console.log("entriesListView render");
-	var that = this;
-
-	_.each(this.collection.models, function (item) {
-		that.renderItem(item,0);
-	}, this);
+		_.each(this.collection.models, function (item) {
+			that.renderItem(item,0);
+		}, this);
 
 
 
@@ -529,12 +510,8 @@ renderView: function () {
 	prependResults: function (that, deff, callback) {
 
 		console.log("prependResults");
-		if(!app.hasConnection){
-			if(_.isFunction(callback)) callback(deff);
-			that.isLoading = false;
-			return true;
-		}
-		if(!that.isLoading){
+
+		if(!that.isLoading && app.hasConnection){
 
 			that.isLoading = true;
 
@@ -567,7 +544,7 @@ renderView: function () {
 				}
 			});
 		}else{
-			console.log("weszet w else");
+
 			if(_.isFunction(callback)) callback(deff);
 		}
 
@@ -659,7 +636,7 @@ renderView: function () {
 
 
 
-		if( !this.isLoading && scrollY > docHeight - triggerPoint ) {
+		if( !this.isLoading && scrollY > docHeight - triggerPoint && app.hasConnection ) {
 
 			this.appendResults();
 
@@ -676,6 +653,7 @@ window.newPostView = Backbone.View.extend({
 	el: "#newPost",
 	localImageURI : false,
 	serverImageURI : false,
+	submitDisabled : false,
 
 
 	initialize : function () {
@@ -750,11 +728,16 @@ window.newPostView = Backbone.View.extend({
 
 	submitHandler : function (e) {
 		e.preventDefault();
-		this.showLoading();
-		if(this.localImageURI){
-			this.uploadPhoto();
-		}else{
-			this.submitForm();
+
+		if(app.hasConnection && !this.submitDisabled){
+
+			this.showLoading();
+			if(this.localImageURI){
+				this.uploadPhoto();
+			}else{
+				this.submitForm();
+			}
+
 		}
 
 	},
@@ -763,7 +746,7 @@ window.newPostView = Backbone.View.extend({
 		var button = $(this.el).find("#newPostForm button");
 		button.html("");
 		button.addClass("loading");
-		button.disabled=true;
+		this.submitDisabled = true;
 
 	},
 
@@ -772,7 +755,7 @@ window.newPostView = Backbone.View.extend({
 		var button = $(this.el).find("#newPostForm button");
 		button.html("Create Post");
 		button.removeClass("loading");
-		button.disabled=false;
+		this.submitDisabled = false;
 
 	},
 
