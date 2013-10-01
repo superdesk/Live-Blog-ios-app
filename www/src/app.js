@@ -309,8 +309,10 @@ window.app = {
         console.log("auth callback fired");
 
         if(auth.route!="login"){
-          app.router.navigate("someDeadRoute");
-          app.router.navigate(auth.route, {trigger: true});
+          if(auth.route!="entriesList" || (auth.route=="entriesList" && !app.entriesListView.collection.length ) ){
+            app.router.navigate("someDeadRoute");
+            app.router.navigate(auth.route, {trigger: true});
+          }
         }else{
           app.errorAlert("Login failed");
           app.router.navigate("someDeadRoute");
