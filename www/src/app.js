@@ -302,7 +302,7 @@ window.app = {
 
   onlineEventHandler : function () {
     app.hasConnection = true;
-    console.log("### we are online");
+
     clearTimeout(app.loginDelayedFunction);
     app.loginDelayedFunction = _.delay(function () {
       auth.login(function(){
@@ -329,7 +329,6 @@ window.app = {
 
   offlineEventHandler : function () {
     app.hasConnection = false;
-    console.log("### we are offline");
     app.errorAlert("You don't have an internet connection");
   },
 
@@ -346,6 +345,7 @@ window.app = {
 
     document.addEventListener("offline", app.offlineEventHandler, false);
 
+    document.addEventListener("resume", app.onlineEventHandler, false);
 
 
     new FastClick(document.body);
