@@ -674,7 +674,13 @@ window.newPostView = Backbone.View.extend({
 		_.bindAll(this, 'submitForm');
 
 		_.bindAll(this, 'cameraClickHandler');
-		this.$el.find("#addPhoto").unbind("click").bind("click", this.cameraClickHandler);
+		this.$el.find("#takeAShot").unbind("click").bind("click", this.cameraClickHandler);
+
+		_.bindAll(this, 'addFromLibraryClickHandler');
+		this.$el.find("#addFromLibrary").unbind("click").bind("click", this.addFromLibraryClickHandler);
+
+		_.bindAll(this, 'deletePhoto');
+		this.$el.find("#photoPreview").unbind("click").bind("click", this.deletePhoto);
 
 		_.bindAll(this, 'cameraSuccess');
 		_.bindAll(this, 'uploadPhoto');
@@ -763,7 +769,15 @@ window.newPostView = Backbone.View.extend({
 		this.$el.find("#postMessage").val("");
 		this.localImageURI = false;
 		this.serverImageURI = false;
-		$("#photoPreview img").fadeOut();
+
+
+		var imageConteiner = $("#photoPreview");
+		var image = $("#photoPreview img");
+
+		imageConteiner.fadeOut( "fast", function() {
+			image.attr("src", '');
+			$(".add_photo").fadeIn();
+		});
 		return true;
 	},
 
@@ -796,8 +810,7 @@ window.newPostView = Backbone.View.extend({
 				success: function(data) {
 					that.hideLoading();
 					that.clearForm();
-					//hide the preview image
-					$("#photoPreview img").fadeOut();
+
 					app.successAlert("Post sent");
 
 					console.log("submit success");
@@ -815,6 +828,23 @@ window.newPostView = Backbone.View.extend({
 			app.errorAlert("Something went wrong. Try again");
 			this.hideLoading();
 		}
+
+	},
+
+	addFromLibraryClickHandler : function () {
+
+		navigator.camera.getPicture(this.cameraSuccess, this.cameraFail,
+		{
+			quality: 75,
+			correctOrientation: true,
+			destinationType: Camera.DestinationType.FILE_URI,
+			saveToPhotoAlbum: false,
+			sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+			encodingType: Camera.EncodingType.JPEG,
+			targetWidth: 600,
+			targetHeight: 600
+		}
+		);
 
 	},
 
@@ -836,16 +866,36 @@ window.newPostView = Backbone.View.extend({
 	},
 
 	cameraSuccess : function(imageURI) {
+		var imageConteiner = $("#photoPreview");
 		var image = $("#photoPreview img");
 		image.attr("src",imageURI);
 		this.localImageURI = imageURI;
 
-		image.fadeIn();
+		$(".add_photo").fadeOut( "fast", function() {
+			imageConteiner.fadeIn();
+		});
+
+
+
+	},
+
+	deletePhoto : function(imageURI) {
+		var imageConteiner = $("#photoPreview");
+		var image = $("#photoPreview img");
+
+		this.localImageURI = false;
+
+		imageConteiner.fadeOut( "fast", function() {
+			image.attr("src", '');
+			$(".add_photo").fadeIn();
+		});
+
+
 
 	},
 
 	cameraFail : function(message) {
-		app.errorAlert(message);
+		console.log(message);
 	},
 
 
