@@ -334,8 +334,9 @@ window.entriesListItemView = Backbone.View.extend({
 				} else if(meta.GsearchResultClass == 'GnewsSearch'){
 
 					var picture = '';
-					if(meta.image.tbUrl) picture = '<img class="news_thumbnail" src="'+meta.image.tbUrl+'" />';
-
+					if('image' in meta){
+						if('tbUrl' in meta.image) picture = '<img class="news_thumbnail" src="'+meta.image.tbUrl+'" />';
+					}
 					this.model.set('Content', '<a class="service_content" href="'+meta.unescapedUrl+'" target="_blank"><p><strong>'+meta.titleNoFormatting+'</strong></p>'+picture+'<p class="color_dark">'+meta.content+'</p><span class="small_caption"><img class="source-icon" src="http://g.etfv.co/'+meta.unescapedUrl+'" />'+meta.publisher+'</span></a>');
 				} else if(meta.GsearchResultClass == 'GimageSearch'){
 
@@ -381,6 +382,7 @@ window.entriesListView = Backbone.View.extend({
 
 		$(".page").css("display", "none");
 		$("#loading").css("display", "block");
+
 
 		console.log("##### entriesListView init");
 		this.showLoadingIndicator();
@@ -478,7 +480,7 @@ window.entriesListView = Backbone.View.extend({
 
 
 		//this.updateAnchorClickEvent();
-		$("#loading").css("display", "none");
+		$(".page").css("display", "none");
 
 
 		this.$el.css("display", "block");
