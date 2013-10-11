@@ -421,12 +421,13 @@ window.entriesListView = Backbone.View.extend({
 		});
 
 		var blogTitle = app.session.get("blogTitle");
-		if(blogTitle.length > 22){
-			var cutat= blogTitle.lastIndexOf(' ',23);
+		if(blogTitle.length > 19){
+			var cutat= blogTitle.lastIndexOf(' ',20);
+
 			if(cutat!=-1){
 				blogTitle = blogTitle.substring(0,cutat)+'...';
 			}else{
-				blogTitle = blogTitle.substring(0,20)+'...';
+				blogTitle = blogTitle.substring(0,10)+'...';
 			}
 		}
 

@@ -826,6 +826,13 @@ button.loading {
     border-radius:5px;
 }
 
+.list li > a:not([class*="button"]) > h3{
+    overflow:hidden;
+}
 
+#menuBlogsListView li a{
+    overflow: hidden;
+    max-width: 185px;
+}
 
 
