@@ -1,0 +1,8 @@
+Live Blog iOS app Changelog
+===========================
+
+Version 0.8
+-----------
+
+- First public preview release
+
