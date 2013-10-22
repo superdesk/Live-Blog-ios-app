@@ -280,22 +280,40 @@ window.app = {
 
 
 
-  errorAlert : function (text) {
+  errorAlert : function (text, header) {
+    $("#overlay").css("display", "block");
+    if(header){
+      $("#errorAlert h2").html(header);
+    }else{
+      $("#errorAlert h2").html("Error");
+    }
     $("#errorAlert p").html(text);
-    $("#errorAlert").css("display", "table");
+
+    $("#errorAlert").css("display", "block");
 
     setTimeout(function(){
+      $("#overlay").fadeOut();
       $("#errorAlert").fadeOut();
+
     },2000);
 
   },
 
-  successAlert : function (text) {
+  successAlert : function (text, header) {
+    $("#overlay").css("display", "block");
+    if(header){
+      $("#successAlert h2").html(header);
+    }else{
+      $("#successAlert h2").html("Success");
+    }
     $("#successAlert p").html(text);
-    $("#successAlert").css("display", "table");
+
+    $("#successAlert").css("display", "block");
 
     setTimeout(function(){
+      $("#overlay").fadeOut();
       $("#successAlert").fadeOut();
+
     },2000);
 
   },
@@ -335,6 +353,7 @@ window.app = {
 
   init : function(){
     console.log("app init");
+
 
 
     if (parseFloat(window.device.version) >= 7.0) {
@@ -382,7 +401,7 @@ window.app = {
 
   }
 
-}
+};
 
 
 

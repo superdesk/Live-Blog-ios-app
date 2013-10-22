@@ -107,7 +107,7 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  font: 1em/1.25em arial, "Helvetica Neue", sans-serif;
+  font: 1em/1.25em "Helvetica Neue", arial, sans-serif;
   color: #222;
   background-color: #098f64;
 }

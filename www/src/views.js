@@ -814,7 +814,7 @@ window.newPostView = Backbone.View.extend({
 					that.hideLoading();
 					that.clearForm();
 
-					app.successAlert("Post sent");
+					app.successAlert("Your post has been sent and waits for approval.","Post sent");
 
 					console.log("submit success");
 
