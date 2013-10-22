@@ -4,7 +4,7 @@ Live Blog iOS app
 Live Blog iOS app is the app to report news on field to Sourcefabric Live Blog.
 
 
-## License
+## Copyright & License
 
-The App is licensed under the GPL3 license.
+The Live Blog iOS app is &copy; Sourcefabric 2013 and released under the <a href="https://www.gnu.org/licenses/gpl.html">GPLv3 license</a>.
 
