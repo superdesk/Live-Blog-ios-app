@@ -230,6 +230,7 @@ authorize: function(user, callback){
         console.log("auth success");
         app.session.set("userId", data.User.Id);
         app.session.set("session", data.Session);
+       // auth.checkRole();
         auth.authorizeCallback();
 
       },
@@ -250,6 +251,43 @@ authorize: function(user, callback){
 
 
 
+},
+
+checkRole : function(){
+  console.log('http://'+app.session.get("host")+'/resources/HR/User/'+app.session.get("userId")+'/Role.json?X-filter=Id');
+
+  try{
+    $.ajax({
+      url: 'http://'+app.session.get("host")+'/resources/HR/User/'+app.session.get("userId")+'/Role.json?X-filter=Id',
+      type: 'GET',
+      crossDomain: true,
+      dataType: 'json',
+      success: function(data) {
+
+
+        $.each(data.RoleList, function() {
+            console.log("id: "+this.Id);
+        });
+
+        // console.log("user is an admin");
+        // app.session.set("userId", data.User.Id);
+
+
+      },
+      error: function(jqXHR, textStatus, errorThrown, callback) {
+
+
+
+       console.log("roleCheck fail: "+jqXHR.responseText);
+
+
+     }
+   });
+  }
+  catch(err){
+    console.log(err);
+
+  }
 },
 
 logout : function(){
