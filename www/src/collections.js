@@ -31,18 +31,18 @@ $(function() {
     url: function() {
       if (this.loadDirection == "new"){
 
-        console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?cId.since='+this.maxCid+'&asc=order&x-filter=*');
+        //console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?cId.since='+this.maxCid+'&asc=order&x-filter=*');
         return 'http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?cId.since='+this.maxCid+'&asc=order&x-filter=*';
 
       } else if (this.loadDirection == "more"){
 
-        console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&cId.until='+this.minCid+'&x-filter=*');
+        //console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&cId.until='+this.minCid+'&x-filter=*');
         return 'http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&cId.until='+this.minCid+'&x-filter=*';
 
 
       } else{
 
-        console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&x-filter=*');
+        //console.log('http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&x-filter=*');
         return 'http://'+app.session.get("host")+'/resources/LiveDesk/Blog/'+app.session.get("blog")+'/Post/Published.json?limit='+this.limit+'&x-filter=*';
 
 
@@ -55,7 +55,6 @@ $(function() {
       var newList = _.filter(response.PostList,
         function(obj){
 
-          console.log();
           if(!obj.DeletedOn && obj.IsPublished == 'True') return obj;
 
         });
