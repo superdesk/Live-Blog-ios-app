@@ -762,7 +762,7 @@ window.newPostView = Backbone.View.extend({
 	hideLoading : function () {
 
 		var button = $(this.el).find("#newPostForm button");
-		button.html("Create Post");
+		button.html("Submit Post");
 		button.removeClass("loading");
 		this.submitDisabled = false;
 

@@ -41,6 +41,11 @@
 		5AA0E66D1729F45B000DC89A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66C1729F45B000DC89A /* OpenAL.framework */; };
 		5AA0E66F1729F460000DC89A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66E1729F460000DC89A /* ImageIO.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		8F2E10A118285F4300455E15 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F2E10A018285F4300455E15 /* Images-2.xcassets */; };
+		8F5EEB36181E7A9100F5B5E5 /* icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EEB33181E7A9100F5B5E5 /* icon-120.png */; };
+		8F5EEB37181E7A9100F5B5E5 /* icon-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EEB34181E7A9100F5B5E5 /* icon-152.png */; };
+		8F5EEB38181E7A9100F5B5E5 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EEB35181E7A9100F5B5E5 /* icon.png */; };
+		8F5EEB3A181E7ADC00F5B5E5 /* icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EEB39181E7ADC00F5B5E5 /* icon-76.png */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 /* End PBXBuildFile section */
@@ -104,6 +109,11 @@
 		5AEE5B34173C68D80009041E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* LiveBlog-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "LiveBlog-Info.plist"; path = "../LiveBlog-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		8F2E10A018285F4300455E15 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "LiveBlog/Images-2.xcassets"; sourceTree = SOURCE_ROOT; };
+		8F5EEB33181E7A9100F5B5E5 /* icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-120.png"; sourceTree = "<group>"; };
+		8F5EEB34181E7A9100F5B5E5 /* icon-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-152.png"; sourceTree = "<group>"; };
+		8F5EEB35181E7A9100F5B5E5 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		8F5EEB39181E7ADC00F5B5E5 /* icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-76.png"; sourceTree = "<group>"; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = LiveBlog/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +212,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8F2E10A018285F4300455E15 /* Images-2.xcassets */,
 				30A0434214DC770100060A13 /* de.lproj */,
 				30A0434514DC770100060A13 /* se.lproj */,
 				1F766FDB13BBADB100FB74C0 /* en.lproj */,
@@ -259,6 +270,10 @@
 		308D052D1370CCF300D202BF /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				8F5EEB39181E7ADC00F5B5E5 /* icon-76.png */,
+				8F5EEB33181E7A9100F5B5E5 /* icon-120.png */,
+				8F5EEB34181E7A9100F5B5E5 /* icon-152.png */,
+				8F5EEB35181E7A9100F5B5E5 /* icon.png */,
 				30FC414816E50CA1004E6F35 /* icon-72@2x.png */,
 				308D052E1370CCF300D202BF /* icon-72.png */,
 				308D052F1370CCF300D202BF /* icon.png */,
@@ -324,6 +339,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = MX7MAQ2JE6;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "LiveBlog" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -370,6 +390,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
+				8F5EEB37181E7A9100F5B5E5 /* icon-152.png in Resources */,
+				8F5EEB38181E7A9100F5B5E5 /* icon.png in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
@@ -377,12 +399,15 @@
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				3088BBBD154F3926009F9C59 /* Default-Landscape@2x~ipad.png in Resources */,
+				8F5EEB36181E7A9100F5B5E5 /* icon-120.png in Resources */,
 				3088BBBE154F3926009F9C59 /* Default-Landscape~ipad.png in Resources */,
+				8F5EEB3A181E7ADC00F5B5E5 /* icon-76.png in Resources */,
 				3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */,
 				3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */,
 				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */,
+				8F2E10A118285F4300455E15 /* Images-2.xcassets in Resources */,
 				30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,9 +468,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tomasz Rondio (8M72EFY5J2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tomasz Rondio (8M72EFY5J2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -457,8 +484,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = LiveBlog;
-				PROVISIONING_PROFILE = "101DDD98-429E-45BC-8F3B-2DDF60F2387C";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "101DDD98-429E-45BC-8F3B-2DDF60F2387C";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D47AE8E2-21C0-4EE8-8B79-02643BFCADEC";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 			};
@@ -468,9 +495,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Tomasz Rondio (6Y8X225D6V)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tomasz Rondio (6Y8X225D6V)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sourcefabric, o.p.s. (MX7MAQ2JE6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sourcefabric, o.p.s. (MX7MAQ2JE6)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveBlog/LiveBlog-Prefix.pch";
@@ -480,8 +509,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = LiveBlog;
-				PROVISIONING_PROFILE = "B19A7ADC-6959-447C-A3C3-3200E9ED852E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B19A7ADC-6959-447C-A3C3-3200E9ED852E";
+				PROVISIONING_PROFILE = "099529A1-CF4B-4C6D-9BF4-1493C31C1D09";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "099529A1-CF4B-4C6D-9BF4-1493C31C1D09";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 			};
